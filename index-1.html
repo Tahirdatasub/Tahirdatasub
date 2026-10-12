@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101010">
+<meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">
+<title>TAHIRDATASUB — Premium Digital Services</title>
+<style>
+:root{--bg:#0d0e10;--panel:#17191d;--panel2:#202228;--gold:#f3c742;--gold2:#ffe28a;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#34363d;--green:#55d69e;--red:#ff8585}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button,a{touch-action:manipulation}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer}
+.shell{max-width:1240px;margin:auto;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:rgba(13,14,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.5px;font-size:19px}
+.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--gold);color:#151515;font-weight:950}
+.brand em{font-style:normal;color:var(--gold)}
+.header-actions{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--white);padding:11px 14px;border-radius:12px;font-weight:750;min-height:44px}
+.btn.gold{background:var(--gold);color:#171717;border-color:var(--gold)}
+.btn.light{background:var(--white);color:#171717;border-color:var(--white)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+main{padding:20px 16px 92px}
+.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 20px}
+.welcome h1{font-size:clamp(25px,5vw,36px);line-height:1.15;margin:0 0 6px}
+.welcome p{margin:0;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted);white-space:nowrap}
+.dot{width:7px;height:7px;background:var(--green);border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0}
+.balance-card{grid-column:span 7;background:linear-gradient(135deg,#252318,#151515 65%);border-color:#77642a}
+.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e4dfcc;font-size:13px}
+.balance-value{font-size:clamp(30px,6vw,42px);font-weight:900;letter-spacing:-1px;margin:14px 0 18px;overflow-wrap:anywhere}
+.balance-value small{font-size:14px;color:#d5d5d5;letter-spacing:0}
+.balance-actions{display:flex;gap:9px;flex-wrap:wrap}
+.stats{grid-column:span 5;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stat{padding:15px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
+.stat span{display:block;color:var(--muted);font-size:12px}
+.stat strong{display:block;margin-top:7px;font-size:20px}
+.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 12px}
+.section-title h2{font-size:19px;margin:0}
+.section-title p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.service{display:flex;flex-direction:column;align-items:flex-start;gap:9px;text-align:left;min-height:125px;padding:15px;background:var(--panel);border:1px solid var(--line);border-radius:17px;color:var(--text);transition:transform .15s,border-color .15s}
+.service:hover{border-color:var(--gold);transform:translateY(-2px)}
+.service-icon{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#f3c7421a;font-size:22px}
+.service strong{font-size:14px}
+.service small{font-size:12px;color:var(--muted)}
+.content-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:14px}
+.tx-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
+.tx-row:last-child{border-bottom:0}
+.tx-icon{width:40px;height:40px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;flex-shrink:0}
+.tx-info{flex:1;min-width:0}
+.tx-info strong{display:block;font-size:14px}
+.tx-info small{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
+.tx-amount{font-size:13px;font-weight:800;white-space:nowrap}
+.referral-code{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:var(--panel2);border:1px dashed #8a7733;border-radius:13px;margin:12px 0}
+.referral-code strong{letter-spacing:1px}
+.notice{padding:12px 14px;border-radius:13px;background:#f3c74212;border:1px solid #6e5b22;color:#e8dfc1;font-size:12px;margin-top:14px}
+.ussd-card{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.ussd-code{font-size:clamp(28px,6vw,40px);font-weight:950;color:var(--gold);letter-spacing:1px}
+.ussd-card p{color:var(--muted);margin:4px 0 0}
+footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line)}
+.support-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.support-links a{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 15px;border-radius:12px;font-weight:800;background:var(--panel2);border:1px solid var(--line);color:var(--white)}.support-links a.whatsapp{background:#1b5e3b;border-color:#1b5e3b}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:12;display:none;background:rgba(18,19,22,.97);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));grid-template-columns:repeat(5,1fr);backdrop-filter:blur(14px)}
+.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--muted);padding:5px 2px}
+.bottom-nav span{font-size:20px}
+.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
+.modal-backdrop.show{display:flex}
+.modal{width:min(470px,100%);max-height:90dvh;overflow:auto;background:var(--panel);border:1px solid #77642a;border-radius:20px;padding:20px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal h2{margin:0;font-size:21px}
+.close{border:0;border-radius:10px;background:var(--panel2);color:white;width:42px;height:42px}
+.field{display:grid;gap:6px;margin:13px 0}
+.field label{font-size:13px;color:#d7d7d7}
+.field input,.field select{width:100%;min-height:47px;border-radius:11px;border:1px solid var(--line);background:#0d0e10;color:white;padding:11px 12px}
+.field input::placeholder{color:#737782}
+.form-note{font-size:12px;color:var(--muted);line-height:1.5}
+.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;z-index:50;background:var(--white);color:#151515;border-radius:12px;padding:12px 16px;width:max-content;max-width:calc(100% - 28px);font-size:13px;font-weight:750;box-shadow:0 8px 30px #0008}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:800px){.balance-card{grid-column:span 12}.stats{grid-column:span 12}.services{grid-template-columns:repeat(3,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.bottom-nav{display:grid}.header-actions .hide-mobile{display:none}}
+@media(max-width:520px){.header-inner{padding:10px 12px}.brand{font-size:17px}.logo{width:38px;height:38px}.header-actions .btn{padding:9px 10px;font-size:12px;min-height:40px}main{padding:14px 12px 88px}.welcome{display:block}.welcome .pill{margin-top:12px}.card{padding:15px;border-radius:17px}.services{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.service{min-height:112px;padding:12px}.service-icon{width:38px;height:38px}.service strong{font-size:13px}.service small{font-size:11px}.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:18px}.section-title{margin-top:23px}.ussd-card{align-items:flex-start}.ussd-card .btn{width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <a class="brand" href="#dashboard" aria-label="TAHIRDATASUB home"><span class="logo">TR</span><span>TAHIR<em>DATA</em></span></a>
+    <div class="header-actions">
+      <button class="btn hide-mobile" data-action="support">Support</button>
+      <button class="btn gold" data-action="account">Login / Register</button>
+    </div>
+  </div>
+</header>
+<div class="shell">
+<main id="dashboard">
+  <section class="welcome">
+    <div><h1>Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div>
+    <span class="pill"><span class="dot"></span> Mobile-friendly preview</span>
+  </section>
+
+  <section class="grid" aria-label="Wallet overview">
+    <article class="card balance-card">
+      <div class="balance-top"><span>Available wallet balance</span><span>NGN ₦</span></div>
+      <div class="balance-value">₦ 0.00 <small>NGN</small></div>
+      <div class="balance-actions">
+        <button class="btn gold" data-action="deposit">＋ Deposit</button>
+        <button class="btn light" data-action="withdraw">↗ Withdraw</button>
+        <button class="btn" data-action="wallet">Wallet details</button>
+      </div>
+      <div class="notice">Preview balance only. No real money is stored or moved by this demo.</div>
+    </article>
+    <div class="stats">
+      <article class="stat"><span>Total transactions</span><strong>0</strong></article>
+      <article class="stat"><span>Successful</span><strong>0</strong></article>
+      <article class="stat"><span>Pending</span><strong>0</strong></article>
+      <article class="stat"><span>Referral earnings</span><strong>₦0.00</strong></article>
+    </div>
+  </section>
+
+  <div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>
+  <section class="services" aria-label="Digital services">
+    <button class="service" data-action="data"><span class="service-icon">📶</span><strong>Buy Data</strong><small>Mobile data plans</small></button>
+    <button class="service" data-action="airtime"><span class="service-icon">📱</span><strong>Buy Airtime</strong><small>Recharge a phone</small></button>
+    <button class="service" data-action="deposit"><span class="service-icon">➕</span><strong>Deposit</strong><small>Fund your wallet</small></button>
+    <button class="service" data-action="withdraw"><span class="service-icon">💸</span><strong>Withdraw</strong><small>Withdraw funds</small></button>
+    <button class="service" data-action="wallet"><span class="service-icon">👛</span><strong>My Wallet</strong><small>Balance and activity</small></button>
+    <button class="service" data-action="tv"><span class="service-icon">📺</span><strong>TV Subscription</strong><small>DStv, GOtv, StarTimes</small></button>
+    <button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity Bill</strong><small>Supported providers</small></button>
+    <button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong><small>Supported providers</small></button>
+    <button class="service" data-action="convert"><span class="service-icon">🔄</span><strong>Airtime to Cash</strong><small>Convert airtime</small></button>
+    <button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong><small>Nigerian banks</small></button>
+    <button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong><small>Invite and earn</small></button>
+    <button class="service" data-action="history"><span class="service-icon">🧾</span><strong>Transactions</strong><small>View your history</small></button>
+    <button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong><small>Personal information</small></button>
+    <button class="service" data-action="security"><span class="service-icon">🔐</span><strong>Security</strong><small>Password and PIN</small></button>
+    <button class="service" data-action="notifications"><span class="service-icon">🔔</span><strong>Notifications</strong><small>Service updates</small></button>
+    <button class="service" data-action="support"><span class="service-icon">💬</span><strong>Help & Support</strong><small>Get assistance</small></button>
+  </section>
+
+  <div class="section-title" id="activity"><div><h2>Recent activity</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div>
+  <section class="content-grid">
+    <article class="card">
+      <div class="tx-row"><div class="tx-icon">🧾</div><div class="tx-info"><strong>No transactions yet</strong><small>Your transactions will appear here after the service is connected.</small></div></div>
+      <p class="form-note">This is a front-end preview. Real transactions require a secure backend and approved provider integrations.</p>
+    </article>
+    <article class="card ussd-card" id="ussd">
+      <div><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">We will work on activation after the website is ready and the required approvals and network connection are arranged.</p></div>
+    </article>
+  </section>
+
+  <div class="section-title" id="referral"><div><h2>Refer friends</h2><p>Referral rewards can be enabled when configured.</p></div></div>
+  <section class="card">
+    <div>Invite people to TAHIRDATASUB and track your referrals.</div>
+    <div class="referral-code"><span><small class="form-note">Example referral code</small><br><strong>TAHIR433</strong></span><button class="btn" data-action="copy-referral">Copy code</button></div>
+    <p class="form-note">Example only; referral codes and rewards need to be generated and validated by the backend.</p>
+  </section>
+</main>
+<footer>
+  <strong style="color:var(--white);font-size:14px">TAHIRDATASUB Customer Service</strong>
+  <p>Call us or contact us on WhatsApp: <strong style="color:var(--white)">+234 813 455 9773</strong></p>
+  <div class="support-links">
+    <a href="tel:+2348134559773" aria-label="Call TAHIRDATASUB customer service">📞 Call Customer Service</a>
+    <a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer" aria-label="Chat with TAHIRDATASUB on WhatsApp">💬 WhatsApp Us</a>
+  </div>
+  © <span id="year"></span> TAHIRDATASUB · Premium Black, Gold & White · Responsive mobile-first preview
+</footer>
+</div>
+
+<nav class="bottom-nav" aria-label="Mobile navigation">
+  <a href="#dashboard"><span>⌂</span>Home</a>
+  <a href="#services"><span>▦</span>Services</a>
+  <a href="#activity"><span>↻</span>Activity</a>
+  <a href="#referral"><span>🎁</span>Referral</a>
+</nav>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <div class="modal-head"><h2 id="modalTitle">Service</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const backdrop=document.getElementById('modalBackdrop');
+const modalTitle=document.getElementById('modalTitle');
+const modalContent=document.getElementById('modalContent');
+const toast=document.getElementById('toast');
+let toastTimer;
+const labels={
+ data:'Buy Data',airtime:'Buy Airtime',deposit:'Deposit Funds',withdraw:'Withdraw Funds',wallet:'My Wallet',
+ tv:'TV Subscription',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',
+ referral:'Refer Friends',history:'Transaction History',profile:'My Profile',security:'Security Settings',
+ notifications:'Notifications',support:'Help & Support',account:'Login / Register'
+};
+function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3500)}
+function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}
+function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}
+function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}
+function openModal(action){
+ modalTitle.textContent=labels[action]||'TAHIRDATASUB';
+ let body='';
+ if(action==='data'||action==='airtime'){
+  body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${action==='data'?selectField('Data plan',['Choose data plan','500 MB','1 GB','2 GB','5 GB','10 GB']):field('Amount (₦)','number','e.g. 500')}`;
+ }else if(action==='deposit'){
+  body=`${field('Amount (₦)','number','e.g. 5000')}${selectField('Payment method',['Choose method','Bank transfer','Debit card'])}<p class="form-note">Payment is a preview only until a payment provider and verified webhook are connected.</p>`;
+ }else if(action==='withdraw'){
+  body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Account name','text','Verified account name')}`;
+ }else if(action==='tv'){
+  body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Enter decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`;
+ }else if(action==='electricity'){
+  body=`${selectField('Electricity provider',['Choose provider','IKEDC','EKEDC','AEDC','KEDCO','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Enter meter number')}${field('Amount (₦)','number','e.g. 5000')}`;
+ }else if(action==='water'){
+  body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Enter customer number')}${field('Amount (₦)','number','e.g. 2000')}`;
+ }else if(action==='convert'){
+  body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}${field('Payout bank account','text','Account number')}`;
+ }else if(action==='transfer'){
+  body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}${field('Narration','text','Optional narration',false)}`;
+ }else if(action==='account'){
+  body=`${selectField('Choose option',['Login','Register'])}${field('Phone number or email','text','Enter phone or email')}${field('Password','password','Enter password')}<p class="form-note">Demo form only. Account creation and sign-in require Supabase Auth to be configured.</p>`;
+ }else if(action==='referral'){
+  body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
+ }else if(action==='wallet'||action==='history'){
+  body=`<p>${action==='wallet'?'Your wallet balance is a demo value of ₦0.00.':'No transactions are available in this preview.'}</p><p class="form-note">Real balances and transaction history must be loaded securely from the backend.</p>`;
+ }else if(action==='profile'||action==='security'||action==='notifications'){
+  body=`<p>This section will be enabled after user accounts and secure storage are configured.</p>`;
+ }else if(action==='support'){
+  body=`<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>`;
+ }else{
+  body=`<p>This feature will be enabled when its provider integration is ready.</p>`;
+ }
+ modalContent.innerHTML=body+`<button class="btn gold" style="width:100%;margin-top:8px" id="demoSubmit">Continue (Preview)</button><p class="form-note">Preview only — this demo does not debit, credit, or transfer real money.</p>`;
+ document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+ backdrop.classList.add('show');document.body.style.overflow='hidden';
+}
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));
+document.getElementById('closeModal').addEventListener('click',closeModal);
+backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+document.getElementById('year').textContent=new Date().getFullYear();
+document.querySelector('[data-action="copy-referral"]').addEventListener('click',async()=>{
+ try{await navigator.clipboard.writeText('TAHIR433');showToast('Example referral code copied.')}
+ catch(e){showToast('Example referral code: TAHIR433')}
+});
+</script>
+</body>
+</html>
