@@ -187,7 +187,11 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const SUPABASE_URL = "https://dqdethtbegofepqqnwdu.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const backdrop=document.getElementById('modalBackdrop');
 const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
@@ -223,7 +227,16 @@ function openModal(action){
  }else if(action==='transfer'){
   body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}${field('Narration','text','Optional narration',false)}`;
  }else if(action==='account'){
-  body=`${selectField('Choose option',['Login','Register'])}${field('Phone number or email','text','Enter phone or email')}${field('Password','password','Enter password')}<p class="form-note">Demo form only. Account creation and sign-in require Supabase Auth to be configured.</p>`;
+  body=`<form id="authForm">
+   <div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div>
+   <div class="field" id="fullNameField" style="display:none"><label for="authFullName">Full name</label><input id="authFullName" type="text" autocomplete="name" placeholder="Your full name"></div>
+   <div class="field"><label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
+   <div class="field"><label for="authPassword">Password</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" placeholder="At least 6 characters" required></div>
+   <p class="form-note">Supabase handles your account securely. If email confirmation is enabled, check your inbox after registration.</p>
+   <button class="btn gold" type="submit" id="authSubmit" style="width:100%;margin-top:8px">Login</button>
+   <button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button>
+   <p class="form-note" id="authStatus" role="status" aria-live="polite"></p>
+  </form>`;
  }else if(action==='referral'){
   body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
  }else if(action==='wallet'||action==='history'){
@@ -235,8 +248,42 @@ function openModal(action){
  }else{
   body=`<p>This feature will be enabled when its provider integration is ready.</p>`;
  }
- modalContent.innerHTML=body+`<button class="btn gold" style="width:100%;margin-top:8px" id="demoSubmit">Continue (Preview)</button><p class="form-note">Preview only — this demo does not debit, credit, or transfer real money.</p>`;
- document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+ modalContent.innerHTML=body+(action==='account'?'':`<button class="btn gold" style="width:100%;margin-top:8px" id="demoSubmit">Continue (Preview)</button><p class="form-note">Preview only — this demo does not debit, credit, or transfer real money.</p>`);
+ if(action==='account'){
+  const form=document.getElementById('authForm'), mode=document.getElementById('authMode');
+  const nameField=document.getElementById('fullNameField'), nameInput=document.getElementById('authFullName');
+  const email=document.getElementById('authEmail'), password=document.getElementById('authPassword');
+  const submit=document.getElementById('authSubmit'), signOut=document.getElementById('authSignOut'), status=document.getElementById('authStatus');
+  const message=(m)=>status.textContent=m;
+  const updateMode=()=>{const reg=mode.value==='register';nameField.style.display=reg?'grid':'none';nameInput.required=reg;submit.textContent=reg?'Create account':'Login';password.autocomplete=reg?'new-password':'current-password';};
+  mode.addEventListener('change',updateMode); updateMode();
+  supabaseClient.auth.getSession().then(({data,error})=>{
+   if(error){message('Could not check sign-in status. Please try again.');return;}
+   if(data.session){email.value=data.session.user.email||'';message('Signed in as '+(data.session.user.email||'user')+'.');signOut.style.display='block';submit.style.display='none';mode.style.display='none';nameField.style.display='none';password.parentElement.style.display='none';}
+  });
+  form.addEventListener('submit',async(e)=>{
+   e.preventDefault();submit.disabled=true;message('Please wait…');
+   try{
+    if(mode.value==='register'){
+     const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:password.value,options:{data:{full_name:nameInput.value.trim()}}});
+     if(error) throw error;
+     message(data.session?'Registration successful. You are now signed in.':'Registration submitted. Check your email to confirm your account, then log in.');
+    }else{
+     const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:password.value});
+     if(error) throw error;
+     message('Login successful. Welcome back!');signOut.style.display='block';submit.style.display='none';mode.style.display='none';nameField.style.display='none';password.parentElement.style.display='none';
+    }
+   }catch(err){message(err.message||'Authentication failed. Check your details and try again.');}
+   finally{submit.disabled=false;}
+  });
+  signOut.addEventListener('click',async()=>{
+   signOut.disabled=true;const {error}=await supabaseClient.auth.signOut();signOut.disabled=false;
+   if(error){message(error.message);return;}
+   email.value='';password.value='';password.parentElement.style.display='grid';mode.style.display='block';submit.style.display='block';signOut.style.display='none';mode.value='login';updateMode();message('You have signed out.');
+  });
+ }else{
+  document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+ }
  backdrop.classList.add('show');document.body.style.overflow='hidden';
 }
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));
