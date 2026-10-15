@@ -275,9 +275,10 @@ function openModal(action){
     <p class="form-note">Loading your profile...</p>
   </div>
   <button class="btn gold" type="button" id="refreshProfile" style="width:100%;margin-top:12px">Refresh Profile</button>`;
+
 }else if(action==='security'||action==='notifications'){
   body=`<p>This section will be enabled after user accounts and secure storage are configured.</p>`;
- }else if(action==='support'){
+}else if(action==='support'){
   body=`<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>`;
  }else{
   body=`<p>This feature will be enabled when its provider integration is ready.</p>`;
@@ -357,13 +358,13 @@ function openModal(action){
 
   refresh.addEventListener('click',loadProfile);
   loadProfile();
+
  }else{
   document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
  }
-  
- }
  backdrop.classList.add('show');document.body.style.overflow='hidden';
 }
+
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));
 document.getElementById('closeModal').addEventListener('click',closeModal);
 backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});
