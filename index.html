@@ -324,8 +324,44 @@ function openModal(action){
    if(error){message(error.message);return;}
    email.value='';password.value='';password.parentElement.style.display='grid';mode.style.display='block';submit.style.display='block';signOut.style.display='none';mode.value='login';updateMode();message('You have signed out.');
   });
+ }else if(action==='profile'){
+  const details=document.getElementById('profileDetails');
+  const refresh=document.getElementById('refreshProfile');
+
+  async function loadProfile(){
+   details.textContent='Loading your profile...';
+
+   const {data,error}=await supabaseClient.auth.getUser();
+
+   if(error||!data.user){
+    details.textContent='Please log in to view your profile.';
+    return;
+   }
+
+   const user=data.user;
+   const name=user.user_metadata?.full_name||'Name not available';
+
+   details.replaceChildren();
+
+   const nameLine=document.createElement('p');
+   const nameLabel=document.createElement('strong');
+   nameLabel.textContent='Full name: ';
+   nameLine.append(nameLabel,document.createTextNode(name));
+
+   const emailLine=document.createElement('p');
+   const emailLabel=document.createElement('strong');
+   emailLabel.textContent='Email: ';
+   emailLine.append(emailLabel,document.createTextNode(user.email||'Not available'));
+
+   details.append(nameLine,emailLine);
+  }
+
+  refresh.addEventListener('click',loadProfile);
+  loadProfile();
  }else{
   document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+ }
+  
  }
  backdrop.classList.add('show');document.body.style.overflow='hidden';
 }
