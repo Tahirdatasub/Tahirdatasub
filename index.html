@@ -265,7 +265,15 @@ function openModal(action){
    e.preventDefault();submit.disabled=true;message('Please wait…');
    try{
     if(mode.value==='register'){
-     const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:password.value,options:{data:{full_name:nameInput.value.trim()}}});
+     const {data,error}=await supabaseClient.auth.signUp({
+  email: email.value.trim(),
+  password: password.value,
+  options: {
+    data: { full_name: nameInput.value.trim() },
+    emailRedirectTo: 'https://tahirdatasub.github.io/Tahirdatasub/'
+  }
+});
+  
      if(error) throw error;
      message(data.session?'Registration successful. You are now signed in.':'Registration submitted. Check your email to confirm your account, then log in.');
     }else{
