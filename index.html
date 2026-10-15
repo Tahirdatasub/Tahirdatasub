@@ -192,6 +192,34 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
 const SUPABASE_URL = "https://dqdethtbegofepqqnwdu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const welcomeTitle = document.getElementById('welcomeTitle');
+
+async function updateWelcomeName() {
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+    welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+    return;
+  }
+
+  const fullName = data.user.user_metadata?.full_name;
+
+  if (fullName) {
+    welcomeTitle.textContent = `Welcome, ${fullName}!`;
+  } else {
+    welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+  }
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) {
+    setTimeout(updateWelcomeName, 0);
+  } else {
+    welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+  }
+});
+
+updateWelcomeName();
 const backdrop=document.getElementById('modalBackdrop');
 const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
