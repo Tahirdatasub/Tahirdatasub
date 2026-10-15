@@ -269,8 +269,15 @@ function openModal(action){
   body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
  }else if(action==='wallet'||action==='history'){
   body=`<p>${action==='wallet'?'Your wallet balance is a demo value of ₦0.00.':'No transactions are available in this preview.'}</p><p class="form-note">Real balances and transaction history must be loaded securely from the backend.</p>`;
- }else if(action==='profile'||action==='security'||action==='notifications'){
+ 
+}else if(action==='profile'){
+  body=`<div id="profileDetails">
+    <p class="form-note">Loading your profile...</p>
+  </div>
+  <button class="btn gold" type="button" id="refreshProfile" style="width:100%;margin-top:12px">Refresh Profile</button>`;
+}else if(action==='security'||action==='notifications'){
   body=`<p>This section will be enabled after user accounts and secure storage are configured.</p>`;
+}
  }else if(action==='support'){
   body=`<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>`;
  }else{
