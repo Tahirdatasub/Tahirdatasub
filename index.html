@@ -199,6 +199,45 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 const welcomeTitle = document.getElementById('welcomeTitle');
 
 async function updateWelcomeName() {
+async function loadWalletBalance() {
+  const balanceElement = document.getElementById('walletBalance');
+  const messageElement = document.getElementById('walletMessage');
+
+  if (!balanceElement || !messageElement) return;
+
+  const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !userData.user) {
+    balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
+    messageElement.textContent = 'Please log in to view your wallet.';
+    return;
+  }
+
+  const { data: wallet, error } = await supabaseClient
+    .from('wallets')
+    .select('balance')
+    .eq('user_id', userData.user.id)
+    .maybeSingle();
+
+  if (error || !wallet) {
+    messageElement.textContent =
+      'Unable to load wallet. Please refresh and try again.';
+    console.error('Wallet loading error:', error);
+    return;
+  }
+
+  const amount = Number(wallet.balance);
+
+  balanceElement.innerHTML =
+    '₦ ' + amount.toLocaleString('en-NG', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + ' <small>NGN</small>';
+
+  messageElement.textContent = 'Wallet balance loaded securely.';
+  }
+  
   const { data, error } = await supabaseClient.auth.getUser();
 
   if (error || !data.user) {
