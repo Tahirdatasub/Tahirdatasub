@@ -198,8 +198,95 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const welcomeTitle = document.getElementById('welcomeTitle');
 
+
+const SUPABASE_URL = "https://dqdethtbegofepqqnwdu.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+const welcomeTitle = document.getElementById('welcomeTitle');
+
 async function updateWelcomeName() {
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+    welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+    return;
+  }
+
+  const fullName = data.user.user_metadata?.full_name;
+
+  welcomeTitle.textContent = fullName
+    ? `Welcome, ${fullName}!`
+    : 'Welcome to TAHIRDATASUB';
+}
+
 async function loadWalletBalance() {
+  const balanceElement = document.getElementById('walletBalance');
+  const messageElement = document.getElementById('walletMessage');
+
+  if (!balanceElement || !messageElement) return;
+
+  const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !userData.user) {
+    balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
+    messageElement.textContent = 'Please log in to view your wallet.';
+    return;
+  }
+
+  const { data: wallet, error } = await supabaseClient
+    .from('wallets')
+    .select('balance')
+    .eq('user_id', userData.user.id)
+    .maybeSingle();
+
+  if (error || !wallet) {
+    messageElement.textContent =
+      'Unable to load wallet. Please refresh and try again.';
+    console.error('Wallet loading error:', error);
+    return;
+  }
+
+  const amount = Number(wallet.balance);
+
+  balanceElement.innerHTML =
+    '₦ ' + amount.toLocaleString('en-NG', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + ' <small>NGN</small>';
+
+  messageElement.textContent = 'Wallet balance loaded securely.';
+}
+
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  setTimeout(() => {
+    if (session) {
+      updateWelcomeName();
+      loadWalletBalance();
+    } else {
+      welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+
+      const balanceElement = document.getElementById('walletBalance');
+      const messageElement = document.getElementById('walletMessage');
+
+      if (balanceElement) {
+        balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
+      }
+
+      if (messageElement) {
+        messageElement.textContent = 'Please log in to view your wallet.';
+      }
+    }
+  }, 0);
+});
+
+updateWelcomeName();
+loadWalletBalance();
+  
   const balanceElement = document.getElementById('walletBalance');
   const messageElement = document.getElementById('walletMessage');
 
