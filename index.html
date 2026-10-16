@@ -254,15 +254,32 @@ async function loadWalletBalance() {
   }
 }
 
+
 supabaseClient.auth.onAuthStateChange((event, session) => {
   if (session) {
-    setTimeout(updateWelcomeName, 0);
+    setTimeout(() => {
+      updateWelcomeName();
+      loadWalletBalance();
+    }, 0);
   } else {
     welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
+
+    const balanceElement = document.getElementById('walletBalance');
+    const messageElement = document.getElementById('walletMessage');
+
+    if (balanceElement) {
+      balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
+    }
+
+    if (messageElement) {
+      messageElement.textContent = 'Please log in to view your wallet.';
+    }
   }
 });
 
 updateWelcomeName();
+loadWalletBalance();
+  
 const backdrop=document.getElementById('modalBackdrop');
 const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
