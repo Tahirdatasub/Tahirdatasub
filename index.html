@@ -404,6 +404,7 @@ async function loadWalletBalance() {
 supabaseClient.auth.onAuthStateChange((event, session) => {
   setTimeout(() => {
     if (session) {
+      refreshTransactionDashboard();
       updateWelcomeName();
       loadWalletBalance();
     } else {
