@@ -497,6 +497,9 @@ function openModal(action){
   body=`<p>This feature will be enabled when its provider integration is ready.</p>`;
  }
  modalContent.innerHTML=body+(action==='account'?'':`<button class="btn gold" style="width:100%;margin-top:8px" id="demoSubmit">Continue (Preview)</button><p class="form-note">Preview only — this demo does not debit, credit, or transfer real money.</p>`);
+if (action === 'history') {
+  loadTransactionHistory('historyList', 100);
+}
  if(action==='account'){
   const form=document.getElementById('authForm'), mode=document.getElementById('authMode');
   const nameField=document.getElementById('fullNameField'), nameInput=document.getElementById('authFullName');
