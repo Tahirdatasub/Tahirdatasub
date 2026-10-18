@@ -337,8 +337,15 @@ function openModal(action){
   </form>`;
  }else if(action==='referral'){
   body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
- }else if(action==='wallet'||action==='history'){
-  body=`<p>${action==='wallet'?'Your wallet balance is a demo value of ₦0.00.':'No transactions are available in this preview.'}</p><p class="form-note">Real balances and transaction history must be loaded securely from the backend.</p>`;
+ 
+}else if(action==='wallet'){
+  body=`<p>Your wallet balance is displayed on the dashboard.</p>
+  <p class="form-note">Deposits and withdrawals require a secure backend.</p>`;
+}else if(action==='history'){
+  body=`<div id="historyList">
+    <p class="form-note">Loading your transaction history...</p>
+  </div>`;
+
  
 }else if(action==='profile'){
   body=`<div id="profileDetails">
