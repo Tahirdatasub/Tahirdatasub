@@ -211,6 +211,142 @@ const supabaseClient = window.supabase.createClient(
 
 const welcomeTitle = document.getElementById('welcomeTitle');
 
+function formatTransactionAmount(amount) {
+  return '₦' + Number(amount).toLocaleString('en-NG', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function displayTransactions(container, transactions) {
+  container.replaceChildren();
+
+  if (!transactions.length) {
+    const empty = document.createElement('p');
+    empty.className = 'form-note';
+    empty.textContent = 'No transactions found yet.';
+    container.appendChild(empty);
+    return;
+  }
+
+  transactions.forEach(tx => {
+    const row = document.createElement('div');
+    row.className = 'tx-row';
+
+    const icon = document.createElement('div');
+    icon.className = 'tx-icon';
+    icon.textContent = '🧾';
+
+    const info = document.createElement('div');
+    info.className = 'tx-info';
+
+    const title = document.createElement('strong');
+    title.textContent = String(tx.type || 'Transaction')
+      .replaceAll('_', ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
+
+    const details = document.createElement('small');
+    const date = tx.created_at
+      ? new Date(tx.created_at).toLocaleString('en-NG')
+      : 'Date unavailable';
+
+    details.textContent =
+      `${date} · ${tx.status || 'pending'}` +
+      (tx.description ? ` · ${tx.description}` : '');
+
+    const amount = document.createElement('div');
+    amount.className = 'tx-amount';
+    amount.textContent = formatTransactionAmount(tx.amount);
+
+    info.append(title, details);
+    row.append(icon, info, amount);
+    container.appendChild(row);
+  });
+}
+
+async function loadTransactionHistory(containerId, limit = 50) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  container.textContent = 'Loading transactions...';
+
+  const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  if (userError || !userData.user) {
+    container.textContent = 'Please log in to view your transactions.';
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from('transactions')
+    .select('id, type, amount, status, reference, description, created_at')
+    .eq('user_id', userData.user.id)
+    .order('created_at', { ascending: false })
+    .limit(limit);
+
+  if (error) {
+    console.error('Transaction history error:', error);
+    container.textContent =
+      'Unable to load transactions. Please try again.';
+    return;
+  }
+
+  displayTransactions(container, data || []);
+}
+
+async function loadTransactionStats() {
+  const { data: userData, error: userError } =
+    await supabaseClient.auth.getUser();
+
+  const totalEl = document.getElementById('totalTransactions');
+  const successEl = document.getElementById('successfulTransactions');
+  const pendingEl = document.getElementById('pendingTransactions');
+
+  if (!totalEl || !successEl || !pendingEl) return;
+
+  if (userError || !userData.user) {
+    totalEl.textContent = '0';
+    successEl.textContent = '0';
+    pendingEl.textContent = '0';
+    return;
+  }
+
+  const userId = userData.user.id;
+
+  const [total, successful, pending] = await Promise.all([
+    supabaseClient.from('transactions')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId),
+
+    supabaseClient.from('transactions')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('status', 'success'),
+
+    supabaseClient.from('transactions')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', userId)
+      .eq('status', 'pending')
+  ]);
+
+  if (total.error || successful.error || pending.error) {
+    console.error('Transaction statistics could not load.');
+    return;
+  }
+
+  totalEl.textContent = String(total.count ?? 0);
+  successEl.textContent = String(successful.count ?? 0);
+  pendingEl.textContent = String(pending.count ?? 0);
+}
+
+async function refreshTransactionDashboard() {
+  await Promise.all([
+    loadTransactionHistory('recentTransactions', 5),
+    loadTransactionStats()
+  ]);
+}
+
 async function updateWelcomeName() {
   const { data, error } = await supabaseClient.auth.getUser();
 
