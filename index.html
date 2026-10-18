@@ -426,7 +426,7 @@ supabaseClient.auth.onAuthStateChange((event, session) => {
 
 updateWelcomeName();
 loadWalletBalance();
-  
+  refreshTransactionDashboard();
 const backdrop=document.getElementById('modalBackdrop');
 const modalTitle=document.getElementById('modalTitle');
 const modalContent=document.getElementById('modalContent');
