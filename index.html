@@ -151,8 +151,14 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
 
   <div class="section-title" id="activity"><div><h2>Recent activity</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div>
   <section class="content-grid">
-    <article class="card">
-      <div class="tx-row"><div class="tx-icon">🧾</div><div class="tx-info"><strong>No transactions yet</strong><small>Your transactions will appear here after the service is connected.</small></div></div>
+    
+<article class="card">
+  <div id="recentTransactions">
+    <p class="form-note">Loading recent transactions...</p>
+  </div>
+  <p class="form-note">Transactions are loaded securely from your Supabase account.</p>
+</article>
+
       <p class="form-note">This is a front-end preview. Real transactions require a secure backend and approved provider integrations.</p>
     </article>
     <article class="card ussd-card" id="ussd">
