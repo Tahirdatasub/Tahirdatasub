@@ -285,12 +285,13 @@ async function loadTransactionHistory(containerId, limit = 50) {
     .order('created_at', { ascending: false })
     .limit(limit);
 
-  if (error) {
-    console.error('Transaction history error:', error);
-    container.textContent =
-      'Unable to load transactions. Please try again.';
-    return;
-  }
+  
+if (error) {
+  console.error('Transaction history error:', error);
+  container.textContent =
+    'Unable to load transactions: ' + error.message;
+  return;
+}
 
   displayTransactions(container, data || []);
 }
