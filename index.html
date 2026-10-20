@@ -152,26 +152,29 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
   <div class="section-title" id="activity"><div><h2>Recent activity</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div>
   <section class="content-grid">
     
-<article class="card">
-  <div id="recentTransactions">
-    <p class="form-note">Loading recent transactions...</p>
-  </div>
-  <p class="form-note">Transactions are loaded securely from your Supabase account.</p>
-</article>
 
-      <p class="form-note">This is a front-end preview. Real transactions require a secure backend and approved provider integrations.</p>
-    </article>
-    <article class="card ussd-card" id="ussd">
-      <div><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">We will work on activation after the website is ready and the required approvals and network connection are arranged.</p></div>
-    </article>
-  </section>
+<section class="content-grid">
+  <article class="card">
+    <div id="recentTransactions">
+      <p class="form-note">Loading recent transactions...</p>
+    </div>
+    <p class="form-note">
+      Transactions are loaded securely from your Supabase account.
+    </p>
+  </article>
 
-  <div class="section-title" id="referral"><div><h2>Refer friends</h2><p>Referral rewards can be enabled when configured.</p></div></div>
-  <section class="card">
-    <div>Invite people to TAHIRDATASUB and track your referrals.</div>
-    <div class="referral-code"><span><small class="form-note">Example referral code</small><br><strong>TAHIR433</strong></span><button class="btn" data-action="copy-referral">Copy code</button></div>
-    <p class="form-note">Example only; referral codes and rewards need to be generated and validated by the backend.</p>
-  </section>
+  <article class="card ussd-card" id="ussd">
+    <div>
+      <span class="pill">Planned for the future</span>
+      <div class="ussd-code">*433#</div>
+      <p>Proposed TAHIRDATASUB USSD code — not active yet.</p>
+      <p class="form-note">
+        Activation requires the necessary approvals and network connection.
+      </p>
+    </div>
+  </article>
+</section>
+    
 </main>
 <footer>
   <strong style="color:var(--white);font-size:14px">TAHIRDATASUB Customer Service</strong>
