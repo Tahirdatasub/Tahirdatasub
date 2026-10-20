@@ -451,8 +451,16 @@ function openModal(action){
  let body='';
  if(action==='data'||action==='airtime'){
   body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${action==='data'?selectField('Data plan',['Choose data plan','500 MB','1 GB','2 GB','5 GB','10 GB']):field('Amount (₦)','number','e.g. 500')}`;
- }else if(action==='deposit'){
-  body=`${field('Amount (₦)','number','e.g. 5000')}${selectField('Payment method',['Choose method','Bank transfer','Debit card'])}<p class="form-note">Payment is a preview only until a payment provider and verified webhook are connected.</p>`;
+ 
+}else if(action==='deposit'){
+  body=`
+    ${field('Amount (₦)','number','e.g. 5000')}
+    ${field('Email address','email','Enter your registered email')}
+    ${selectField('Payment method',['Choose method','Paystack test payment'])}
+    <p class="form-note">
+      Test mode: use test payment details only. Your wallet will not be credited until payment is verified securely.
+    </p>`;
+   
  }else if(action==='withdraw'){
   body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Account name','text','Verified account name')}`;
  }else if(action==='tv'){
