@@ -474,16 +474,73 @@ function openModal(action){
  }else if(action==='transfer'){
   body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}${field('Narration','text','Optional narration',false)}`;
  }else if(action==='account'){
-  body=`<form id="authForm">
-   <div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div>
-   <div class="field" id="fullNameField" style="display:none"><label for="authFullName">Full name</label><input id="authFullName" type="text" autocomplete="name" placeholder="Your full name"></div>
-   <div class="field"><label for="authEmail">Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div>
-   <div class="field"><label for="authPassword">Password</label><input id="authPassword" type="password" minlength="6" autocomplete="current-password" placeholder="At least 6 characters" required></div>
-   <p class="form-note">Supabase handles your account securely. If email confirmation is enabled, check your inbox after registration.</p>
-   <button class="btn gold" type="submit" id="authSubmit" style="width:100%;margin-top:8px">Login</button>
-   <button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button>
-   <p class="form-note" id="authStatus" role="status" aria-live="polite"></p>
-  </form>`;
+  
+body=`<form id="authForm">
+  <div class="field">
+    <label for="authMode">Choose option</label>
+    <select id="authMode">
+      <option value="login">Login</option>
+      <option value="register">Register</option>
+    </select>
+  </div>
+
+  <div class="field" id="fullNameField" style="display:none">
+    <label for="authFullName">Full name</label>
+    <input id="authFullName" type="text"
+      autocomplete="name" placeholder="Your full name">
+  </div>
+
+  <div class="field" id="phoneField" style="display:none">
+    <label for="authPhone">Phone number</label>
+    <input id="authPhone" type="tel"
+      autocomplete="tel" placeholder="08012345678">
+  </div>
+
+  <div class="field" id="referralField" style="display:none">
+    <label for="authReferral">Referral code (optional)</label>
+    <input id="authReferral" type="text"
+      placeholder="Enter referral code">
+  </div>
+
+  <div class="field">
+    <label for="authEmail">Email address</label>
+    <input id="authEmail" type="email"
+      autocomplete="email" placeholder="you@example.com" required>
+  </div>
+
+  <div class="field">
+    <label for="authPassword">Password</label>
+    <input id="authPassword" type="password"
+      autocomplete="current-password"
+      placeholder="Enter your password" required>
+  </div>
+
+  <div class="field" id="confirmPasswordField" style="display:none">
+    <label for="authConfirmPassword">Confirm password</label>
+    <input id="authConfirmPassword" type="password"
+      autocomplete="new-password"
+      placeholder="Re-enter your password">
+  </div>
+
+  <p class="form-note" id="passwordRules" style="display:none">
+    At least 8 characters, uppercase and lowercase letters,
+    a number and a special character.
+  </p>
+
+  <p class="form-note">
+    If email confirmation is enabled, check your inbox after registration.
+  </p>
+
+  <button class="btn gold" type="submit" id="authSubmit"
+    style="width:100%;margin-top:8px">Login</button>
+
+  <button class="btn" type="button" id="authSignOut"
+    style="width:100%;margin-top:8px;display:none">Sign out</button>
+
+  <p class="form-note" id="authStatus"
+    role="status" aria-live="polite"></p>
+</form>`;
+
  }else if(action==='referral'){
   body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
  
