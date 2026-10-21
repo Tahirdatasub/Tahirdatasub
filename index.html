@@ -570,46 +570,143 @@ body=`<form id="authForm">
 if (action === 'history') {
   loadTransactionHistory('historyList', 100);
 }
- if(action==='account'){
-  const form=document.getElementById('authForm'), mode=document.getElementById('authMode');
-  const nameField=document.getElementById('fullNameField'), nameInput=document.getElementById('authFullName');
-  const email=document.getElementById('authEmail'), password=document.getElementById('authPassword');
-  const submit=document.getElementById('authSubmit'), signOut=document.getElementById('authSignOut'), status=document.getElementById('authStatus');
-  const message=(m)=>status.textContent=m;
-  const updateMode=()=>{const reg=mode.value==='register';nameField.style.display=reg?'grid':'none';nameInput.required=reg;submit.textContent=reg?'Create account':'Login';password.autocomplete=reg?'new-password':'current-password';};
-  mode.addEventListener('change',updateMode); updateMode();
-  supabaseClient.auth.getSession().then(({data,error})=>{
-   if(error){message('Could not check sign-in status. Please try again.');return;}
-   if(data.session){email.value=data.session.user.email||'';message('Signed in as '+(data.session.user.email||'user')+'.');signOut.style.display='block';submit.style.display='none';mode.style.display='none';nameField.style.display='none';password.parentElement.style.display='none';}
-  });
-  form.addEventListener('submit',async(e)=>{
-   e.preventDefault();submit.disabled=true;message('Please wait…');
-   try{
-    if(mode.value==='register'){
-     const {data,error}=await supabaseClient.auth.signUp({
-  email: email.value.trim(),
-  password: password.value,
-  options: {
-    data: { full_name: nameInput.value.trim() },
-    emailRedirectTo: 'https://tahirdatasub.github.io/Tahirdatasub/'
+
+if(action==='account'){
+  const form=document.getElementById('authForm');
+  const mode=document.getElementById('authMode');
+  const nameField=document.getElementById('fullNameField');
+  const phoneField=document.getElementById('phoneField');
+  const referralField=document.getElementById('referralField');
+  const confirmField=document.getElementById('confirmPasswordField');
+  const passwordRules=document.getElementById('passwordRules');
+  const nameInput=document.getElementById('authFullName');
+  const phoneInput=document.getElementById('authPhone');
+  const referralInput=document.getElementById('authReferral');
+  const email=document.getElementById('authEmail');
+  const password=document.getElementById('authPassword');
+  const confirmPassword=document.getElementById('authConfirmPassword');
+  const submit=document.getElementById('authSubmit');
+  const signOut=document.getElementById('authSignOut');
+  const status=document.getElementById('authStatus');
+  const message=m=>status.textContent=m;
+
+  const strongPassword=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s])\S{8,}$/;
+
+  function updateMode(){
+    const reg=mode.value==='register';
+    nameField.style.display=reg?'grid':'none';
+    phoneField.style.display=reg?'grid':'none';
+    referralField.style.display=reg?'grid':'none';
+    confirmField.style.display=reg?'grid':'none';
+    passwordRules.style.display=reg?'block':'none';
+    nameInput.required=reg;
+    phoneInput.required=reg;
+    confirmPassword.required=reg;
+    submit.textContent=reg?'Create account':'Login';
+    password.autocomplete=reg?'new-password':'current-password';
   }
-});
-  
-     if(error) throw error;
-     message(data.session?'Registration successful. You are now signed in.':'Registration submitted. Check your email to confirm your account, then log in.');
-    }else{
-     const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:password.value});
-     if(error) throw error;
-     message('Login successful. Welcome back!');signOut.style.display='block';submit.style.display='none';mode.style.display='none';nameField.style.display='none';password.parentElement.style.display='none';
+
+  function showSignedIn(user){
+    email.value=user.email||'';
+    message('Signed in as '+(user.email||'user')+'.');
+    signOut.style.display='block';
+    submit.style.display='none';
+    mode.style.display='none';
+    nameField.style.display='none';
+    phoneField.style.display='none';
+    referralField.style.display='none';
+    confirmField.style.display='none';
+    passwordRules.style.display='none';
+    password.parentElement.style.display='none';
+  }
+
+  mode.addEventListener('change',updateMode);
+  updateMode();
+
+  supabaseClient.auth.getSession().then(({data,error})=>{
+    if(error){
+      message('Could not check sign-in status. Please try again.');
+      return;
     }
-   }catch(err){message(err.message||'Authentication failed. Check your details and try again.');}
-   finally{submit.disabled=false;}
+    if(data.session) showSignedIn(data.session.user);
   });
+
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    submit.disabled=true;
+    message('Please wait…');
+
+    try{
+      if(mode.value==='register'){
+        if(!nameInput.value.trim()){
+          throw new Error('Please enter your full name.');
+        }
+        if(!phoneInput.value.trim()){
+          throw new Error('Please enter your phone number.');
+        }
+        if(!strongPassword.test(password.value)){
+          throw new Error('Password must be at least 8 characters and include uppercase, lowercase, a number and a special character, without spaces.');
+        }
+        if(password.value!==confirmPassword.value){
+          throw new Error('Passwords do not match.');
+        }
+
+        const {data,error}=await supabaseClient.auth.signUp({
+          email:email.value.trim(),
+          password:password.value,
+          options:{
+            data:{
+              full_name:nameInput.value.trim(),
+              phone:phoneInput.value.trim(),
+              referral_code:referralInput.value.trim()||null
+            },
+            emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'
+          }
+        });
+
+        if(error) throw error;
+
+        message(data.session
+          ?'Registration successful. You are now signed in.'
+          :'Registration submitted. Check your email to confirm your account, then log in.');
+      }else{
+        const {data,error}=await supabaseClient.auth.signInWithPassword({
+          email:email.value.trim(),
+          password:password.value
+        });
+        if(error) throw error;
+        showSignedIn(data.user);
+      }
+    }catch(err){
+      message(err.message||'Authentication failed. Check your details and try again.');
+    }finally{
+      submit.disabled=false;
+    }
+  });
+
   signOut.addEventListener('click',async()=>{
-   signOut.disabled=true;const {error}=await supabaseClient.auth.signOut();signOut.disabled=false;
-   if(error){message(error.message);return;}
-   email.value='';password.value='';password.parentElement.style.display='grid';mode.style.display='block';submit.style.display='block';signOut.style.display='none';mode.value='login';updateMode();message('You have signed out.');
+    signOut.disabled=true;
+    const {error}=await supabaseClient.auth.signOut();
+    signOut.disabled=false;
+    if(error){
+      message(error.message);
+      return;
+    }
+    email.value='';
+    password.value='';
+    confirmPassword.value='';
+    nameInput.value='';
+    phoneInput.value='';
+    referralInput.value='';
+    password.parentElement.style.display='grid';
+    submit.style.display='block';
+    signOut.style.display='none';
+    mode.style.display='block';
+    mode.value='login';
+    updateMode();
+    message('You have signed out.');
   });
+
  }else if(action==='profile'){
   const details=document.getElementById('profileDetails');
   const refresh=document.getElementById('refreshProfile');
