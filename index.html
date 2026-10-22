@@ -75,11 +75,11 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
 .modal-backdrop.show{display:flex}
 .modal{
   width:min(470px,100%);
+  height:calc(100dvh - 32px);
   max-height:calc(100dvh - 32px);
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
   background:var(--panel);
   border:1px solid #77642a;
   border-radius:20px;
@@ -93,11 +93,18 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  position:sticky;
-  top:-16px;
-  z-index:5;
+  flex:0 0 auto;
   background:var(--panel);
   padding:8px 0 12px;
+}
+
+#modalContent{
+  min-height:0;
+  flex:1 1 auto;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
 }
 
 .modal h2{margin:0;font-size:21px}
