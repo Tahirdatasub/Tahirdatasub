@@ -707,40 +707,143 @@ if(action==='account'){
     message('You have signed out.');
   });
 
- }else if(action==='profile'){
+
+}else if(action==='profile'){
   const details=document.getElementById('profileDetails');
   const refresh=document.getElementById('refreshProfile');
 
   async function loadProfile(){
-   details.textContent='Loading your profile...';
+    details.textContent='Loading your profile...';
 
-   const {data,error}=await supabaseClient.auth.getUser();
+    try {
+      const {data,error}=await supabaseClient.auth.getUser();
 
-   if(error||!data.user){
-    details.textContent='Please log in to view your profile.';
-    return;
-   }
+      if(error||!data.user){
+        details.textContent='Please log in to view your profile.';
+        return;
+      }
 
-   const user=data.user;
-   const name=user.user_metadata?.full_name||'Name not available';
+      const user=data.user;
+      const meta=user.user_metadata||{};
+      const name=meta.full_name||meta.name||'Name not available';
+      const email=user.email||'Not available';
+      const phone=meta.phone_number||meta.phone||user.phone||'Not added';
+      const account=meta.account_name||'TAHIRDATASUB';
+      const initials=name==='Name not available'
+        ? 'TU'
+        : name.trim().split(/\s+/).slice(0,2)
+            .map(part=>part.charAt(0)).join('').toUpperCase();
 
-   details.replaceChildren();
+      details.replaceChildren();
 
-   const nameLine=document.createElement('p');
-   const nameLabel=document.createElement('strong');
-   nameLabel.textContent='Full name: ';
-   nameLine.append(nameLabel,document.createTextNode(name));
+      const page=document.createElement('div');
+      page.className='td-profile';
 
-   const emailLine=document.createElement('p');
-   const emailLabel=document.createElement('strong');
-   emailLabel.textContent='Email: ';
-   emailLine.append(emailLabel,document.createTextNode(user.email||'Not available'));
+      const header=document.createElement('div');
+      header.className='td-profile-header';
 
-   details.append(nameLine,emailLine);
+      const avatar=document.createElement('div');
+      avatar.className='td-profile-avatar';
+      avatar.textContent=initials;
+
+      const title=document.createElement('h2');
+      title.textContent='Profile';
+
+      header.append(avatar,title);
+
+      const card=document.createElement('div');
+      card.className='td-profile-card';
+
+      function addRow(icon,label,value){
+        const row=document.createElement('div');
+        row.className='td-profile-row';
+
+        const symbol=document.createElement('span');
+        symbol.className='td-profile-icon';
+        symbol.textContent=icon;
+
+        const content=document.createElement('div');
+        content.className='td-profile-info';
+
+        const heading=document.createElement('span');
+        heading.className='td-profile-label';
+        heading.textContent=label;
+
+        const text=document.createElement('span');
+        text.className='td-profile-value';
+        text.textContent=value;
+
+        content.append(heading,text);
+        row.append(symbol,content);
+        card.append(row);
+      }
+
+      addRow('👤','Full name',name);
+      addRow('▣','Account',account);
+      addRow('✉','Email',email);
+      addRow('☎','Phone number',phone);
+      addRow('◆','KYC verification','Not verified');
+
+      const appearanceTitle=document.createElement('h3');
+      appearanceTitle.className='td-profile-section-title';
+      appearanceTitle.textContent='Appearance';
+
+      const appearance=document.createElement('div');
+      appearance.className='td-profile-card td-profile-appearance';
+
+      const darkLabel=document.createElement('span');
+      darkLabel.textContent='🌙  Enable dark mode';
+
+      const darkToggle=document.createElement('input');
+      darkToggle.type='checkbox';
+      darkToggle.checked=true;
+      darkToggle.setAttribute('aria-label','Enable dark mode');
+
+      appearance.append(darkLabel,darkToggle);
+
+      darkToggle.addEventListener('change',()=>{
+        page.classList.toggle('td-light-mode',!darkToggle.checked);
+      });
+
+      const securityTitle=document.createElement('h3');
+      securityTitle.className='td-profile-section-title';
+      securityTitle.textContent='Account Security';
+
+      const security=document.createElement('div');
+      security.className='td-profile-card';
+
+      function addSecurityRow(label){
+        const row=document.createElement('div');
+        row.className='td-profile-security-row';
+        row.textContent=label+'  ›';
+        security.append(row);
+      }
+
+      addSecurityRow('🔒  Change transaction PIN');
+      addSecurityRow('🛡  Change password');
+
+      page.append(
+        header,
+        card,
+        appearanceTitle,
+        appearance,
+        securityTitle,
+        security
+      );
+
+      details.append(page);
+
+    } catch(err) {
+      details.textContent='Unable to load your profile. Please try again.';
+      console.error('Profile loading error:',err);
+    }
   }
 
   refresh.addEventListener('click',loadProfile);
   loadProfile();
+
+}else{
+
 
  }else{
   document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
