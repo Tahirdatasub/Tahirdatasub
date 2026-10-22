@@ -73,8 +73,34 @@ footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:cente
 .bottom-nav span{font-size:20px}
 .modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
 .modal-backdrop.show{display:flex}
-.modal{width:min(470px,100%);max-height:90dvh;overflow:auto;background:var(--panel);border:1px solid #77642a;border-radius:20px;padding:20px}
-.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+.modal{
+  width:min(470px,100%);
+  max-height:calc(100dvh - 32px);
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  background:var(--panel);
+  border:1px solid #77642a;
+  border-radius:20px;
+  padding:16px;
+  box-sizing:border-box;
+  position:relative;
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  position:sticky;
+  top:-16px;
+  z-index:5;
+  background:var(--panel);
+  padding:8px 0 12px;
+}
+
 .modal h2{margin:0;font-size:21px}
 .close{border:0;border-radius:10px;background:var(--panel2);color:white;width:42px;height:42px}
 .field{display:grid;gap:6px;margin:13px 0}
