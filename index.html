@@ -7,1101 +7,142 @@
 <meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">
 <title>TAHIRDATASUB — Premium Digital Services</title>
 <style>
-:root{--bg:#0d0e10;--panel:#17191d;--panel2:#202228;--gold:#f3c742;--gold2:#ffe28a;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#34363d;--green:#55d69e;--red:#ff8585}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input,select{font:inherit}
-button,a{touch-action:manipulation}
-a{color:inherit;text-decoration:none}
-button{cursor:pointer}
-.shell{max-width:1240px;margin:auto;min-height:100vh}
-header{position:sticky;top:0;z-index:10;background:rgba(13,14,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.5px;font-size:19px}
-.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:var(--gold);color:#151515;font-weight:950}
-.brand em{font-style:normal;color:var(--gold)}
-.header-actions{display:flex;gap:8px;align-items:center}
-.btn{border:1px solid var(--line);background:var(--panel2);color:var(--white);padding:11px 14px;border-radius:12px;font-weight:750;min-height:44px}
-.btn.gold{background:var(--gold);color:#171717;border-color:var(--gold)}
-.btn.light{background:var(--white);color:#171717;border-color:var(--white)}
-.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
-main{padding:20px 16px 92px}
-.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 20px}
-.welcome h1{font-size:clamp(25px,5vw,36px);line-height:1.15;margin:0 0 6px}
-.welcome p{margin:0;color:var(--muted)}
-.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted);white-space:nowrap}
-.dot{width:7px;height:7px;background:var(--green);border-radius:50%}
-.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;min-width:0}
-.balance-card{grid-column:span 7;background:linear-gradient(135deg,#252318,#151515 65%);border-color:#77642a}
-.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e4dfcc;font-size:13px}
-.balance-value{font-size:clamp(30px,6vw,42px);font-weight:900;letter-spacing:-1px;margin:14px 0 18px;overflow-wrap:anywhere}
-.balance-value small{font-size:14px;color:#d5d5d5;letter-spacing:0}
-.balance-actions{display:flex;gap:9px;flex-wrap:wrap}
-.stats{grid-column:span 5;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.stat{padding:15px;border-radius:16px;background:var(--panel);border:1px solid var(--line)}
-.stat span{display:block;color:var(--muted);font-size:12px}
-.stat strong{display:block;margin-top:7px;font-size:20px}
-.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 12px}
-.section-title h2{font-size:19px;margin:0}
-.section-title p{font-size:12px;color:var(--muted);margin:3px 0 0}
-/* TAHIRDATASUB — Compact Quick Services */
+:root{--bg:#0d0e10;--panel:#17191d;--panel2:#242424;--gold:#f3c742;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#383838;--green:#55d69e;--red:#ff8585;--blue:#f3c742}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#171717 0,#0d0e10 300px,#080808 680px);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}.shell{max-width:1240px;margin:auto;min-height:100vh}
+header{position:sticky;top:0;z-index:10;background:#0d0e10f2;border-bottom:1px solid var(--line)}.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#f3c742;border:2px solid #f3c742;color:#151515;font-weight:950}.brand em{font-style:normal;color:var(--gold)}.header-actions{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--white);padding:11px 14px;border-radius:12px;font-weight:750;min-height:44px}.btn.gold{background:var(--gold);color:#171717;border-color:var(--gold)}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffe28a;outline-offset:2px}
+main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 20px}.welcome h1{font-size:clamp(25px,5vw,36px);line-height:1.15;margin:0 0 6px}.welcome p{margin:0;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{background:linear-gradient(145deg,#202020,#111);border:1px solid #383838;border-radius:24px;padding:18px;min-width:0}.balance-card{grid-column:span 12;background:linear-gradient(135deg,#29251a,#111 75%);border:1px solid #77642a;box-shadow:0 14px 35px #0005}.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e4dfcc;font-size:13px}.balance-value{font-size:clamp(30px,6vw,42px);font-weight:900;margin:14px 0 18px;overflow-wrap:anywhere}.balance-value small{font-size:14px;color:#d5d5d5}.balance-actions{display:flex;gap:9px;flex-wrap:wrap}.stats{grid-column:span 12;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stat{padding:12px;border-radius:15px;background:#17191d;border:1px solid #383838}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;margin-top:7px;font-size:20px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:28px 0 12px}.section-title h2{font-size:19px;margin:0}.section-title p{font-size:12px;color:var(--muted);margin:3px 0 0}
+.services{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;background:#050505;border:1px solid #252525;border-radius:30px;padding:20px 12px}.service{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;min-height:112px;padding:10px 4px;background:transparent;border:1px solid transparent;border-radius:18px;color:var(--text)}.service:hover{border-color:var(--gold)}.service-icon{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:#302812;border:1px solid #6f5a1b;color:#f3c742;font-size:25px}.service strong{font-size:13px}.service small{font-size:11px;color:var(--muted)}
+.content-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}.tx-row{display:flex;align-items:center;gap:12px;padding:15px 10px;margin-top:8px;border:1px solid #383838;border-radius:16px;background:#191919}.tx-icon{width:44px;height:44px;border-radius:13px;background:#f3c742;color:#111;display:grid;place-items:center;flex-shrink:0}.tx-info{flex:1;min-width:0}.tx-info strong,.tx-info small{display:block}.tx-info small,.form-note{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.tx-amount{font-size:13px;font-weight:800;white-space:nowrap}.notice{padding:12px 14px;border-radius:13px;background:#f3c74212;border:1px solid #6e5b22;color:#e8dfc1;font-size:12px;margin-top:14px}.ussd-code{font-size:clamp(28px,6vw,40px);font-weight:950;color:var(--blue)}footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line)}.support-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.support-links a{display:inline-flex;padding:11px 15px;border-radius:12px;font-weight:800;background:var(--panel2);border:1px solid var(--line)}.support-links a.whatsapp{background:#1b5e3b;border-color:#1b5e3b}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:12;display:grid;background:#171717f5;border:1px solid #383838;border-radius:26px 26px 0 0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr);backdrop-filter:blur(14px)}.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#aeb2bb;padding:8px 2px;border-radius:18px}.bottom-nav span{font-size:22px}.bottom-nav a.active{background:#3a3012;color:#f3c742;font-weight:800}
+.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}.modal-backdrop.show{display:flex}.modal{width:min(470px,100%);height:calc(100dvh - 32px);max-height:calc(100dvh - 32px);overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid #77642a;border-radius:20px;padding:16px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:8px 0 12px}.modal h2{margin:0;font-size:21px}.close{border:0;border-radius:10px;background:var(--panel2);color:white;width:42px;height:42px}#modalContent{min-height:0;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}.field{display:grid;gap:6px;margin:13px 0}.field label{font-size:13px;color:#d7d7d7}.field input,.field select{width:100%;min-height:47px;border-radius:11px;border:1px solid var(--line);background:#0d0e10;color:white;padding:11px 12px}.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;z-index:50;background:white;color:#151515;border-radius:12px;padding:12px 16px;width:max-content;max-width:calc(100% - 28px);font-size:13px;font-weight:750}.toast.show{opacity:1;transform:translate(-50%,0)}
+.td-profile{background:#090909;color:#f7f7f7;padding:18px;border-radius:18px;width:100%}.td-profile-header{display:flex;flex-direction:column;align-items:center;gap:12px;padding:10px 0 24px;text-align:center}.td-profile-avatar{width:100px;height:100px;border-radius:50%;display:grid;place-items:center;background:#f5c842;color:#17130a;font-size:34px;font-weight:800}.td-profile-header h2{margin:0;font-size:26px}.td-profile-card{background:#242424;border:1px solid #383838;border-radius:18px;padding:8px 16px;margin-bottom:20px}.td-profile-row{display:flex;align-items:center;gap:13px;padding:14px 0;border-bottom:1px solid #383838;min-width:0}.td-profile-row:last-child{border-bottom:0}.td-profile-icon{flex:0 0 42px;height:42px;display:grid;place-items:center;border-radius:11px;background:#f5c842;color:#17130a;font-size:20px}.td-profile-info{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1}.td-profile-label{color:#bcbcbc;font-size:12px}.td-profile-value{color:#fff;font-size:15px;overflow-wrap:anywhere}.td-profile-section-title{font-size:17px;margin:26px 0 12px}.td-profile-appearance{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 16px}.td-profile-appearance input{width:44px;height:24px;accent-color:#f5c842}.td-profile.td-light-mode{background:#fff;color:#171717}.td-profile.td-light-mode .td-profile-card{background:#f0f0f0;border-color:#ddd}.td-profile.td-light-mode .td-profile-value{color:#171717}.td-profile.td-light-mode .td-profile-label{color:#555}.td-profile.td-light-mode .td-profile-row{border-color:#ddd}
+@media(min-width:801px){.services{grid-template-columns:repeat(4,minmax(0,1fr))}.bottom-nav{display:none}}@media(max-width:800px){.balance-card,.stats{grid-column:span 12}.content-grid{grid-template-columns:1fr}}@media(max-width:520px){.header-inner{padding:10px 12px}.brand{font-size:17px}.logo{width:38px;height:38px}main{padding:14px 12px 88px}.welcome{display:block}.welcome .pill{margin-top:12px}.card{padding:15px;border-radius:17px}.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:18px}.section-title{margin-top:23px}}
 
-.services{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:7px;
-}
-
-.service{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:5px;
-  text-align:left;
-  min-height:78px;
-  padding:8px;
-  background:var(--panel);
-  border:1px solid var(--line);
-  border-radius:12px;
-  color:var(--text);
-  transition:border-color .15s;
-}
-
-.service:hover{
-  border-color:var(--gold);
-}
-
-.service-icon{
-  display:grid;
-  place-items:center;
-  width:28px;
-  height:28px;
-  border-radius:8px;
-  background:#f3c7421a;
-  font-size:16px;
-}
-
-.service strong{
-  font-size:12px;
-  line-height:1.4;
-}
-
-.service small{
-  font-size:10px;
-  line-height:1.4;
-  color:var(--muted);
-}
-
-@media(min-width:801px){
-  .services{
-    grid-template-columns:repeat(4,minmax(0,1fr));
-  }
-}
-
-.content-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:14px}
-.tx-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line)}
-.tx-row:last-child{border-bottom:0}
-.tx-icon{width:40px;height:40px;border-radius:13px;background:var(--panel2);display:grid;place-items:center;flex-shrink:0}
-.tx-info{flex:1;min-width:0}
-.tx-info strong{display:block;font-size:14px}
-.tx-info small{display:block;color:var(--muted);font-size:12px;overflow-wrap:anywhere}
-.tx-amount{font-size:13px;font-weight:800;white-space:nowrap}
-.referral-code{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px;background:var(--panel2);border:1px dashed #8a7733;border-radius:13px;margin:12px 0}
-.referral-code strong{letter-spacing:1px}
-.notice{padding:12px 14px;border-radius:13px;background:#f3c74212;border:1px solid #6e5b22;color:#e8dfc1;font-size:12px;margin-top:14px}
-.ussd-card{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-.ussd-code{font-size:clamp(28px,6vw,40px);font-weight:950;color:var(--gold);letter-spacing:1px}
-.ussd-card p{color:var(--muted);margin:4px 0 0}
-footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line)}
-.support-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.support-links a{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 15px;border-radius:12px;font-weight:800;background:var(--panel2);border:1px solid var(--line);color:var(--white)}.support-links a.whatsapp{background:#1b5e3b;border-color:#1b5e3b}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:12;display:none;background:rgba(18,19,22,.97);border-top:1px solid var(--line);padding:8px max(8px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));grid-template-columns:repeat(5,1fr);backdrop-filter:blur(14px)}
-.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--muted);padding:5px 2px}
-.bottom-nav span{font-size:20px}
-.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:16px;z-index:30}
-.modal-backdrop.show{display:flex}
-.modal{
-  width:min(470px,100%);
-  height:calc(100dvh - 32px);
-  max-height:calc(100dvh - 32px);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  background:var(--panel);
-  border:1px solid #77642a;
-  border-radius:20px;
-  padding:16px;
-  box-sizing:border-box;
-  position:relative;
-}
-
-.modal-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex:0 0 auto;
-  background:var(--panel);
-  padding:8px 0 12px;
-}
-
-
-#modalContent{
-  min-height:0;
-  flex:1 1 auto;
-  overflow-y:auto;
-  overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-  padding-bottom:12px;
-}
-
-.modal h2{margin:0;font-size:21px}
-.close{border:0;border-radius:10px;background:var(--panel2);color:white;width:42px;height:42px}
-.field{display:grid;gap:6px;margin:13px 0}
-.field label{font-size:13px;color:#d7d7d7}
-.field input,.field select{width:100%;min-height:47px;border-radius:11px;border:1px solid var(--line);background:#0d0e10;color:white;padding:11px 12px}
-.field input::placeholder{color:#737782}
-.form-note{font-size:12px;color:var(--muted);line-height:1.5}
-.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;z-index:50;background:var(--white);color:#151515;border-radius:12px;padding:12px 16px;width:max-content;max-width:calc(100% - 28px);font-size:13px;font-weight:750;box-shadow:0 8px 30px #0008}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:800px){.balance-card{grid-column:span 12}.stats{grid-column:span 12}.services{grid-template-columns:repeat(3,minmax(0,1fr))}.content-grid{grid-template-columns:1fr}.bottom-nav{display:grid}.header-actions .hide-mobile{display:none}}
-@media(max-width:520px){.header-inner{padding:10px 12px}.brand{font-size:17px}.logo{width:38px;height:38px}.header-actions .btn{padding:9px 10px;font-size:12px;min-height:40px}main{padding:14px 12px 88px}.welcome{display:block}.welcome .pill{margin-top:12px}.card{padding:15px;border-radius:17px}.services{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.service{min-height:112px;padding:12px}.service-icon{width:38px;height:38px}.service strong{font-size:13px}.service small{font-size:11px}.stats{gap:9px}.stat{padding:12px}.stat strong{font-size:18px}.section-title{margin-top:23px}.ussd-card{align-items:flex-start}.ussd-card .btn{width:100%}}
-  
-/* TAHIRDATASUB Profile - Black & Gold */
-
-.td-profile {
-  background: #090909;
-  color: #f7f7f7;
-  padding: 18px;
-  border-radius: 18px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.td-profile-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0 28px;
-  text-align: center;
-}
-
-.td-profile-avatar {
-  width: 112px;
-  height: 112px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: #f5c842;
-  color: #17130a;
-  font-size: 36px;
-  font-weight: 800;
-}
-
-.td-profile-header h2 {
-  margin: 0;
-  font-size: 27px;
-}
-
-.td-profile-card {
-  background: #242424;
-  border: 1px solid #383838;
-  border-radius: 18px;
-  padding: 8px 16px;
-  margin-bottom: 24px;
-}
-
-.td-profile-row {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 14px 0;
-  border-bottom: 1px solid #383838;
-  min-width: 0;
-}
-
-.td-profile-row:last-child {
-  border-bottom: 0;
-}
-
-.td-profile-icon {
-  flex: 0 0 42px;
-  height: 42px;
-  display: grid;
-  place-items: center;
-  border-radius: 11px;
-  background: #f5c842;
-  color: #17130a;
-  font-size: 20px;
-}
-
-.td-profile-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 0;
-  flex: 1;
-}
-
-.td-profile-label {
-  color: #bcbcbc;
-  font-size: 12px;
-}
-
-.td-profile-value {
-  color: #fff;
-  font-size: 15px;
-  overflow-wrap: anywhere;
-}
-
-.td-profile-section-title {
-  font-size: 17px;
-  margin: 26px 0 12px;
-}
-
-.td-profile-appearance {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 20px 16px;
-}
-
-.td-profile-appearance input {
-  width: 44px;
-  height: 24px;
-  accent-color: #f5c842;
-}
-
-.td-profile-security-row {
-  padding: 18px 0;
-  border-bottom: 1px solid #383838;
-  font-size: 14px;
-}
-
-.td-profile-security-row:last-child {
-  border-bottom: 0;
-}
-
-.td-profile.td-light-mode {
-  background: #fff;
-  color: #171717;
-}
-
-.td-profile.td-light-mode .td-profile-card {
-  background: #f0f0f0;
-  border-color: #ddd;
-}
-
-.td-profile.td-light-mode .td-profile-value {
-  color: #171717;
-}
-
-.td-profile.td-light-mode .td-profile-label {
-  color: #555;
-}
-
-.td-profile.td-light-mode .td-profile-row,
-.td-profile.td-light-mode .td-profile-security-row {
-  border-color: #ddd;
-}
-
+.wallet-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:18px 0 24px}
+.shortcut{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12px 4px;background:#17191d;border:1px solid #383838;border-radius:22px;color:#fff}
+.shortcut strong{font-size:11px;text-align:center;line-height:1.25}
+.shortcut-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;font-size:24px;font-weight:900}
+.shortcut-icon.green{background:#f3c742;color:#171717}.shortcut-icon.blue{background:#fff;color:#171717}.shortcut-icon.orange{background:#d6d6d6;color:#171717}.shortcut-icon.purple{background:#5b4a19;color:#fff}
+@media(max-width:520px){.wallet-shortcuts{gap:7px}.shortcut{border-radius:18px;min-height:104px}.shortcut-icon{width:44px;height:44px}.services{padding:14px 6px;gap:5px}.service{min-height:105px}.section-title{margin-top:22px}}
 </style>
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <a class="brand" href="#dashboard" aria-label="TAHIRDATASUB home"><span class="logo">TR</span><span>TAHIR<em>DATA</em></span></a>
-    <div class="header-actions">
-      <button class="btn hide-mobile" data-action="support">Support</button>
-      <button class="btn gold" data-action="account">Login / Register</button>
-    </div>
-  </div>
-</header>
-<div class="shell">
-<main id="dashboard">
-  <section class="welcome">
-    <div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div>
-    <span class="pill"><span class="dot"></span> Mobile-friendly preview</span>
-  </section>
-
-  <section class="grid" aria-label="Wallet overview">
-    <article class="card balance-card">
-      <div class="balance-top"><span>Available wallet balance</span><span>NGN ₦</span></div>
-      <div class="balance-value" id="walletBalance">
-  ₦ 0.00 <small>NGN</small>
-      </div>
-      <div class="balance-actions">
-        <button class="btn gold" data-action="deposit">＋ Deposit</button>
-        <button class="btn light" data-action="withdraw">↗ Withdraw</button>
-        <button class="btn" data-action="wallet">Wallet details</button>
-      </div>
-      <div class="notice" id="walletMessage">
-  Connecting to your wallet...
-      </div>
-    </article>
-    <div class="stats">
-     
-<article class="stat"><span>Total transactions</span><strong id="totalTransactions">0</strong></article>
-<article class="stat"><span>Successful</span><strong id="successfulTransactions">0</strong></article>
-<article class="stat"><span>Pending</span><strong id="pendingTransactions">0</strong></article>
-  
-    </div>
-  </section>
-
-  <div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>
-  <section class="services" aria-label="Digital services">
-    <button class="service" data-action="data"><span class="service-icon">📶</span><strong>Buy Data</strong><small>Mobile data plans</small></button>
-    <button class="service" data-action="airtime"><span class="service-icon">📱</span><strong>Buy Airtime</strong><small>Recharge a phone</small></button>
-    <button class="service" data-action="deposit"><span class="service-icon">➕</span><strong>Deposit</strong><small>Fund your wallet</small></button>
-    <button class="service" data-action="withdraw"><span class="service-icon">💸</span><strong>Withdraw</strong><small>Withdraw funds</small></button>
-    <button class="service" data-action="wallet"><span class="service-icon">👛</span><strong>My Wallet</strong><small>Balance and activity</small></button>
-    <button class="service" data-action="tv"><span class="service-icon">📺</span><strong>TV Subscription</strong><small>DStv, GOtv, StarTimes</small></button>
-    <button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity Bill</strong><small>Supported providers</small></button>
-    <button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong><small>Supported providers</small></button>
-    <button class="service" data-action="convert"><span class="service-icon">🔄</span><strong>Airtime to Cash</strong><small>Convert airtime</small></button>
-    <button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong><small>Nigerian banks</small></button>
-    <button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong><small>Invite and earn</small></button>
-    <button class="service" data-action="history"><span class="service-icon">🧾</span><strong>Transactions</strong><small>View your history</small></button>
-    <button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong><small>Personal information</small></button>
-    <button class="service" data-action="security"><span class="service-icon">🔐</span><strong>Security</strong><small>Password and PIN</small></button>
-    <button class="service" data-action="notifications"><span class="service-icon">🔔</span><strong>Notifications</strong><small>Service updates</small></button>
-    <button class="service" data-action="support"><span class="service-icon">💬</span><strong>Help & Support</strong><small>Get assistance</small></button>
-  </section>
-
-  <div class="section-title" id="activity"><div><h2>Recent activity</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div>
-  <section class="content-grid">
-    
-
-<section class="content-grid">
-  <article class="card">
-    <div id="recentTransactions">
-      <p class="form-note">Loading recent transactions...</p>
-    </div>
-    <p class="form-note">
-      Transactions are loaded securely from your Supabase account.
-    </p>
-  </article>
-
-  <article class="card ussd-card" id="ussd">
-    <div>
-      <span class="pill">Planned for the future</span>
-      <div class="ussd-code">*433#</div>
-      <p>Proposed TAHIRDATASUB USSD code — not active yet.</p>
-      <p class="form-note">
-        Activation requires the necessary approvals and network connection.
-      </p>
-    </div>
-  </article>
+<header><div class="header-inner">
+<a class="brand" href="#dashboard"><span class="logo">TR</span><span>TAHIR<em>DATA</em>SUB</span></a>
+<div class="header-actions"><button class="btn" data-action="support">Support</button><button class="btn gold" data-action="account">Login / Register</button></div>
+</div></header>
+<div class="shell"><main id="dashboard">
+<section class="welcome"><div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div><span class="pill"><span class="dot"></span> Mobile-friendly preview</span></section>
+<section class="grid" aria-label="Wallet overview">
+<article class="card balance-card"><div class="balance-top"><span>Total Balance</span><span>NGN ₦</span></div><div class="balance-value" id="walletBalance">₦ 0.00 <small>NGN</small></div><div class="balance-actions"><button class="btn gold" data-action="deposit">＋ Deposit</button><button class="btn" data-action="withdraw">↗ Withdraw</button><button class="btn" data-action="wallet">Wallet details</button></div><div class="notice" id="walletMessage">Connecting to your wallet...</div></article>
+<div class="stats" aria-label="Transaction statistics"><article class="stat"><span>Total transactions</span><strong id="totalTransactions">0</strong></article><article class="stat"><span>Successful</span><strong id="successfulTransactions">0</strong></article><article class="stat"><span>Pending</span><strong id="pendingTransactions">0</strong></article></div>
 </section>
-    
+<section class="wallet-shortcuts" aria-label="Wallet shortcuts">
+<button class="shortcut" data-action="deposit"><span class="shortcut-icon green">＋</span><strong>Fund Wallet</strong></button>
+<button class="shortcut" data-action="transfer"><span class="shortcut-icon blue">➤</span><strong>Send Money</strong></button>
+<button class="shortcut" data-action="withdraw"><span class="shortcut-icon orange">▤</span><strong>Withdraw</strong></button>
+<button class="shortcut" data-action="history"><span class="shortcut-icon purple">◷</span><strong>Transactions</strong></button>
+</section>
+<div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>
+<section class="services">
+<button class="service" data-action="data"><span class="service-icon">📶</span><strong>Buy Data</strong><small>Mobile data plans</small></button><button class="service" data-action="airtime"><span class="service-icon">📱</span><strong>Buy Airtime</strong><small>Recharge a phone</small></button><button class="service" data-action="deposit"><span class="service-icon">➕</span><strong>Deposit</strong><small>Fund your wallet</small></button><button class="service" data-action="withdraw"><span class="service-icon">💸</span><strong>Withdraw</strong><small>Withdraw funds</small></button><button class="service" data-action="wallet"><span class="service-icon">👛</span><strong>My Wallet</strong><small>Balance and activity</small></button><button class="service" data-action="tv"><span class="service-icon">📺</span><strong>TV Subscription</strong><small>DStv, GOtv, StarTimes</small></button><button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity Bill</strong><small>Supported providers</small></button><button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong><small>Supported providers</small></button><button class="service" data-action="convert"><span class="service-icon">🔄</span><strong>Airtime to Cash</strong><small>Convert airtime</small></button><button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong><small>Nigerian banks</small></button><button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong><small>Invite and earn</small></button><button class="service" data-action="history"><span class="service-icon">🧾</span><strong>Transactions</strong><small>View your history</small></button><button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong><small>Personal information</small></button><button class="service" data-action="security"><span class="service-icon">🔐</span><strong>Security</strong><small>Password and PIN</small></button><button class="service" data-action="notifications"><span class="service-icon">🔔</span><strong>Notifications</strong><small>Service updates</small></button><button class="service" data-action="support"><span class="service-icon">💬</span><strong>Help & Support</strong><small>Get assistance</small></button>
+</section>
+<div class="section-title" id="activity"><div><h2>Recent Transactions</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div>
+<section class="content-grid"><article class="card"><div id="recentTransactions"><p class="form-note">Loading recent transactions...</p></div><p class="form-note">Transactions are loaded securely from your Supabase account.</p></article><article class="card"><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">Activation requires the necessary approvals and network connection.</p></article></section>
 </main>
-<footer>
-  <strong style="color:var(--white);font-size:14px">TAHIRDATASUB Customer Service</strong>
-  <p>Call us or contact us on WhatsApp: <strong style="color:var(--white)">+234 813 455 9773</strong></p>
-  <div class="support-links">
-    <a href="tel:+2348134559773" aria-label="Call TAHIRDATASUB customer service">📞 Call Customer Service</a>
-    <a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer" aria-label="Chat with TAHIRDATASUB on WhatsApp">💬 WhatsApp Us</a>
-  </div>
-  © <span id="year"></span> TAHIRDATASUB · Premium Black, Gold & White · Responsive mobile-first preview
-</footer>
+<footer><strong style="color:white;font-size:14px">TAHIRDATASUB Customer Service</strong><p>Call us or contact us on WhatsApp: <strong style="color:white">+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call Customer Service</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp Us</a></div>© <span id="year"></span> TAHIRDATASUB · Premium Black, Gold & White</footer>
 </div>
-
-<nav class="bottom-nav" aria-label="Mobile navigation">
-  <a href="#dashboard"><span>⌂</span>Home</a>
-  <a href="#services"><span>▦</span>Services</a>
-  <a href="#activity"><span>↻</span>Activity</a>
-  <a href="#referral"><span>🎁</span>Referral</a>
-</nav>
-
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <div class="modal-head"><h2 id="modalTitle">Service</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div>
-    <div id="modalContent"></div>
-  </div>
-</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<nav class="bottom-nav" aria-label="Main navigation"><a class="active" href="#dashboard" data-tab="home"><span>⌂</span>Home</a><a href="#activity" data-tab="transactions"><span>▤</span>Transactions</a><a href="#services" data-tab="services"><span>▦</span>Services</a><a href="#profileNav" data-tab="profile"><span>♙</span>Profile</a></nav><span id="profileNav" aria-hidden="true"></span>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modal-head"><h2 id="modalTitle">Service</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div><div id="modalContent"></div></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
-  
-const SUPABASE_URL = "https://dqdethtbegofepqqnwdu.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
-const welcomeTitle = document.getElementById('welcomeTitle');
-
-function formatTransactionAmount(amount) {
-  return '₦' + Number(amount).toLocaleString('en-NG', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  });
-}
-
-function displayTransactions(container, transactions) {
-  container.replaceChildren();
-
-  if (!transactions.length) {
-    const empty = document.createElement('p');
-    empty.className = 'form-note';
-    empty.textContent = 'No transactions found yet.';
-    container.appendChild(empty);
-    return;
-  }
-
-  transactions.forEach(tx => {
-    const row = document.createElement('div');
-    row.className = 'tx-row';
-
-    const icon = document.createElement('div');
-    icon.className = 'tx-icon';
-    icon.textContent = '🧾';
-
-    const info = document.createElement('div');
-    info.className = 'tx-info';
-
-    const title = document.createElement('strong');
-    title.textContent = String(tx.type || 'Transaction')
-      .replaceAll('_', ' ')
-      .replace(/\b\w/g, c => c.toUpperCase());
-
-    const details = document.createElement('small');
-    const date = tx.created_at
-      ? new Date(tx.created_at).toLocaleString('en-NG')
-      : 'Date unavailable';
-
-    details.textContent =
-      `${date} · ${tx.status || 'pending'}` +
-      (tx.description ? ` · ${tx.description}` : '');
-
-    const amount = document.createElement('div');
-    amount.className = 'tx-amount';
-    amount.textContent = formatTransactionAmount(tx.amount);
-
-    info.append(title, details);
-    row.append(icon, info, amount);
-    container.appendChild(row);
-  });
-}
-
-async function loadTransactionHistory(containerId, limit = 50) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  container.textContent = 'Loading transactions...';
-
-  const { data: userData, error: userError } =
-    await supabaseClient.auth.getUser();
-
-  if (userError || !userData.user) {
-    container.textContent = 'Please log in to view your transactions.';
-    return;
-  }
-
-  const { data, error } = await supabaseClient
-    .from('transactions')
-    .select('id, type, amount, status, reference, description, created_at')
-    .eq('user_id', userData.user.id)
-    .order('created_at', { ascending: false })
-    .limit(limit);
-
-  
-if (error) {
-  console.error('Transaction history error:', error);
-  container.textContent =
-    'Unable to load transactions: ' + error.message;
-  return;
-}
-
-  displayTransactions(container, data || []);
-}
-
-async function loadTransactionStats() {
-  const { data: userData, error: userError } =
-    await supabaseClient.auth.getUser();
-
-  const totalEl = document.getElementById('totalTransactions');
-  const successEl = document.getElementById('successfulTransactions');
-  const pendingEl = document.getElementById('pendingTransactions');
-
-  if (!totalEl || !successEl || !pendingEl) return;
-
-  if (userError || !userData.user) {
-    totalEl.textContent = '0';
-    successEl.textContent = '0';
-    pendingEl.textContent = '0';
-    return;
-  }
-
-  const userId = userData.user.id;
-
-  const [total, successful, pending] = await Promise.all([
-    supabaseClient.from('transactions')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId),
-
-    supabaseClient.from('transactions')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('status', 'success'),
-
-    supabaseClient.from('transactions')
-      .select('id', { count: 'exact', head: true })
-      .eq('user_id', userId)
-      .eq('status', 'pending')
-  ]);
-
-  if (total.error || successful.error || pending.error) {
-    console.error('Transaction statistics could not load.');
-    return;
-  }
-
-  totalEl.textContent = String(total.count ?? 0);
-  successEl.textContent = String(successful.count ?? 0);
-  pendingEl.textContent = String(pending.count ?? 0);
-}
-
-async function refreshTransactionDashboard() {
-  await Promise.all([
-    loadTransactionHistory('recentTransactions', 5),
-    loadTransactionStats()
-  ]);
-}
-
-async function updateWelcomeName() {
-  const { data, error } = await supabaseClient.auth.getUser();
-
-  if (error || !data.user) {
-    welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
-    return;
-  }
-
-  const fullName = data.user.user_metadata?.full_name;
-
-  welcomeTitle.textContent = fullName
-    ? `Welcome, ${fullName}!`
-    : 'Welcome to TAHIRDATASUB';
-}
-
-async function loadWalletBalance() {
-  const balanceElement = document.getElementById('walletBalance');
-  const messageElement = document.getElementById('walletMessage');
-
-  if (!balanceElement || !messageElement) return;
-
-  const { data: userData, error: userError } =
-    await supabaseClient.auth.getUser();
-
-  if (userError || !userData.user) {
-    balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
-    messageElement.textContent = 'Please log in to view your wallet.';
-    return;
-  }
-
-  const { data: wallet, error } = await supabaseClient
-    .from('wallets')
-    .select('balance')
-    .eq('user_id', userData.user.id)
-    .maybeSingle();
-
-  if (error || !wallet) {
-    messageElement.textContent =
-      'Unable to load wallet. Please refresh and try again.';
-    console.error('Wallet loading error:', error);
-    return;
-  }
-
-  const amount = Number(wallet.balance);
-
-  balanceElement.innerHTML =
-    '₦ ' + amount.toLocaleString('en-NG', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }) + ' <small>NGN</small>';
-
-  messageElement.textContent = 'Wallet balance loaded securely.';
-}
-
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  setTimeout(() => {
-    if (session) {
-      refreshTransactionDashboard();
-      updateWelcomeName();
-      loadWalletBalance();
-    } else {
-      welcomeTitle.textContent = 'Welcome to TAHIRDATASUB';
-
-      const balanceElement = document.getElementById('walletBalance');
-      const messageElement = document.getElementById('walletMessage');
-
-      if (balanceElement) {
-        balanceElement.innerHTML = '₦ 0.00 <small>NGN</small>';
-      }
-
-      if (messageElement) {
-        messageElement.textContent = 'Please log in to view your wallet.';
-      }
-    }
-  }, 0);
-});
-
-updateWelcomeName();
-loadWalletBalance();
-  refreshTransactionDashboard();
-const backdrop=document.getElementById('modalBackdrop');
-const modalTitle=document.getElementById('modalTitle');
-const modalContent=document.getElementById('modalContent');
-const toast=document.getElementById('toast');
+const SUPABASE_URL="https://dqdethtbegofepqqnwdu.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
+const backdrop=$('modalBackdrop'),modalTitle=$('modalTitle'),modalContent=$('modalContent'),toast=$('toast');
 let toastTimer;
-const labels={
- data:'Buy Data',airtime:'Buy Airtime',deposit:'Deposit Funds',withdraw:'Withdraw Funds',wallet:'My Wallet',
- tv:'TV Subscription',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',
- referral:'Refer Friends',history:'Transaction History',profile:'My Profile',security:'Security Settings',
- notifications:'Notifications',support:'Help & Support',account:'Login / Register'
-};
-function showToast(msg){toast.textContent=msg;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3500)}
+const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Deposit Funds',withdraw:'Withdraw Funds',wallet:'My Wallet',tv:'TV Subscription',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',security:'Security Settings',notifications:'Notifications',support:'Help & Support',account:'Login / Register',about:'About TAHIRDATASUB',changePassword:'Change password',changePin:'Change transaction PIN'};
+function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3500)}
 function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}
 function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}
 function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}
+function money(n){return '₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function displayTransactions(container,rows){container.replaceChildren();if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}rows.forEach(tx=>{const row=document.createElement('div');row.className='tx-row';const icon=document.createElement('div');icon.className='tx-icon';icon.textContent='🧾';const info=document.createElement('div');info.className='tx-info';const title=document.createElement('strong');title.textContent=String(tx.type||'Transaction').replaceAll('_',' ');const detail=document.createElement('small');detail.textContent=(tx.created_at?new Date(tx.created_at).toLocaleString('en-NG'):'Date unavailable')+' · '+(tx.status||'pending');const amount=document.createElement('div');amount.className='tx-amount';amount.textContent=money(tx.amount);info.append(title,detail);row.append(icon,info,amount);container.append(row)})}
+async function loadTransactionHistory(containerId,limit=50){const c=$(containerId);if(!c)return;c.textContent='Loading transactions...';const {data:u}=await supabaseClient.auth.getUser();if(!u.user){c.textContent='Please log in to view your transactions.';return}const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,status,description,created_at').eq('user_id',u.user.id).order('created_at',{ascending:false}).limit(limit);if(error){console.error(error);c.textContent='Unable to load transactions. Please try again.';return}displayTransactions(c,data||[])}
+async function loadDashboard(){const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){$('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦ 0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return}const u=data.user;$('welcomeTitle').textContent=u.user_metadata?.full_name?`Welcome, ${u.user_metadata.full_name}!`:'Welcome to TAHIRDATASUB';const {data:w,error:we}=await supabaseClient.from('wallets').select('balance').eq('user_id',u.id).maybeSingle();if(!we&&w){$('walletBalance').innerHTML=money(w.balance)+' <small>NGN</small>';$('walletMessage').textContent='Wallet balance loaded securely.'}else $('walletMessage').textContent='Unable to load wallet. Please refresh and try again.';await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(u.id)])}
+async function loadTransactionHistoryStats(uid){const [a,b,c]=await Promise.all([supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','success'),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','pending')]);$('totalTransactions').textContent=a.count??0;$('successfulTransactions').textContent=b.count??0;$('pendingTransactions').textContent=c.count??0}
+supabaseClient.auth.onAuthStateChange(()=>setTimeout(loadDashboard,0));loadDashboard();
 function openModal(action){
- modalTitle.textContent=labels[action]||'TAHIRDATASUB';
- let body='';
- if(action==='data'||action==='airtime'){
-  body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${action==='data'?selectField('Data plan',['Choose data plan','500 MB','1 GB','2 GB','5 GB','10 GB']):field('Amount (₦)','number','e.g. 500')}`;
- 
-}else if(action==='deposit'){
-  body=`
-    ${field('Amount (₦)','number','e.g. 5000')}
-    ${field('Email address','email','Enter your registered email')}
-    ${selectField('Payment method',['Choose method','Paystack test payment'])}
-    <p class="form-note">
-      Test mode: use test payment details only. Your wallet will not be credited until payment is verified securely.
-    </p>`;
-   
- }else if(action==='withdraw'){
-  body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Account name','text','Verified account name')}`;
- }else if(action==='tv'){
-  body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Enter decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`;
- }else if(action==='electricity'){
-  body=`${selectField('Electricity provider',['Choose provider','IKEDC','EKEDC','AEDC','KEDCO','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Enter meter number')}${field('Amount (₦)','number','e.g. 5000')}`;
- }else if(action==='water'){
-  body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Enter customer number')}${field('Amount (₦)','number','e.g. 2000')}`;
- }else if(action==='convert'){
-  body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}${field('Payout bank account','text','Account number')}`;
- }else if(action==='transfer'){
-  body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}${field('Narration','text','Optional narration',false)}`;
- }else if(action==='account'){
-  
-body=`<form id="authForm">
-  <div class="field">
-    <label for="authMode">Choose option</label>
-    <select id="authMode">
-      <option value="login">Login</option>
-      <option value="register">Register</option>
-    </select>
-  </div>
-
-  <div class="field" id="fullNameField" style="display:none">
-    <label for="authFullName">Full name</label>
-    <input id="authFullName" type="text"
-      autocomplete="name" placeholder="Your full name">
-  </div>
-
-  <div class="field" id="phoneField" style="display:none">
-    <label for="authPhone">Phone number</label>
-    <input id="authPhone" type="tel"
-      autocomplete="tel" placeholder="08012345678">
-  </div>
-
-  <div class="field" id="referralField" style="display:none">
-    <label for="authReferral">Referral code (optional)</label>
-    <input id="authReferral" type="text"
-      placeholder="Enter referral code">
-  </div>
-
-  <div class="field">
-    <label for="authEmail">Email address</label>
-    <input id="authEmail" type="email"
-      autocomplete="email" placeholder="you@example.com" required>
-  </div>
-
-  <div class="field">
-    <label for="authPassword">Password</label>
-    <input id="authPassword" type="password"
-      autocomplete="current-password"
-      placeholder="Enter your password" required>
-  </div>
-
-  <div class="field" id="confirmPasswordField" style="display:none">
-    <label for="authConfirmPassword">Confirm password</label>
-    <input id="authConfirmPassword" type="password"
-      autocomplete="new-password"
-      placeholder="Re-enter your password">
-  </div>
-
-  <p class="form-note" id="passwordRules" style="display:none">
-    At least 8 characters, uppercase and lowercase letters,
-    a number and a special character.
-  </p>
-
-  <p class="form-note">
-    If email confirmation is enabled, check your inbox after registration.
-  </p>
-
-  <button class="btn gold" type="submit" id="authSubmit"
-    style="width:100%;margin-top:8px">Login</button>
-
-  <button class="btn" type="button" id="authSignOut"
-    style="width:100%;margin-top:8px;display:none">Sign out</button>
-
-  <p class="form-note" id="authStatus"
-    role="status" aria-live="polite"></p>
-</form>`;
-
- }else if(action==='referral'){
-  body=`<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Your personal referral link and rewards will appear here once connected to the secure backend.</p>`;
- 
-}else if(action==='wallet'){
-  body=`<p>Your wallet balance is displayed on the dashboard.</p>
-  <p class="form-note">Deposits and withdrawals require a secure backend.</p>`;
-}else if(action==='history'){
-  body=`<div id="historyList">
-    <p class="form-note">Loading your transaction history...</p>
-  </div>`;
-
- 
-}else if(action==='profile'){
-  body=`<div id="profileDetails">
-    <p class="form-note">Loading your profile...</p>
-  </div>
-  <button class="btn gold" type="button" id="refreshProfile" style="width:100%;margin-top:12px">Refresh Profile</button>`;
-
-}else if(action==='security'||action==='notifications'){
-  body=`<p>This section will be enabled after user accounts and secure storage are configured.</p>`;
-}else if(action==='support'){
-  body=`<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>`;
- }else{
-  body=`<p>This feature will be enabled when its provider integration is ready.</p>`;
- }
- modalContent.innerHTML=body+(action==='account'?'':`<button class="btn gold" style="width:100%;margin-top:8px" id="demoSubmit">Continue (Preview)</button><p class="form-note">Preview only — this demo does not debit, credit, or transfer real money.</p>`);
-if (action === 'history') {
-  loadTransactionHistory('historyList', 100);
+modalTitle.textContent=labels[action]||'TAHIRDATASUB';let body='';
+if(['data','airtime'].includes(action)){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${action==='data'?selectField('Data plan',['Choose data plan','500 MB','1 GB','2 GB','5 GB','10 GB']):field('Amount (₦)','number','e.g. 500')}`}
+else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Preview only. Wallet funding must be verified by a secure server before crediting your balance.</p>`}
+else if(action==='withdraw'){body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}`}
+else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}
+else if(action==='electricity'){body=`${selectField('Electricity provider',['Choose provider','IKEDC','EKEDC','AEDC','KEDCO','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Meter number')}${field('Amount (₦)','number','e.g. 5000')}`}
+else if(action==='water'){body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Customer number')}${field('Amount (₦)','number','e.g. 2000')}`}
+else if(action==='convert'){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}`}
+else if(action==='transfer'){body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}`}
+else if(action==='account'){body=`<form id="authForm"><div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div><div class="field" id="fullNameField" style="display:none"><label>Full name</label><input id="authFullName" autocomplete="name" placeholder="Your full name"></div><div class="field" id="phoneField" style="display:none"><label>Phone number</label><input id="authPhone" type="tel" autocomplete="tel" placeholder="08012345678"></div><div class="field"><label>Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" required></div><div class="field" id="confirmPasswordField" style="display:none"><label>Confirm password</label><input id="authConfirmPassword" type="password"></div><p class="form-note" id="authStatus" role="status"></p><button class="btn gold" type="submit" id="authSubmit" style="width:100%">Login</button><button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button></form>`}
+else if(action==='profile'){body='<div id="profileDetails"><p class="form-note">Loading your profile...</p></div><button class="btn gold" id="refreshProfile" style="width:100%;margin-top:12px">Refresh Profile</button>'}
+else if(action==='history'){body='<div id="historyList"><p class="form-note">Loading transaction history...</p></div>'}
+else if(action==='referral'){body='<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Referral rewards will be enabled after the secure backend is connected.</p>'}
+else if(action==='wallet'){body='<p>Your wallet balance is displayed on the dashboard.</p><p class="form-note">Deposits and withdrawals require a secure backend.</p>'}
+else if(action==='support'){body='<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>'}
+else if(action==='about'){body='<h3>About TAHIRDATASUB</h3><p>TAHIRDATASUB is being built to make everyday digital services accessible in one place.</p><p class="form-note">Some services shown are previews and are not yet connected to live providers.</p><p>Website: <a href="https://tahirdatasub.github.io/Tahirdatasub/" target="_blank" rel="noopener noreferrer">Visit TAHIRDATASUB</a></p>'}
+else if(action==='changePassword'){body=`<p>For account safety, use the password reset flow configured for your Supabase project. You can request a password reset to your registered email.</p>${field('Registered email','email','you@example.com')}<button class="btn gold" id="resetPassword" style="width:100%">Send password reset email</button><p id="securityStatus" class="form-note"></p>`}
+else if(action==='changePin'){body='<p class="form-note">Transaction PIN changes are not connected yet. Do not enter or store a PIN until a secure server-side PIN verification flow is implemented.</p>'}
+else if(action==='security'||action==='notifications'){body='<p>This section will be enabled after its secure workflow is configured.</p>'}
+else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}
+modalContent.innerHTML=body+(action==='account'||action==='profile'||action==='changePassword'?'':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:12px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);
+if(action==='history')loadTransactionHistory('historyList',100);
+if(action==='profile')loadProfile();
+if(action==='account')setupAuth();
+if(action==='changePassword')$('resetPassword').addEventListener('click',async()=>{const email=modalContent.querySelector('input').value.trim();const status=$('securityStatus');if(!email){status.textContent='Enter your registered email first.';return}const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'});status.textContent=error?'Unable to send reset email. Please check the email and try again.':'If the email belongs to an account, a password reset message will be sent.'});
+const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+backdrop.classList.add('show');document.body.style.overflow='hidden';
 }
-
-if(action==='account'){
-  const form=document.getElementById('authForm');
-  const mode=document.getElementById('authMode');
-  const nameField=document.getElementById('fullNameField');
-  const phoneField=document.getElementById('phoneField');
-  const referralField=document.getElementById('referralField');
-  const confirmField=document.getElementById('confirmPasswordField');
-  const passwordRules=document.getElementById('passwordRules');
-  const nameInput=document.getElementById('authFullName');
-  const phoneInput=document.getElementById('authPhone');
-  const referralInput=document.getElementById('authReferral');
-  const email=document.getElementById('authEmail');
-  const password=document.getElementById('authPassword');
-  const confirmPassword=document.getElementById('authConfirmPassword');
-  const submit=document.getElementById('authSubmit');
-  const signOut=document.getElementById('authSignOut');
-  const status=document.getElementById('authStatus');
-  const message=m=>status.textContent=m;
-
-  const strongPassword=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9\s])\S{8,}$/;
-
-  function updateMode(){
-    const reg=mode.value==='register';
-    nameField.style.display=reg?'grid':'none';
-    phoneField.style.display=reg?'grid':'none';
-    referralField.style.display=reg?'grid':'none';
-    confirmField.style.display=reg?'grid':'none';
-    passwordRules.style.display=reg?'block':'none';
-    nameInput.required=reg;
-    phoneInput.required=reg;
-    confirmPassword.required=reg;
-    submit.textContent=reg?'Create account':'Login';
-    password.autocomplete=reg?'new-password':'current-password';
-  }
-
-  function showSignedIn(user){
-    email.value=user.email||'';
-    message('Signed in as '+(user.email||'user')+'.');
-    signOut.style.display='block';
-    submit.style.display='none';
-    mode.style.display='none';
-    nameField.style.display='none';
-    phoneField.style.display='none';
-    referralField.style.display='none';
-    confirmField.style.display='none';
-    passwordRules.style.display='none';
-    password.parentElement.style.display='none';
-  }
-
-  mode.addEventListener('change',updateMode);
-  updateMode();
-
-  supabaseClient.auth.getSession().then(({data,error})=>{
-    if(error){
-      message('Could not check sign-in status. Please try again.');
-      return;
-    }
-    if(data.session) showSignedIn(data.session.user);
+async function loadProfile(){
+const details=$('profileDetails');details.textContent='Loading your profile...';
+const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){details.textContent='Please log in to view your profile.';return}
+const user=data.user,meta=user.user_metadata||{},name=meta.full_name||meta.name||'Name not available',email=user.email||'Not available',phone=meta.phone||meta.phone_number||user.phone||'Not added';
+const initials=name==='Name not available'?'TU':name.trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+details.replaceChildren();const page=document.createElement('div');page.className='td-profile';
+const header=document.createElement('div');header.className='td-profile-header';const avatar=document.createElement('div');avatar.className='td-profile-avatar';avatar.textContent=initials;const h=document.createElement('h2');h.textContent='My Profile';header.append(avatar,h);
+function title(t){const e=document.createElement('h3');e.className='td-profile-section-title';e.textContent=t;return e}
+function card(){const e=document.createElement('div');e.className='td-profile-card';return e}
+function row(c,icon,label,value,click){const b=document.createElement('button');b.type='button';b.className='td-profile-row';b.style.width='100%';b.style.textAlign='left';b.style.background='transparent';b.style.color='inherit';b.style.borderTop=b.style.borderLeft=b.style.borderRight='0';const i=document.createElement('span');i.className='td-profile-icon';i.textContent=icon;const info=document.createElement('span');info.className='td-profile-info';const v=document.createElement('span');v.className='td-profile-value';v.textContent=label;const sub=document.createElement('span');sub.className='td-profile-label';sub.textContent=value;info.append(v,sub);b.append(i,info);if(click){const a=document.createElement('span');a.textContent='›';a.style.fontSize='24px';a.style.color='#999';b.append(a);b.addEventListener('click',click)}else b.disabled=true;c.append(b)}
+const personal=card();row(personal,'👤','Full name',name);row(personal,'✉','Email address',email);row(personal,'☎','Phone number',phone);row(personal,'🛡','KYC verification','Not verified');
+const appearance=card();appearance.classList.add('td-profile-appearance');const label=document.createElement('span');label.textContent='🌙 Enable dark mode';const toggle=document.createElement('input');toggle.type='checkbox';toggle.checked=true;toggle.setAttribute('aria-label','Enable dark mode');toggle.addEventListener('change',()=>page.classList.toggle('td-light-mode',!toggle.checked));appearance.append(label,toggle);
+const security=card();
+function securityRow(icon,text,click,danger=false){const b=document.createElement('button');b.type='button';b.className='td-profile-row';b.style.width='100%';b.style.textAlign='left';b.style.background='transparent';b.style.color=danger?'#ff7777':'inherit';b.style.borderTop=b.style.borderLeft=b.style.borderRight='0';const i=document.createElement('span');i.className='td-profile-icon';i.style.background=danger?'#572525':'#f5c842';i.style.color=danger?'#ff9999':'#17130a';i.textContent=icon;const t=document.createElement('span');t.className='td-profile-info';t.textContent=text;const a=document.createElement('span');a.textContent='›';a.style.fontSize='24px';a.style.color='#999';b.append(i,t,a);b.addEventListener('click',click);security.append(b)}
+securityRow('🔒','Change transaction PIN',()=>{closeModal();openModal('changePin')});securityRow('🔐','Change password',()=>{closeModal();openModal('changePassword')});
+securityRow('🚪','Sign out',async()=>{if(!confirm('Are you sure you want to sign out?'))return;const {error}=await supabaseClient.auth.signOut();if(error){showToast('Unable to sign out. Please try again.');return}closeModal();showToast('You have signed out.');openModal('account')},true);
+securityRow('🗑','Close account',()=>{if(!confirm('Request account closure from TAHIRDATASUB support? Your account will not be deleted automatically.'))return;const msg=encodeURIComponent('Hello TAHIRDATASUB Support, I want to request account closure. Please guide me through identity verification and closure.');window.open('https://wa.me/2348134559773?text='+msg,'_blank','noopener,noreferrer')},true);
+const about=card();row(about,'ℹ️','About TAHIRDATASUB','Digital services platform',()=>{closeModal();openModal('about')});row(about,'💬','Contact us','Customer service',()=>{closeModal();openModal('support')});row(about,'🌐','Visit website','Open website',()=>window.open('https://tahirdatasub.github.io/Tahirdatasub/','_blank','noopener,noreferrer'));
+page.append(header,title('Personal information'),personal,title('Appearance'),appearance,title('Account Security'),security,title('About'),about);details.append(page);const refresh=$('refreshProfile');refresh.onclick=loadProfile;
+}
+function setupAuth(){const form=$('authForm'),mode=$('authMode'),name=$('authFullName'),phone=$('authPhone'),email=$('authEmail'),pass=$('authPassword'),confirm=$('authConfirmPassword'),status=$('authStatus'),submit=$('authSubmit'),signOut=$('authSignOut');const nameField=$('fullNameField'),phoneField=$('phoneField'),confirmField=$('confirmPasswordField');const message=t=>status.textContent=t;
+function update(){const reg=mode.value==='register';nameField.style.display=phoneField.style.display=confirmField.style.display=reg?'grid':'none';name.required=phone.required=confirm.required=reg;submit.textContent=reg?'Create account':'Login';pass.autocomplete=reg?'new-password':'current-password'}
+mode.addEventListener('change',update);update();
+supabaseClient.auth.getSession().then(({data})=>{if(data.session){email.value=data.session.user.email||'';message('You are signed in.');signOut.style.display='block'}});
+form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;message('Please wait…');try{if(mode.value==='register'){if(pass.value.length<8)throw Error('Use a password with at least 8 characters.');if(pass.value!==confirm.value)throw Error('Passwords do not match.');const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:pass.value,options:{data:{full_name:name.value.trim(),phone:phone.value.trim()},emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'}});if(error)throw error;message(data.session?'Registration successful.':'Check your email to confirm registration.')}else{const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:pass.value});if(error)throw error;message('Login successful.');await loadDashboard();closeModal();showToast('Welcome back.')}}catch(err){message(err.message||'Authentication failed.')}finally{submit.disabled=false}});
+signOut.addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();message(error?'Unable to sign out.':'You have signed out.')})
+}
+document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',e=>{if(b.dataset.action==='referral'&&b.tagName==='A')e.preventDefault();openModal(b.dataset.action)}));
+$('closeModal').addEventListener('click',closeModal);backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+$('year').textContent=new Date().getFullYear();
+document.querySelectorAll('.bottom-nav a[data-tab]').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.bottom-nav a[data-tab]').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    if(tab.dataset.tab==='profile'){openModal('profile');}
+    if(tab.dataset.tab==='transactions'){openModal('history');}
   });
-
-  form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    submit.disabled=true;
-    message('Please wait…');
-
-    try{
-      if(mode.value==='register'){
-        if(!nameInput.value.trim()){
-          throw new Error('Please enter your full name.');
-        }
-        if(!phoneInput.value.trim()){
-          throw new Error('Please enter your phone number.');
-        }
-        if(!strongPassword.test(password.value)){
-          throw new Error('Password must be at least 8 characters and include uppercase, lowercase, a number and a special character, without spaces.');
-        }
-        if(password.value!==confirmPassword.value){
-          throw new Error('Passwords do not match.');
-        }
-
-        const {data,error}=await supabaseClient.auth.signUp({
-          email:email.value.trim(),
-          password:password.value,
-          options:{
-            data:{
-              full_name:nameInput.value.trim(),
-              phone:phoneInput.value.trim(),
-              referral_code:referralInput.value.trim()||null
-            },
-            emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'
-          }
-        });
-
-        if(error) throw error;
-
-        message(data.session
-          ?'Registration successful. You are now signed in.'
-          :'Registration submitted. Check your email to confirm your account, then log in.');
-      }else{
-        const {data,error}=await supabaseClient.auth.signInWithPassword({
-          email:email.value.trim(),
-          password:password.value
-        });
-        if(error) throw error;
-        showSignedIn(data.user);
-      }
-    }catch(err){
-      message(err.message||'Authentication failed. Check your details and try again.');
-    }finally{
-      submit.disabled=false;
-    }
-  });
-
-  signOut.addEventListener('click',async()=>{
-    signOut.disabled=true;
-    const {error}=await supabaseClient.auth.signOut();
-    signOut.disabled=false;
-    if(error){
-      message(error.message);
-      return;
-    }
-    email.value='';
-    password.value='';
-    confirmPassword.value='';
-    nameInput.value='';
-    phoneInput.value='';
-    referralInput.value='';
-    password.parentElement.style.display='grid';
-    submit.style.display='block';
-    signOut.style.display='none';
-    mode.style.display='block';
-    mode.value='login';
-    updateMode();
-    message('You have signed out.');
-  });
-
-
-}else if(action==='profile'){
-  const details=document.getElementById('profileDetails');
-  const refresh=document.getElementById('refreshProfile');
-
-  async function loadProfile(){
-    details.textContent='Loading your profile...';
-
-    try {
-      const {data,error}=await supabaseClient.auth.getUser();
-
-      if(error||!data.user){
-        details.textContent='Please log in to view your profile.';
-        return;
-      }
-
-      const user=data.user;
-      const meta=user.user_metadata||{};
-      const name=meta.full_name||meta.name||'Name not available';
-      const email=user.email||'Not available';
-      const phone=meta.phone_number||meta.phone||user.phone||'Not added';
-      const account=meta.account_name||'TAHIRDATASUB';
-      const initials=name==='Name not available'
-        ? 'TU'
-        : name.trim().split(/\s+/).slice(0,2)
-            .map(part=>part.charAt(0)).join('').toUpperCase();
-
-      details.replaceChildren();
-
-      const page=document.createElement('div');
-      page.className='td-profile';
-
-      const header=document.createElement('div');
-      header.className='td-profile-header';
-
-      const avatar=document.createElement('div');
-      avatar.className='td-profile-avatar';
-      avatar.textContent=initials;
-
-      const title=document.createElement('h2');
-      title.textContent='Profile';
-
-      header.append(avatar,title);
-
-      const card=document.createElement('div');
-      card.className='td-profile-card';
-
-      function addRow(icon,label,value){
-        const row=document.createElement('div');
-        row.className='td-profile-row';
-
-        const symbol=document.createElement('span');
-        symbol.className='td-profile-icon';
-        symbol.textContent=icon;
-
-        const content=document.createElement('div');
-        content.className='td-profile-info';
-
-        const heading=document.createElement('span');
-        heading.className='td-profile-label';
-        heading.textContent=label;
-
-        const text=document.createElement('span');
-        text.className='td-profile-value';
-        text.textContent=value;
-
-        content.append(heading,text);
-        row.append(symbol,content);
-        card.append(row);
-      }
-
-      addRow('👤','Full name',name);
-      addRow('▣','Account',account);
-      addRow('✉','Email',email);
-      addRow('☎','Phone number',phone);
-      addRow('◆','KYC verification','Not verified');
-
-      const appearanceTitle=document.createElement('h3');
-      appearanceTitle.className='td-profile-section-title';
-      appearanceTitle.textContent='Appearance';
-
-      const appearance=document.createElement('div');
-      appearance.className='td-profile-card td-profile-appearance';
-
-      const darkLabel=document.createElement('span');
-      darkLabel.textContent='🌙  Enable dark mode';
-
-      const darkToggle=document.createElement('input');
-      darkToggle.type='checkbox';
-      darkToggle.checked=true;
-      darkToggle.setAttribute('aria-label','Enable dark mode');
-
-      appearance.append(darkLabel,darkToggle);
-
-      darkToggle.addEventListener('change',()=>{
-        page.classList.toggle('td-light-mode',!darkToggle.checked);
-      });
-
-      const securityTitle=document.createElement('h3');
-      securityTitle.className='td-profile-section-title';
-      securityTitle.textContent='Account Security';
-
-      const security=document.createElement('div');
-      security.className='td-profile-card';
-
-
-function addSecurityRow(label, action){
-  const row = document.createElement('button');
-  row.type = 'button';
-  row.className = 'td-profile-security-row';
-  row.textContent = label + ' ›';
-  row.style.width = '100%';
-  row.style.textAlign = 'left';
-  row.style.background = 'transparent';
-  row.style.color = 'inherit';
-  row.style.borderTop = '0';
-  row.style.borderLeft = '0';
-  row.style.borderRight = '0';
-  row.style.cursor = 'pointer';
-
-
-row.addEventListener('click', () => {
-  if (action === 'Change password') {
-    openModal('changePassword');
-  } else if (action === 'Change transaction PIN') {
-    openModal('changePin');
-  }
 });
 
-
-  security.append(row);
-}
-
-      addSecurityRow('🔒 Change transaction PIN', 'Change transaction PIN');
-addSecurityRow('🛡️ Change password', 'Change password');
-
-      page.append(
-        header,
-        card,
-        appearanceTitle,
-        appearance,
-        securityTitle,
-        security
-      );
-
-      details.append(page);
-
-    } catch(err) {
-      details.textContent='Unable to load your profile. Please try again.';
-      console.error('Profile loading error:',err);
-    }
-  }
-
-  refresh.addEventListener('click',loadProfile);
-  loadProfile();
-
-
- }else{
-  document.getElementById('demoSubmit').addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
- }
- backdrop.classList.add('show');document.body.style.overflow='hidden';
-}
-
-document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));
-document.getElementById('closeModal').addEventListener('click',closeModal);
-backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-document.getElementById('year').textContent=new Date().getFullYear();
-document.querySelector('[data-action="copy-referral"]').addEventListener('click',async()=>{
- try{await navigator.clipboard.writeText('TAHIR433');showToast('Example referral code copied.')}
- catch(e){showToast('Example referral code: TAHIR433')}
-});
 </script>
 </body>
 </html>
