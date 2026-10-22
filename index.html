@@ -987,15 +987,31 @@ if(action==='account'){
       const security=document.createElement('div');
       security.className='td-profile-card';
 
-      function addSecurityRow(label){
-        const row=document.createElement('div');
-        row.className='td-profile-security-row';
-        row.textContent=label+'  ›';
-        security.append(row);
-      }
 
-      addSecurityRow('🔒  Change transaction PIN');
-      addSecurityRow('🛡  Change password');
+function addSecurityRow(label, action){
+  const row = document.createElement('button');
+  row.type = 'button';
+  row.className = 'td-profile-security-row';
+  row.textContent = label + ' ›';
+  row.style.width = '100%';
+  row.style.textAlign = 'left';
+  row.style.background = 'transparent';
+  row.style.color = 'inherit';
+  row.style.borderTop = '0';
+  row.style.borderLeft = '0';
+  row.style.borderRight = '0';
+  row.style.cursor = 'pointer';
+
+  row.addEventListener('click', () => {
+    closeModal();
+    showToast(action + ' — this feature needs to be connected.');
+  });
+
+  security.append(row);
+}
+
+      addSecurityRow('🔒 Change transaction PIN', 'Change transaction PIN');
+addSecurityRow('🛡️ Change password', 'Change password');
 
       page.append(
         header,
