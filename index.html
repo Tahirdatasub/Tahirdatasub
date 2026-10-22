@@ -1002,10 +1002,15 @@ function addSecurityRow(label, action){
   row.style.borderRight = '0';
   row.style.cursor = 'pointer';
 
-  row.addEventListener('click', () => {
-    closeModal();
-    showToast(action + ' — this feature needs to be connected.');
-  });
+
+row.addEventListener('click', () => {
+  if (action === 'Change password') {
+    openModal('changePassword');
+  } else if (action === 'Change transaction PIN') {
+    openModal('changePin');
+  }
+});
+
 
   security.append(row);
 }
