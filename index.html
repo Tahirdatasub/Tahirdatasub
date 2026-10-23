@@ -539,47 +539,60 @@ function openModal(action){
 modalTitle.textContent=labels[action]||'TAHIRDATASUB';let body='';
 if(action==='data'){
 body=`
-<div class="field">
-<label for="dataPhone">Phone Number</label>
-<input id="dataPhone" type="tel" inputmode="numeric"
-placeholder="Enter phone number" maxlength="11" required>
+<div class="data-networks">
+  <button type="button" class="data-network" data-data-network="MTN">
+    <span class="data-logo data-mtn">MTN</span>
+    <strong>MTN</strong>
+  </button>
+  <button type="button" class="data-network" data-data-network="Airtel">
+    <span class="data-logo data-airtel">airtel</span>
+    <strong>Airtel</strong>
+  </button>
+  <button type="button" class="data-network" data-data-network="Glo">
+    <span class="data-logo data-glo">glo</span>
+    <strong>Glo</strong>
+  </button>
+  <button type="button" class="data-network" data-data-network="9mobile">
+    <span class="data-logo data-nine">9</span>
+    <strong>9mobile</strong>
+  </button>
 </div>
 
 <div class="field">
-<label for="dataNetwork">Choose Network</label>
-<select id="dataNetwork" required>
-<option value="">Choose network</option>
-<option value="MTN">MTN</option>
-<option value="Airtel">Airtel</option>
-<option value="Glo">Glo</option>
-<option value="9mobile">9mobile</option>
-</select>
-<p id="networkHint" class="form-note">
-Enter your phone number to detect network.
+  <label for="dataPhone">Phone Number</label>
+  <div class="data-phone-box">
+    <span class="phone-symbol">▯</span>
+    <input id="dataPhone" type="tel" inputmode="numeric"
+      autocomplete="tel" maxlength="11"
+      placeholder="08012345678" required>
+    <button type="button" id="dataContacts">👥</button>
+    <button type="button" id="dataPlus">⊕</button>
+  </div>
+  <p id="networkHint" class="form-note">
+    Enter your phone number to detect your network.
+  </p>
+</div>
+
+<input id="dataNetwork" type="hidden" value="MTN">
+
+<div class="data-tabs">
+  <button type="button" class="active" data-data-type="SME">SME</button>
+  <button type="button" data-data-type="GIFTING">GIFTING</button>
+</div>
+
+<p id="dataPlanHint" class="data-plan-note">
+  Select your network and data plan.
 </p>
-</div>
 
-<div class="field">
-<label for="dataPlan">Choose Data Plan</label>
-<select id="dataPlan" required>
-<option value="">Choose data plan</option>
-<option value="500MB">500 MB</option>
-<option value="1GB">1 GB</option>
-<option value="2GB">2 GB</option>
-<option value="5GB">5 GB</option>
-<option value="10GB">10 GB</option>
-</select>
-</div>
+<div id="dataPlanGrid" class="data-plan-grid"></div>
 
-<div class="field">
-<label>Data Price</label>
-<div id="dataPrice" class="form-note">
-Choose a data plan to see the price.
-</div>
+<div class="data-total">
+  <span>Amount to Pay</span>
+  <strong id="dataPrice">₦0.00</strong>
+  <small id="dataSummary">Select a data plan.</small>
 </div>
 `;
 }
-
 else if(action==='airtime'){
 body=`
 <div class="airtime-networks">
