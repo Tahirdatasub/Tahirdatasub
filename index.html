@@ -703,7 +703,70 @@ else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv',
 else if(action==='electricity'){body=`${selectField('Electricity provider',['Choose provider','IKEDC','EKEDC','AEDC','KEDCO','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Meter number')}${field('Amount (₦)','number','e.g. 5000')}`}
 else if(action==='water'){body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Customer number')}${field('Amount (₦)','number','e.g. 2000')}`}
 else if(action==='convert'){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}`}
-else if(action==='transfer'){body=`${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}`}
+
+else if(action==='transfer'){
+body=`
+<div class="field">
+  <label for="transferBank">Choose Recipient Bank</label>
+  <select id="transferBank" required>
+    <option value="">Select bank</option>
+    <option value="Access Bank">Access Bank</option>
+    <option value="Citibank Nigeria">Citibank Nigeria</option>
+    <option value="Ecobank">Ecobank</option>
+    <option value="Fidelity Bank">Fidelity Bank</option>
+    <option value="First Bank">First Bank</option>
+    <option value="FCMB">FCMB</option>
+    <option value="GTBank">GTBank</option>
+    <option value="Jaiz Bank">Jaiz Bank</option>
+    <option value="Keystone Bank">Keystone Bank</option>
+    <option value="Kuda">Kuda</option>
+    <option value="Moniepoint">Moniepoint</option>
+    <option value="Opay">Opay</option>
+    <option value="PalmPay">PalmPay</option>
+    <option value="Polaris Bank">Polaris Bank</option>
+    <option value="Stanbic IBTC">Stanbic IBTC</option>
+    <option value="Sterling Bank">Sterling Bank</option>
+    <option value="UBA">UBA</option>
+    <option value="Union Bank">Union Bank</option>
+    <option value="Unity Bank">Unity Bank</option>
+    <option value="Wema Bank">Wema Bank</option>
+    <option value="Zenith Bank">Zenith Bank</option>
+    <option value="Other">Other bank</option>
+  </select>
+</div>
+
+<div class="field">
+  <label for="transferAccount">Recipient Account Number</label>
+  <input id="transferAccount" type="text"
+    inputmode="numeric" autocomplete="off"
+    maxlength="10" pattern="[0-9]{10}"
+    placeholder="Enter 10-digit account number" required>
+  <p class="form-note">
+    Check the account number carefully before continuing.
+  </p>
+</div>
+
+<div class="field">
+  <label for="transferAmount">Amount to Send (₦)</label>
+  <input id="transferAmount" type="number"
+    min="100" step="1"
+    placeholder="Enter amount, e.g. 5000" required>
+</div>
+
+<div class="data-total">
+  <span>Transfer Summary</span>
+  <strong id="transferPreview">₦0.00</strong>
+  <small id="transferSummary">
+    Select a bank and enter the recipient details.
+  </small>
+</div>
+
+<p class="form-note">
+  Preview only. No money will be sent by this form yet.
+</p>
+`;
+}
+
 else if(action==='account'){body=`<form id="authForm"><div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div><div class="field" id="fullNameField" style="display:none"><label>Full name</label><input id="authFullName" autocomplete="name" placeholder="Your full name"></div><div class="field" id="phoneField" style="display:none"><label>Phone number</label><input id="authPhone" type="tel" autocomplete="tel" placeholder="08012345678"></div><div class="field"><label>Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" required></div><div class="field" id="confirmPasswordField" style="display:none"><label>Confirm password</label><input id="authConfirmPassword" type="password"></div><p class="form-note" id="authStatus" role="status"></p><button class="btn gold" type="submit" id="authSubmit" style="width:100%">Login</button><button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button></form>`}
 else if(action==='profile'){body='<div id="profileDetails"><p class="form-note">Loading your profile...</p></div><button class="btn gold" id="refreshProfile" style="width:100%;margin-top:12px">Refresh Profile</button>'}
 else if(action==='history'){body='<div id="historyList"><p class="form-note">Loading transaction history...</p></div>'}
