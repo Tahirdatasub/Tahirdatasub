@@ -129,6 +129,105 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 .airtime-total strong{font-size:27px;color:#f3c742}
 .airtime-total small{color:#c9c9c9}
 
+/* TAHIRDATASUB Withdrawal - matching Airtime design */
+.withdrawal-networks{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:10px;
+  margin:10px 0 22px;
+}
+.withdrawal-network{
+  min-height:75px;
+  padding:12px 6px;
+  border:2px solid #303030;
+  border-radius:16px;
+  background:#242424;
+  color:#fff;
+  font-weight:750;
+}
+.withdrawal-network.active{
+  border-color:#f3c742;
+  background:#302812;
+  color:#f3c742;
+}
+.withdrawal-account-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 13px;
+  border:2px solid #3b82f6;
+  border-radius:17px;
+  background:#242424;
+}
+.withdrawal-account-box input{
+  width:100%;
+  min-width:0;
+  min-height:48px;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:#fff;
+}
+.withdrawal-amount-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  margin:10px 0 14px;
+}
+.withdrawal-amount-grid button{
+  min-height:58px;
+  border:2px solid #303030;
+  border-radius:15px;
+  background:#242424;
+  color:#fff;
+  font-weight:800;
+}
+.withdrawal-amount-grid button.active{
+  border-color:#f3c742;
+  background:#302812;
+  color:#f3c742;
+}
+#withdrawAmount{
+  width:100%;
+  min-height:62px;
+  padding:14px;
+  border:1px solid #383838;
+  border-radius:15px;
+  background:#242424;
+  color:#fff;
+}
+#withdrawBank{
+  width:100%;
+  min-height:58px;
+  padding:12px;
+  border:1px solid #383838;
+  border-radius:15px;
+  background:#242424;
+  color:#fff;
+}
+.withdrawal-total{
+  display:grid;
+  gap:8px;
+  margin:18px 0;
+  padding:18px;
+  border:1px solid #77642a;
+  border-radius:18px;
+  background:#29251a;
+}
+.withdrawal-total strong{
+  font-size:30px;
+  color:#f3c742;
+  overflow-wrap:anywhere;
+}
+.withdrawal-total small{
+  color:#c9c9c9;
+  line-height:1.6;
+}
+@media(max-width:360px){
+  .withdrawal-amount-grid{gap:6px}
+  .withdrawal-amount-grid button{font-size:13px}
+}
+
 </style>
 </head>
 <body>
