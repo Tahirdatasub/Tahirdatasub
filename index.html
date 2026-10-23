@@ -392,6 +392,77 @@ price.textContent=amount.value
 });
 }
 
+const summary=$('airtimeSummary');
+
+function updateAirtimePrice(){
+  const value=Number(amount.value||0);
+  price.textContent='₦'+value.toLocaleString('en-NG',{
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  });
+  summary.textContent=network.value
+    ?network.value+' · Airtime Purchase'
+    :'Select a network';
+}
+
+document.querySelectorAll('[data-air-network]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    network.value=button.dataset.airNetwork;
+    document.querySelectorAll('[data-air-network]').forEach(b=>
+      b.classList.toggle('active',b===button)
+    );
+    updateAirtimePrice();
+  });
+});
+
+document.querySelectorAll('[data-air-amount]').forEach(button=>{
+  button.addEventListener('click',()=>{
+    amount.value=button.dataset.airAmount;
+    document.querySelectorAll('[data-air-amount]').forEach(b=>
+      b.classList.toggle('active',b===button)
+    );
+    updateAirtimePrice();
+  });
+});
+
+amount.addEventListener('input',()=>{
+  document.querySelectorAll('[data-air-amount]').forEach(b=>
+    b.classList.toggle('active',b.dataset.airAmount===amount.value)
+  );
+  updateAirtimePrice();
+});
+
+network.addEventListener('change',()=>{
+  document.querySelectorAll('[data-air-network]').forEach(b=>
+    b.classList.toggle('active',b.dataset.airNetwork===network.value)
+  );
+  updateAirtimePrice();
+});
+
+$('airtimePlus').addEventListener('click',()=>{
+  phone.focus();
+});
+
+$('airtimeContacts').addEventListener('click',async()=>{
+  if(!('contacts' in navigator && navigator.contacts?.select)){
+    showToast('Contact picker is not supported by this browser. Please enter the number manually.');
+    return;
+  }
+  try{
+    const contacts=await navigator.contacts.select(['tel'],{multiple:false});
+    if(contacts.length && contacts[0].tel?.length){
+      phone.value=contacts[0].tel[0].replace(/\D/g,'').slice(-11);
+      phone.dispatchEvent(new Event('input',{bubbles:true}));
+    }
+  }catch(error){
+    if(error.name!=='AbortError'){
+      showToast('Unable to open contacts. Please enter the number manually.');
+    }
+  }
+});
+
+updateAirtimePrice();
+
 if(action==='history')loadTransactionHistory('historyList',100);
 if(action==='profile')loadProfile();
 if(action==='account')setupAuth();
