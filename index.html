@@ -549,6 +549,40 @@ if(action==='history')loadTransactionHistory('historyList',100);
 if(action==='profile')loadProfile();
 if(action==='account')setupAuth();
 if(action==='changePassword')$('resetPassword').addEventListener('click',async()=>{const email=modalContent.querySelector('input').value.trim();const status=$('securityStatus');if(!email){status.textContent='Enter your registered email first.';return}const {error}=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'});status.textContent=error?'Unable to send reset email. Please check the email and try again.':'If the email belongs to an account, a password reset message will be sent.'});
+if(action==='withdraw'){
+  const amount=$('withdrawAmount');
+  const bank=$('withdrawBank');
+  const account=$('withdrawAccount');
+  const preview=$('withdrawPreview');
+  const summary=$('withdrawSummary');
+
+  function updateWithdrawalPreview(){
+    const value=Number(amount.value||0);
+    preview.textContent='₦'+value.toLocaleString('en-NG',{
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    });
+
+    if(value<100){
+      summary.textContent='Minimum withdrawal is ₦100.';
+    }else if(!bank.value){
+      summary.textContent='Choose your bank.';
+    }else if(!/^\d{10}$/.test(account.value)){
+      summary.textContent='Enter a valid 10-digit account number.';
+    }else{
+      summary.textContent='Details entered. Account name verification is not connected yet.';
+    }
+  }
+
+  amount.addEventListener('input',updateWithdrawalPreview);
+  bank.addEventListener('change',updateWithdrawalPreview);
+  account.addEventListener('input',()=>{
+    account.value=account.value.replace(/\D/g,'').slice(0,10);
+    updateWithdrawalPreview();
+  });
+
+  updateWithdrawalPreview();
+} 
 const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
 backdrop.classList.add('show');document.body.style.overflow='hidden';
 }
