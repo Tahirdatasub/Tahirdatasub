@@ -122,44 +122,67 @@ Choose a data plan to see the price.
 
 else if(action==='airtime'){
 body=`
-<div class="field">
-<label for="airtimePhone">Phone Number</label>
-<input id="airtimePhone" type="tel" inputmode="numeric"
-placeholder="08012345678" maxlength="11" required>
+<div class="airtime-networks">
+  <button type="button" class="airtime-network" data-air-network="MTN">
+    <span class="air-logo mtn-logo">MTN</span>
+    <strong>MTN</strong>
+  </button>
+  <button type="button" class="airtime-network" data-air-network="Airtel">
+    <span class="air-logo airtel-logo">airtel</span>
+    <strong>Airtel</strong>
+  </button>
+  <button type="button" class="airtime-network" data-air-network="Glo">
+    <span class="air-logo glo-logo">glo</span>
+    <strong>Glo</strong>
+  </button>
+  <button type="button" class="airtime-network" data-air-network="9mobile">
+    <span class="air-logo nine-logo">9</span>
+    <strong>9mobile</strong>
+  </button>
 </div>
 
 <div class="field">
-<label for="airtimeNetwork">Choose Network</label>
-<select id="airtimeNetwork" required>
-<option value="">Choose network</option>
-<option value="MTN">MTN</option>
-<option value="Airtel">Airtel</option>
-<option value="Glo">Glo</option>
-<option value="9mobile">9mobile</option>
-</select>
-<p id="airtimeNetworkHint" class="form-note">
-Enter phone number to detect network.
-</p>
+  <label for="airtimePhone">Phone Number</label>
+  <div class="airtime-phone-box">
+    <span class="phone-symbol">▯</span>
+    <input id="airtimePhone" type="tel" inputmode="numeric"
+      autocomplete="tel" placeholder="08012345678"
+      maxlength="11" required>
+    <button type="button" id="airtimeContacts"
+      aria-label="Choose contact" title="Choose contact">👥</button>
+    <button type="button" id="airtimePlus"
+      aria-label="Enter phone number" title="Enter phone number">⊕</button>
+  </div>
+  <p id="airtimeNetworkHint" class="form-note">
+    Enter a number or choose a network above.
+  </p>
+  <select id="airtimeNetwork" required>
+    <option value="">Choose network</option>
+    <option value="MTN">MTN</option>
+    <option value="Airtel">Airtel</option>
+    <option value="Glo">Glo</option>
+    <option value="9mobile">9mobile</option>
+  </select>
 </div>
 
 <div class="field">
-<label for="airtimeAmount">Airtime Amount (₦)</label>
-<select id="airtimeAmount" required>
-<option value="">Choose amount</option>
-<option value="100">₦100</option>
-<option value="200">₦200</option>
-<option value="500">₦500</option>
-<option value="1000">₦1,000</option>
-<option value="2000">₦2,000</option>
-<option value="5000">₦5,000</option>
-</select>
+  <label>Airtime Amount (₦)</label>
+  <div class="airtime-amount-grid">
+    <button type="button" data-air-amount="100">₦100</button>
+    <button type="button" data-air-amount="200">₦200</button>
+    <button type="button" data-air-amount="300">₦300</button>
+    <button type="button" data-air-amount="500">₦500</button>
+    <button type="button" data-air-amount="1000">₦1,000</button>
+    <button type="button" data-air-amount="2000">₦2,000</button>
+  </div>
+  <input id="airtimeAmount" type="number" min="50" max="50000"
+    step="1" placeholder="₦ Enter amount" required>
 </div>
 
-<div class="field">
-<label>Amount to Pay</label>
-<div id="airtimePrice" class="form-note">
-Choose an amount to continue.
-</div>
+<div class="airtime-total">
+  <span>Amount to Pay</span>
+  <strong id="airtimePrice">₦0.00</strong>
+  <small id="airtimeSummary">Select network and enter phone number</small>
 </div>
 `;
 }
