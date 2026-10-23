@@ -142,6 +142,43 @@ else if(action==='changePin'){body='<p class="form-note">Transaction PIN changes
 else if(action==='security'||action==='notifications'){body='<p>This section will be enabled after its secure workflow is configured.</p>'}
 else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}
 modalContent.innerHTML=body+(action==='account'||action==='profile'||action==='changePassword'?'':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:12px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);
+if(action==='data'){
+const phone=$('dataPhone');
+const network=$('dataNetwork');
+const hint=$('networkHint');
+
+phone.addEventListener('input',()=>{
+  const n=phone.value.replace(/\D/g,'');
+  const local=n.startsWith('234')?'0'+n.slice(3):n;
+
+  const prefixes={
+    MTN:['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'],
+    Airtel:['0802','0808','0708','0812','0701','0902','0907','0912','0901'],
+    Glo:['0805','0807','0705','0815','0811','0905','0915'],
+    '9mobile':['0809','0817','0818','0909','0908']
+  };
+
+  let detected='';
+  if(local.length>=4){
+    for(const [name,list] of Object.entries(prefixes)){
+      if(list.some(p=>local.startsWith(p))){
+        detected=name;
+        break;
+      }
+    }
+  }
+
+  if(detected){
+    network.value=detected;
+    hint.textContent='Network detected: '+detected+'. Please confirm.';
+  }else{
+    network.value='';
+    hint.textContent=local.length<4
+      ?'Keep typing to detect network.'
+      :'Network not detected. Please select manually.';
+  }
+});
+}
 if(action==='history')loadTransactionHistory('historyList',100);
 if(action==='profile')loadProfile();
 if(action==='account')setupAuth();
