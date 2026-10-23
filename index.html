@@ -26,6 +26,109 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 .shortcut-icon{width:48px;height:48px;display:grid;place-items:center;border-radius:16px;font-size:24px;font-weight:900}
 .shortcut-icon.green{background:#f3c742;color:#171717}.shortcut-icon.blue{background:#fff;color:#171717}.shortcut-icon.orange{background:#d6d6d6;color:#171717}.shortcut-icon.purple{background:#5b4a19;color:#fff}
 @media(max-width:520px){.wallet-shortcuts{gap:7px}.shortcut{border-radius:18px;min-height:104px}.shortcut-icon{width:44px;height:44px}.services{padding:14px 6px;gap:5px}.service{min-height:105px}.section-title{margin-top:22px}}
+  
+.airtime-networks{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin:8px 0 22px;
+}
+.airtime-network{
+  min-width:0;
+  min-height:94px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:2px solid #303030;
+  border-radius:17px;
+  background:#242424;
+  color:#fff;
+}
+.airtime-network.active{
+  border-color:#f3c742;
+  background:#302812;
+}
+.air-logo{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+.mtn-logo{background:#f3c742;color:#171717}
+.airtel-logo{background:#ed1c24;color:#fff;font-size:11px}
+.glo-logo{background:#168b43;color:#fff;font-size:21px}
+.nine-logo{background:#111;color:#c9e52b;font-size:30px}
+.airtime-network strong{font-size:12px}
+.airtime-phone-box{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 10px;
+  border:2px solid #3b82f6;
+  border-radius:17px;
+  background:#242424;
+}
+.airtime-phone-box input{
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:white;
+  padding:8px 0;
+}
+.airtime-phone-box button{
+  border:0;
+  background:transparent;
+  color:white;
+  font-size:23px;
+  padding:5px;
+}
+.phone-symbol{color:#3b82f6;font-size:22px}
+#airtimeNetwork{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.airtime-amount-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:9px;
+  margin:10px 0 14px;
+}
+.airtime-amount-grid button{
+  min-height:57px;
+  border:2px solid #303030;
+  border-radius:15px;
+  background:#242424;
+  color:white;
+  font-weight:750;
+}
+.airtime-amount-grid button.active{
+  border-color:#f3c742;
+  background:#302812;
+}
+#airtimeAmount{
+  width:100%;
+  min-height:65px;
+  padding:14px;
+  border:1px solid #383838;
+  border-radius:15px;
+  background:#242424;
+  color:white;
+}
+.airtime-total{
+  display:grid;
+  gap:6px;
+  margin:18px 0;
+  padding:17px;
+  border:1px solid #77642a;
+  border-radius:17px;
+  background:#29251a;
+}
+.airtime-total strong{font-size:27px;color:#f3c742}
+.airtime-total small{color:#c9c9c9}
+
 </style>
 </head>
 <body>
