@@ -121,8 +121,48 @@ Choose a data plan to see the price.
 }
 
 else if(action==='airtime'){
-body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${field('Amount (₦)','number','e.g. 500')}`;
-  }
+body=`
+<div class="field">
+<label for="airtimePhone">Phone Number</label>
+<input id="airtimePhone" type="tel" inputmode="numeric"
+placeholder="08012345678" maxlength="11" required>
+</div>
+
+<div class="field">
+<label for="airtimeNetwork">Choose Network</label>
+<select id="airtimeNetwork" required>
+<option value="">Choose network</option>
+<option value="MTN">MTN</option>
+<option value="Airtel">Airtel</option>
+<option value="Glo">Glo</option>
+<option value="9mobile">9mobile</option>
+</select>
+<p id="airtimeNetworkHint" class="form-note">
+Enter phone number to detect network.
+</p>
+</div>
+
+<div class="field">
+<label for="airtimeAmount">Airtime Amount (₦)</label>
+<select id="airtimeAmount" required>
+<option value="">Choose amount</option>
+<option value="100">₦100</option>
+<option value="200">₦200</option>
+<option value="500">₦500</option>
+<option value="1000">₦1,000</option>
+<option value="2000">₦2,000</option>
+<option value="5000">₦5,000</option>
+</select>
+</div>
+
+<div class="field">
+<label>Amount to Pay</label>
+<div id="airtimePrice" class="form-note">
+Choose an amount to continue.
+</div>
+</div>
+`;
+}
 else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Preview only. Wallet funding must be verified by a secure server before crediting your balance.</p>`}
 else if(action==='withdraw'){body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}`}
 else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}
