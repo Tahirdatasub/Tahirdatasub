@@ -122,9 +122,7 @@ Choose a data plan to see the price.
 
 else if(action==='airtime'){
 body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${field('Amount (₦)','number','e.g. 500')}`;
-}
-
-
+  }
 else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Preview only. Wallet funding must be verified by a secure server before crediting your balance.</p>`}
 else if(action==='withdraw'){body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}`}
 else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}
