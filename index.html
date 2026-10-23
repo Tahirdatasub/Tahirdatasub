@@ -376,15 +376,11 @@ break;
 
 if(detected){
 network.value=detected;
-hint.textContent='Network detected: '+detected+'. Please confirm.';
-}else{
-network.value='';
-hint.textContent=local.length<4
-?'Keep typing to detect network.'
-:'Network not detected. Please select manually.';
-}
+document.querySelectorAll('[data-air-network]').forEach(b=>{
+  b.classList.toggle('active',b.dataset.airNetwork===detected);
 });
-
+hint.textContent='Network detected: '+detected+'. Please confirm.';
+updateAirtimePrice();
 amount.addEventListener('change',()=>{
 price.textContent=amount.value
 ?'Airtime amount: ₦'+Number(amount.value).toLocaleString('en-NG')
