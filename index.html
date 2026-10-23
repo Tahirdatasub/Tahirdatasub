@@ -381,11 +381,6 @@ document.querySelectorAll('[data-air-network]').forEach(b=>{
 });
 hint.textContent='Network detected: '+detected+'. Please confirm.';
 updateAirtimePrice();
-amount.addEventListener('change',()=>{
-price.textContent=amount.value
-?'Airtime amount: ₦'+Number(amount.value).toLocaleString('en-NG')
-:'Choose an amount to continue.';
-});
 }
 
 const summary=$('airtimeSummary');
