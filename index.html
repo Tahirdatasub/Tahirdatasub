@@ -299,6 +299,193 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 @media(max-width:360px){
   .data-networks{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+  
+/* TAHIRDATASUB — New Buy Data design */
+.data-networks{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+  margin:12px 0 20px;
+}
+.data-network{
+  min-width:0;
+  min-height:94px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:2px solid #303030;
+  border-radius:18px;
+  background:#242424;
+  color:#fff;
+}
+.data-network.active{
+  border-color:#f3c742;
+  background:#302812;
+  box-shadow:0 0 0 1px #f3c74220;
+}
+.data-logo{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+.data-mtn{background:#f3c742;color:#171717}
+.data-airtel{background:#ed1c24;color:#fff;font-size:11px}
+.data-glo{background:#168b43;color:#fff;font-size:21px}
+.data-nine{background:#111;color:#c9e52b;font-size:29px}
+.data-network strong{font-size:12px}
+
+.data-phone-box{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 13px;
+  min-height:82px;
+  border:2px solid #303030;
+  border-radius:22px;
+  background:#242424;
+}
+.data-phone-box:focus-within{
+  border-color:#f3c742;
+}
+.data-phone-box .phone-symbol{
+  color:#f3c742;
+  font-size:25px;
+}
+.data-phone-box input{
+  flex:1;
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:none;
+  background:transparent;
+  color:#fff;
+  font-size:17px;
+  padding:10px 0;
+}
+.data-phone-box button{
+  flex:0 0 auto;
+  border:0;
+  background:transparent;
+  color:#f3c742;
+  font-size:23px;
+  padding:5px;
+}
+
+.data-tabs{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin:20px 0;
+}
+.data-tabs button{
+  min-width:125px;
+  padding:12px 20px;
+  border:0;
+  border-radius:30px;
+  background:transparent;
+  color:#aaa;
+  font-weight:800;
+}
+.data-tabs button.active{
+  background:#f3c742;
+  color:#171717;
+  box-shadow:0 5px 18px #f3c74225;
+}
+
+.data-plan-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.data-plan-card{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:16px;
+  min-width:0;
+  min-height:210px;
+  padding:15px 13px;
+  border:2px solid transparent;
+  border-radius:22px;
+  background:#272727;
+  color:#fff;
+  text-align:left;
+}
+.data-plan-card.active{
+  border-color:#f3c742;
+  background:#302812;
+}
+.data-plan-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+.data-plan-badge{
+  padding:5px 8px;
+  border-radius:9px;
+  background:#383838;
+  color:#ddd;
+  font-size:10px;
+  font-weight:800;
+  text-align:center;
+}
+.data-plan-size{
+  font-size:clamp(23px,5vw,31px);
+  font-weight:800;
+  line-height:1.2;
+  overflow-wrap:anywhere;
+}
+.data-plan-price{
+  display:block;
+  width:100%;
+  padding:12px 5px;
+  border-radius:13px;
+  background:#35302a;
+  color:#f3c742;
+  font-size:16px;
+  font-weight:900;
+  text-align:center;
+}
+.data-plan-note{
+  margin:10px 0;
+  color:#aaa;
+  font-size:12px;
+}
+.data-total{
+  display:grid;
+  gap:8px;
+  margin:18px 0;
+  padding:17px;
+  border:1px solid #77642a;
+  border-radius:18px;
+  background:#29251a;
+}
+.data-total strong{
+  color:#f3c742;
+  font-size:28px;
+  overflow-wrap:anywhere;
+}
+.data-total small{
+  color:#c9c9c9;
+  line-height:1.6;
+}
+@media(max-width:360px){
+  .data-networks{gap:5px}
+  .data-network{min-height:80px;border-radius:13px}
+  .data-logo{width:38px;height:38px}
+  .data-network strong{font-size:10px}
+  .data-plan-card{padding:11px 9px;min-height:190px}
+  .data-plan-badge{font-size:9px;padding:4px}
+  .data-plan-price{font-size:14px}
+  .data-tabs button{min-width:0;flex:1}
+}
+
 </style>
 </head>
 <body>
