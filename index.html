@@ -219,6 +219,53 @@ phone.addEventListener('input',()=>{
   }
 });
 }
+  
+if(action==='airtime'){
+const phone=$('airtimePhone');
+const network=$('airtimeNetwork');
+const hint=$('airtimeNetworkHint');
+const amount=$('airtimeAmount');
+const price=$('airtimePrice');
+
+const prefixes={
+MTN:['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'],
+Airtel:['0802','0808','0708','0812','0701','0902','0907','0912','0901'],
+Glo:['0805','0807','0705','0815','0811','0905','0915'],
+'9mobile':['0809','0817','0818','0909','0908']
+};
+
+phone.addEventListener('input',()=>{
+const n=phone.value.replace(/\D/g,'');
+const local=n.startsWith('234')?'0'+n.slice(3):n;
+let detected='';
+
+if(local.length>=4){
+for(const [name,list] of Object.entries(prefixes)){
+if(list.some(p=>local.startsWith(p))){
+detected=name;
+break;
+}
+}
+}
+
+if(detected){
+network.value=detected;
+hint.textContent='Network detected: '+detected+'. Please confirm.';
+}else{
+network.value='';
+hint.textContent=local.length<4
+?'Keep typing to detect network.'
+:'Network not detected. Please select manually.';
+}
+});
+
+amount.addEventListener('change',()=>{
+price.textContent=amount.value
+?'Airtime amount: ₦'+Number(amount.value).toLocaleString('en-NG')
+:'Choose an amount to continue.';
+});
+}
+
 if(action==='history')loadTransactionHistory('historyList',100);
 if(action==='profile')loadProfile();
 if(action==='account')setupAuth();
