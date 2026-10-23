@@ -227,7 +227,78 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
   .withdrawal-amount-grid{gap:6px}
   .withdrawal-amount-grid button{font-size:13px}
 }
-
+/* BUY DATA DESIGN */
+.data-networks{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin:10px 0 22px;
+}
+.data-network{
+  min-width:0;
+  min-height:94px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  border:2px solid #303030;
+  border-radius:17px;
+  background:#242424;
+  color:#fff;
+}
+.data-network.active{
+  border-color:#f3c742;
+  background:#302812;
+}
+.data-logo{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+}
+.data-mtn{background:#f3c742;color:#171717}
+.data-airtel{background:#ed1c24;color:#fff;font-size:11px}
+.data-glo{background:#168b43;color:#fff;font-size:21px}
+.data-nine{background:#111;color:#c9e52b;font-size:30px}
+.data-network strong{font-size:12px}
+.data-total{
+  display:grid;
+  gap:8px;
+  margin:18px 0;
+  padding:17px;
+  border:1px solid #77642a;
+  border-radius:17px;
+  background:#29251a;
+}
+.data-total strong{
+  font-size:27px;
+  color:#f3c742;
+  overflow-wrap:anywhere;
+}
+.data-total small{color:#c9c9c9;line-height:1.6}
+.data-plan-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+.data-plan-grid button{
+  min-height:60px;
+  border:2px solid #303030;
+  border-radius:15px;
+  background:#242424;
+  color:#fff;
+  font-weight:750;
+}
+.data-plan-grid button.active{
+  border-color:#f3c742;
+  background:#302812;
+}
+@media(max-width:360px){
+  .data-networks{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
