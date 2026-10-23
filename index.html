@@ -703,14 +703,43 @@ else if(action==='changePin'){body='<p class="form-note">Transaction PIN changes
 else if(action==='security'||action==='notifications'){body='<p>This section will be enabled after its secure workflow is configured.</p>'}
 else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}
 modalContent.innerHTML=body+(action==='account'||action==='profile'||action==='changePassword'?'':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:12px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);
-if(action==='data'){
-const phone=$('dataPhone');
-const network=$('dataNetwork');
-const hint=$('networkHint');
 
-phone.addEventListener('input',()=>{
-  const n=phone.value.replace(/\D/g,'');
-  const local=n.startsWith('234')?'0'+n.slice(3):n;
+if(action==='data'){
+  const phone=$('dataPhone');
+  const network=$('dataNetwork');
+  const hint=$('networkHint');
+  const grid=$('dataPlanGrid');
+  const price=$('dataPrice');
+  const summary=$('dataSummary');
+  const planHint=$('dataPlanHint');
+
+  let selectedType='SME';
+  let selectedPlan=null;
+
+  // Demo prices only. Replace with live provider prices later.
+  const plans={
+    MTN:[
+      {id:'m1',size:'500MB',period:'WEEKLY',price:280,type:'SME'},
+      {id:'m2',size:'1.0GB',period:'WEEKLY',price:395,type:'SME'},
+      {id:'m3',size:'1.0GB',period:'20 TO 30 DAYS',price:530,type:'SME'},
+      {id:'m4',size:'1.0GB',period:'20 TO 30 DAYS',price:450,type:'SME'},
+      {id:'m5',size:'2.0GB',period:'WEEKLY',price:800,type:'SME'},
+      {id:'m6',size:'2.0GB',period:'MONTHLY',price:950,type:'SME'},
+      {id:'m7',size:'5.0GB',period:'MONTHLY',price:2000,type:'SME'},
+      {id:'m8',size:'10GB',period:'MONTHLY',price:3500,type:'SME'},
+      {id:'m9',size:'1.0GB',period:'GIFTING',price:500,type:'GIFTING'},
+      {id:'m10',size:'2.0GB',period:'GIFTING',price:1000,type:'GIFTING'},
+      {id:'m11',size:'5.0GB',period:'GIFTING',price:2200,type:'GIFTING'},
+      {id:'m12',size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}
+    ]
+  };
+
+  // These are illustrative demo prices, not verified live prices.
+  const demoPrices={
+    Airtel:[300,400,550,480,850,1000,2100,3600,500,1000,2200,4000],
+    Glo:[250,350,500,450,750,900,1900,3300,450,900,2000,3800],
+    '9mobile':[300,450,600,500,900,1100,2300,4000,550,1100,2400,4200]
+  };
 
   const prefixes={
     MTN:['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'],
@@ -719,27 +748,165 @@ phone.addEventListener('input',()=>{
     '9mobile':['0809','0817','0818','0909','0908']
   };
 
-  let detected='';
-  if(local.length>=4){
-    for(const [name,list] of Object.entries(prefixes)){
-      if(list.some(p=>local.startsWith(p))){
-        detected=name;
-        break;
-      }
-    }
+  function normalizePhone(value){
+    let n=value.replace(/\D/g,'');
+    if(n.startsWith('234')) n='0'+n.slice(3);
+    return n;
   }
 
-  if(detected){
-    network.value=detected;
-    hint.textContent='Network detected: '+detected+'. Please confirm.';
-  }else{
-    network.value='';
-    hint.textContent=local.length<4
-      ?'Keep typing to detect network.'
-      :'Network not detected. Please select manually.';
+  function detectNetwork(value){
+    const n=normalizePhone(value);
+    if(n.length<4) return '';
+    for(const [name,list] of Object.entries(prefixes)){
+      if(list.some(p=>n.startsWith(p))) return name;
+    }
+    return '';
   }
-});
+
+  function selectNetwork(name){
+    network.value=name;
+    selectedPlan=null;
+
+    document.querySelectorAll('[data-data-network]').forEach(btn=>{
+      btn.classList.toggle('active',btn.dataset.dataNetwork===name);
+    });
+
+    renderPlans();
+  }
+
+  function renderPlans(){
+    const base=plans.MTN;
+    const networkName=network.value || 'MTN';
+    const prices=networkName==='MTN'
+      ?base.map(p=>p.price)
+      :demoPrices[networkName];
+
+    const available=base.filter(p=>p.type===selectedType);
+    grid.replaceChildren();
+    selectedPlan=null;
+    price.textContent='₦0.00';
+    summary.textContent='Select a data plan.';
+    planHint.textContent=networkName+' · '+selectedType+
+      ' · Demo prices for preview only.';
+
+    available.forEach(p=>{
+      const index=base.indexOf(p);
+      const amount=prices[index];
+
+      const btn=document.createElement('button');
+      btn.type='button';
+      btn.className='data-plan-card';
+      btn.dataset.planId=p.id;
+
+      const top=document.createElement('span');
+      top.className='data-plan-top';
+
+      const logo=document.createElement('span');
+      logo.className='data-logo data-'+
+        ({MTN:'mtn',Airtel:'airtel',Glo:'glo','9mobile':'nine'}[networkName]);
+      logo.style.width='32px';
+      logo.style.height='32px';
+      logo.style.fontSize=networkName==='Airtel'?'8px':'12px';
+      logo.textContent=({MTN:'MTN',Airtel:'airtel',Glo:'glo','9mobile':'9'}[networkName]);
+
+      const badge=document.createElement('span');
+      badge.className='data-plan-badge';
+      badge.textContent=p.period;
+
+      top.append(logo,badge);
+
+      const size=document.createElement('span');
+      size.className='data-plan-size';
+      size.textContent=p.size;
+
+      const cost=document.createElement('span');
+      cost.className='data-plan-price';
+      cost.textContent='₦'+amount.toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2});
+
+      btn.append(top,size,cost);
+
+      btn.addEventListener('click',()=>{
+        selectedPlan={...p,network:networkName,price:amount};
+
+        grid.querySelectorAll('.data-plan-card').forEach(card=>{
+          card.classList.toggle('active',card===btn);
+        });
+
+        price.textContent='₦'+amount.toLocaleString('en-NG',{
+          minimumFractionDigits:2,
+          maximumFractionDigits:2
+        });
+
+        summary.textContent=networkName+' · '+p.size+' · '+p.period+
+          ' · '+selectedType+' · Preview price';
+      });
+
+      grid.append(btn);
+    });
+  }
+
+  phone.addEventListener('input',()=>{
+    const detected=detectNetwork(phone.value);
+
+    if(detected){
+      selectNetwork(detected);
+      hint.textContent='Detected network: '+detected+
+        '. Confirm it is correct.';
+    }else{
+      hint.textContent=normalizePhone(phone.value).length<4
+        ?'Keep typing to detect your network.'
+        :'Network not detected. Select your network above.';
+    }
+  });
+
+  document.querySelectorAll('[data-data-network]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selectNetwork(btn.dataset.dataNetwork);
+      hint.textContent='Selected network: '+network.value+
+        '. Enter the phone number to continue.';
+    });
+  });
+
+  document.querySelectorAll('[data-data-type]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      selectedType=btn.dataset.dataType;
+
+      document.querySelectorAll('[data-data-type]').forEach(tab=>{
+        tab.classList.toggle('active',tab===btn);
+      });
+
+      renderPlans();
+    });
+  });
+
+  $('dataPlus').addEventListener('click',()=>phone.focus());
+
+  $('dataContacts').addEventListener('click',async()=>{
+    if(!navigator.contacts?.select){
+      showToast('Contact picker is not supported here. Enter the number manually.');
+      phone.focus();
+      return;
+    }
+
+    try{
+      const contacts=await navigator.contacts.select(['tel'],{
+        multiple:false
+      });
+
+      if(contacts.length && contacts[0].tel?.length){
+        phone.value=normalizePhone(contacts[0].tel[0]).slice(0,11);
+        phone.dispatchEvent(new Event('input',{bubbles:true}));
+      }
+    }catch(error){
+      if(error.name!=='AbortError'){
+        showToast('Unable to open contacts. Enter the number manually.');
+      }
+    }
+  });
+
+  renderPlans();
 }
+
   
 if(action==='airtime'){
   const phone=$('airtimePhone');
