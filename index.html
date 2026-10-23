@@ -347,121 +347,165 @@ phone.addEventListener('input',()=>{
 }
   
 if(action==='airtime'){
-const phone=$('airtimePhone');
-const network=$('airtimeNetwork');
-const hint=$('airtimeNetworkHint');
-const amount=$('airtimeAmount');
-const price=$('airtimePrice');
+  const phone=$('airtimePhone');
+  const network=$('airtimeNetwork');
+  const hint=$('airtimeNetworkHint');
+  const amount=$('airtimeAmount');
+  const price=$('airtimePrice');
+  const summary=$('airtimeSummary');
 
-const prefixes={
-MTN:['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'],
-Airtel:['0802','0808','0708','0812','0701','0902','0907','0912','0901'],
-Glo:['0805','0807','0705','0815','0811','0905','0915'],
-'9mobile':['0809','0817','0818','0909','0908']
-};
+  const prefixes={
+    MTN:['0803','0806','0703','0706','0813','0816','0810','0814','0903','0906','0913','0916'],
+    Airtel:['0802','0808','0708','0812','0701','0902','0907','0912','0901'],
+    Glo:['0805','0807','0705','0815','0811','0905','0915'],
+    '9mobile':['0809','0817','0818','0909','0908']
+  };
 
-phone.addEventListener('input',()=>{
-const n=phone.value.replace(/\D/g,'');
-const local=n.startsWith('234')?'0'+n.slice(3):n;
-let detected='';
+  function updateAirtimePrice(){
+    const value=Number(amount.value||0);
 
-if(local.length>=4){
-for(const [name,list] of Object.entries(prefixes)){
-if(list.some(p=>local.startsWith(p))){
-detected=name;
-break;
-}
-}
-  
-if(detected){
-  network.value=detected;
-  document.querySelectorAll('[data-air-network]').forEach(b=>{
-    b.classList.toggle('active',b.dataset.airNetwork===detected);
-  });
-  hint.textContent='Network detected: '+detected+'. Please confirm.';
-}else{
-  network.value='';
-  document.querySelectorAll('[data-air-network]').forEach(b=>{
-    b.classList.remove('active');
-  });
-  hint.textContent=local.length<4
-    ?'Keep typing to detect network.'
-    :'Network not detected. Please select manually.';
-}
-updateAirtimePrice();
-});
-  
+    price.textContent='₦'+value.toLocaleString('en-NG',{
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    });
 
-const summary=$('airtimeSummary');
+    summary.textContent=network.value
+      ?network.value+' · Airtime Purchase'
+      :'Select a network';
 
-function updateAirtimePrice(){
-  const value=Number(amount.value||0);
-  price.textContent='₦'+value.toLocaleString('en-NG',{
-    minimumFractionDigits:2,
-    maximumFractionDigits:2
-  });
-  summary.textContent=network.value
-    ?network.value+' · Airtime Purchase'
-    :'Select a network';
-}
-
-document.querySelectorAll('[data-air-network]').forEach(button=>{
-  button.addEventListener('click',()=>{
-    network.value=button.dataset.airNetwork;
-    document.querySelectorAll('[data-air-network]').forEach(b=>
-      b.classList.toggle('active',b===button)
-    );
-    updateAirtimePrice();
-  });
-});
-
-document.querySelectorAll('[data-air-amount]').forEach(button=>{
-  button.addEventListener('click',()=>{
-    amount.value=button.dataset.airAmount;
-    document.querySelectorAll('[data-air-amount]').forEach(b=>
-      b.classList.toggle('active',b===button)
-    );
-    updateAirtimePrice();
-  });
-});
-
-amount.addEventListener('input',()=>{
-  document.querySelectorAll('[data-air-amount]').forEach(b=>
-    b.classList.toggle('active',b.dataset.airAmount===amount.value)
-  );
-  updateAirtimePrice();
-});
-
-network.addEventListener('change',()=>{
-  document.querySelectorAll('[data-air-network]').forEach(b=>
-    b.classList.toggle('active',b.dataset.airNetwork===network.value)
-  );
-  updateAirtimePrice();
-});
-
-$('airtimePlus').addEventListener('click',()=>{
-  phone.focus();
-});
-
-$('airtimeContacts').addEventListener('click',async()=>{
-  if(!('contacts' in navigator && navigator.contacts?.select)){
-    showToast('Contact picker is not supported by this browser. Please enter the number manually.');
-    return;
-  }
-  try{
-    const contacts=await navigator.contacts.select(['tel'],{multiple:false});
-    if(contacts.length && contacts[0].tel?.length){
-      phone.value=contacts[0].tel[0].replace(/\D/g,'').slice(-11);
-      phone.dispatchEvent(new Event('input',{bubbles:true}));
-    }
-  }catch(error){
-    if(error.name!=='AbortError'){
-      showToast('Unable to open contacts. Please enter the number manually.');
+    if(network.value && phone.value.trim()){
+      summary.textContent=network.value+' · '+phone.value.trim();
     }
   }
-});
 
-updateAirtimePrice();
+  function selectNetwork(name){
+    network.value=name;
+
+    document.querySelectorAll('[data-air-network]').forEach(button=>{
+      button.classList.toggle(
+        'active',
+        button.dataset.airNetwork===name
+      );
+    });
+
+    updateAirtimePrice();
+  }
+
+  function selectAmount(value){
+    amount.value=value;
+
+    document.querySelectorAll('[data-air-amount]').forEach(button=>{
+      button.classList.toggle(
+        'active',
+        button.dataset.airAmount===String(value)
+      );
+    });
+
+    updateAirtimePrice();
+  }
+
+  phone.addEventListener('input',()=>{
+    const n=phone.value.replace(/\D/g,'');
+    const local=n.startsWith('234')?'0'+n.slice(3):n;
+    let detected='';
+
+    if(local.length>=4){
+      for(const [name,list] of Object.entries(prefixes)){
+        if(list.some(prefix=>local.startsWith(prefix))){
+          detected=name;
+          break;
+        }
+      }
+    }
+
+    if(detected){
+      selectNetwork(detected);
+      hint.textContent='Network detected: '+detected+'. Please confirm.';
+    }else{
+      network.value='';
+
+      document.querySelectorAll('[data-air-network]').forEach(button=>{
+        button.classList.remove('active');
+      });
+
+      hint.textContent=local.length<4
+        ?'Keep typing to detect network.'
+        :'Network not detected. Please select manually.';
+
+      updateAirtimePrice();
+    }
+  });
+
+  document.querySelectorAll('[data-air-network]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      selectNetwork(button.dataset.airNetwork);
+      hint.textContent='Selected network: '+network.value+'.';
+    });
+  });
+
+  document.querySelectorAll('[data-air-amount]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      selectAmount(button.dataset.airAmount);
+    });
+  });
+
+  amount.addEventListener('input',()=>{
+    document.querySelectorAll('[data-air-amount]').forEach(button=>{
+      button.classList.toggle(
+        'active',
+        button.dataset.airAmount===amount.value
+      );
+    });
+
+    updateAirtimePrice();
+  });
+
+  network.addEventListener('change',()=>{
+    document.querySelectorAll('[data-air-network]').forEach(button=>{
+      button.classList.toggle(
+        'active',
+        button.dataset.airNetwork===network.value
+      );
+    });
+
+    updateAirtimePrice();
+  });
+
+  $('airtimePlus').addEventListener('click',()=>{
+    phone.focus();
+  });
+
+  $('airtimeContacts').addEventListener('click',async()=>{
+    if(!navigator.contacts?.select){
+      showToast('Contact picker is not supported here. Please enter the number manually.');
+      phone.focus();
+      return;
+    }
+
+    try{
+      const contacts=await navigator.contacts.select(['tel'],{
+        multiple:false
+      });
+
+      if(contacts.length && contacts[0].tel?.length){
+        const digits=contacts[0].tel[0].replace(/\D/g,'');
+
+        phone.value=digits.startsWith('234')
+          ?'0'+digits.slice(3)
+          :digits.slice(-11);
+
+        phone.dispatchEvent(new Event('input',{bubbles:true}));
+      }
+    }catch(error){
+      if(error.name!=='AbortError'){
+        showToast('Unable to open contacts. Enter the number manually.');
+      }
+    }
+  });
+
+  updateAirtimePrice();
+}
+
 
 if(action==='history')loadTransactionHistory('historyList',100);
 if(action==='profile')loadProfile();
