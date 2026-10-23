@@ -1144,39 +1144,41 @@ if(action==='airtime'){
   updateAirtimePrice();
 }
 
-
 if(action==='transfer'){
-  const bank=$('transferBank');
-  const account=$('transferAccount');
-  const amount=$('transferAmount');
-  const preview=$('transferPreview');
-  const summary=$('transferSummary');
+  const bank = $('transferBank');
+  const account = $('transferAccount');
+  const amount = $('transferAmount');
+  const preview = $('transferPreview');
+  const summary = $('transferSummary');
 
   function updateTransferPreview(){
-    const value=Number(amount.value||0);
-    preview.textContent='₦'+value.toLocaleString('en-NG',{
-      minimumFractionDigits:2,
-      maximumFractionDigits:2
-    });
+    const raw = amount.value.trim();
+    const value = Number(raw);
+
+    preview.textContent = money(raw === '' ? 0 : value);
 
     if(!bank.value){
-      summary.textContent='Select a recipient bank.';
+      summary.textContent = 'Select a recipient bank.';
     }else if(!/^\d{10}$/.test(account.value)){
-      summary.textContent='Enter a valid 10-digit account number.';
-    }else if(!Number.isFinite(value)||value<100){
-      summary.textContent='Enter an amount of at least ₦100.';
+      summary.textContent = 'Enter a valid 10-digit account number.';
+    }else if(raw === '' || !Number.isFinite(value) || value < 100){
+      summary.textContent = 'Enter an amount of at least ₦100.';
     }else{
-      summary.textContent=bank.value+' · Account ending '+account.value.slice(-4)+' · Preview only';
+      summary.textContent =
+        bank.value + ' · Account ending ' +
+        account.value.slice(-4) + ' · Preview only';
     }
   }
 
-  account.addEventListener('input',()=>{
-    account.value=account.value.replace(/\D/g,'').slice(0,10);
+  bank.addEventListener('change', updateTransferPreview);
+
+  account.addEventListener('input', () => {
+    account.value = account.value.replace(/\D/g,'').slice(0,10);
     updateTransferPreview();
   });
 
-  bank.addEventListener('change',updateTransferPreview);
-  amount.addEventListener('input',updateTransferPreview);
+  amount.addEventListener('input', updateTransferPreview);
+  amount.addEventListener('change', updateTransferPreview);
 
   updateTransferPreview();
 }
