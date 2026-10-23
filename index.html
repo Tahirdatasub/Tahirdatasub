@@ -372,16 +372,25 @@ detected=name;
 break;
 }
 }
-}
-
+  
 if(detected){
-network.value=detected;
-document.querySelectorAll('[data-air-network]').forEach(b=>{
-  b.classList.toggle('active',b.dataset.airNetwork===detected);
-});
-hint.textContent='Network detected: '+detected+'. Please confirm.';
-updateAirtimePrice();
+  network.value=detected;
+  document.querySelectorAll('[data-air-network]').forEach(b=>{
+    b.classList.toggle('active',b.dataset.airNetwork===detected);
+  });
+  hint.textContent='Network detected: '+detected+'. Please confirm.';
+}else{
+  network.value='';
+  document.querySelectorAll('[data-air-network]').forEach(b=>{
+    b.classList.remove('active');
+  });
+  hint.textContent=local.length<4
+    ?'Keep typing to detect network.'
+    :'Network not detected. Please select manually.';
 }
+updateAirtimePrice();
+});
+  
 
 const summary=$('airtimeSummary');
 
