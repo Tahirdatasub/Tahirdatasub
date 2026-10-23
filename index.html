@@ -77,7 +77,52 @@ async function loadTransactionHistoryStats(uid){const [a,b,c]=await Promise.all(
 supabaseClient.auth.onAuthStateChange(()=>setTimeout(loadDashboard,0));loadDashboard();
 function openModal(action){
 modalTitle.textContent=labels[action]||'TAHIRDATASUB';let body='';
-if(['data','airtime'].includes(action)){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${action==='data'?selectField('Data plan',['Choose data plan','500 MB','1 GB','2 GB','5 GB','10 GB']):field('Amount (₦)','number','e.g. 500')}`}
+if(action==='data'){
+body=`
+<div class="field">
+<label for="dataPhone">Phone Number</label>
+<input id="dataPhone" type="tel" inputmode="numeric"
+placeholder="Enter phone number" maxlength="11" required>
+</div>
+
+<div class="field">
+<label for="dataNetwork">Choose Network</label>
+<select id="dataNetwork" required>
+<option value="">Choose network</option>
+<option value="MTN">MTN</option>
+<option value="Airtel">Airtel</option>
+<option value="Glo">Glo</option>
+<option value="9mobile">9mobile</option>
+</select>
+<p id="networkHint" class="form-note">
+Enter your phone number to detect network.
+</p>
+</div>
+
+<div class="field">
+<label for="dataPlan">Choose Data Plan</label>
+<select id="dataPlan" required>
+<option value="">Choose data plan</option>
+<option value="500MB">500 MB</option>
+<option value="1GB">1 GB</option>
+<option value="2GB">2 GB</option>
+<option value="5GB">5 GB</option>
+<option value="10GB">10 GB</option>
+</select>
+</div>
+
+<div class="field">
+<label>Data Price</label>
+<div id="dataPrice" class="form-note">
+Choose a data plan to see the price.
+</div>
+</div>
+`;
+}
+else if(action==='airtime'){
+body=\`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Phone number','tel','08012345678')}${field('Amount (₦)','number','e.g. 500')}\`;
+}
+
 else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Preview only. Wallet funding must be verified by a secure server before crediting your balance.</p>`}
 else if(action==='withdraw'){body=`${field('Amount (₦)','number','e.g. 2000')}${selectField('Bank',['Choose bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}`}
 else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}
