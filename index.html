@@ -76,7 +76,106 @@ if(action==='account')setupAuth();if(action==='history')loadTransactionHistory('
 if(action==='data')setupDataPreview();if(action==='airtime')setupAirtimePreview();
 const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});backdrop.classList.add('show');document.body.style.overflow='hidden';}
 function setupDataPreview(){let network='MTN',type='SME',selected=null;const plans=[{size:'500MB',period:'WEEKLY',price:280,type:'SME'},{size:'1GB',period:'WEEKLY',price:395,type:'SME'},{size:'1GB',period:'MONTHLY',price:530,type:'SME'},{size:'2GB',period:'WEEKLY',price:800,type:'SME'},{size:'2GB',period:'MONTHLY',price:950,type:'SME'},{size:'5GB',period:'MONTHLY',price:2000,type:'SME'},{size:'1GB',period:'GIFTING',price:500,type:'GIFTING'},{size:'2GB',period:'GIFTING',price:1000,type:'GIFTING'},{size:'5GB',period:'GIFTING',price:2200,type:'GIFTING'},{size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}];const grid=$('dataPlanGrid');function render(){grid.replaceChildren();selected=null;$('dataPrice').textContent='₦0.00';$('dataSummary').textContent='Select a plan. Preview only.';document.querySelectorAll('[data-network]').forEach(b=>b.classList.toggle('active',b.dataset.network===network));plans.filter(p=>p.type===type).forEach(p=>{const b=document.createElement('button');b.type='button';b.className='data-plan-card';b.innerHTML=`<span class="data-plan-top"><span class="data-plan-badge">${network}</span><span class="data-plan-badge">${p.period}</span></span><span class="data-plan-size">${p.size}</span><span class="data-plan-price">₦${p.price.toLocaleString('en-NG')}</span>`;b.addEventListener('click',()=>{selected=p;grid.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));$('dataPrice').textContent=money(p.price);$('dataSummary').textContent=`${network} · ${p.size} · ${p.period} · Demo price`;});grid.append(b)});$('dataHint').textContent='Demo prices only. Not connected to a live data provider.'}document.querySelectorAll('[data-network]').forEach(b=>b.addEventListener('click',()=>{network=b.dataset.network;render()}));document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>{type=b.dataset.type;document.querySelectorAll('[data-type]').forEach(x=>x.classList.toggle('active',x===b));render()}));render()}
-function setupAirtimePreview(){let network='';const amount=$('airAmount');function update(){const n=Number(amount.value||0);$('airPrice').textContent=money(n);$('airSummary').textContent=(network||'Select network')+' · '+($('airPhone').value||'Enter phone number')+' · Preview only'}document.querySelectorAll('[data-airnet]').forEach(b=>b.addEventListener('click',()=>{network=b.dataset.airnet;document.querySelectorAll('[data-airnet]').forEach(x=>x.classList.toggle('active',x===b));update()}));document.querySelectorAll('[data-amount]').forEach(b=>b.addEventListener('click',()=>{amount.value=b.dataset.amount;document.querySelectorAll('[data-amount]').forEach(x=>x.classList.toggle('active',x===b));update()}));amount.addEventListener('input',update);$('airPhone').addEventListener('input',update);update()}
+function setupAirtimePreview() {
+  const phone = $('airPhone');
+  const amount = $('airAmount');
+  const networkButtons = [...document.querySelectorAll('[data-airnet]')];
+
+  const prefixes = {
+    MTN: [
+      '0803','0806','0703','0706','0813','0816',
+      '0810','0814','0903','0906','0913','0916','07025','07026'
+    ],
+    Airtel: [
+      '0802','0808','0708','0812','0701','0902',
+      '0907','0912','0901','0904','0911','0914'
+    ],
+    Glo: [
+      '0805','0807','0705','0815','0811','0905','0915'
+    ],
+    '9mobile': [
+      '0809','0817','0818','0909','0908'
+    ]
+  };
+
+  let detectedNetwork = '';
+
+  function normalizePhone(value) {
+    let digits = value.replace(/\D/g, '');
+
+    if (digits.startsWith('234')) {
+      digits = '0' + digits.slice(3);
+    }
+
+    return digits;
+  }
+
+  function detectNetwork(value) {
+    const number = normalizePhone(value);
+
+    if (number.length < 4) return '';
+
+    for (const [name, list] of Object.entries(prefixes)) {
+      if (list.some(prefix => number.startsWith(prefix))) {
+        return name;
+      }
+    }
+
+    return '';
+  }
+
+  function update() {
+    const number = normalizePhone(phone.value);
+    detectedNetwork = detectNetwork(number);
+
+    networkButtons.forEach(button => {
+      const selected =
+        button.dataset.airnet === detectedNetwork;
+
+      button.classList.toggle('active', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
+
+    const value = Number(amount.value || 0);
+
+    $('airPrice').textContent = money(value);
+
+    const summary = $('airSummary');
+
+    if (number.length < 4) {
+      summary.textContent = 'Enter your phone number to detect network.';
+    } else if (!detectedNetwork) {
+      summary.textContent =
+        'Network not detected. Check the phone number.';
+    } else if (number.length !== 11) {
+      summary.textContent =
+        detectedNetwork + ' detected · Enter the complete 11-digit number.';
+    } else {
+      summary.textContent =
+        detectedNetwork + ' detected · ' + number + ' · Preview only';
+    }
+  }
+
+  phone.addEventListener('input', update);
+  amount.addEventListener('input', update);
+
+  document.querySelectorAll('[data-amount]').forEach(button => {
+    button.addEventListener('click', () => {
+      amount.value = button.dataset.amount;
+
+      document.querySelectorAll('[data-amount]').forEach(item => {
+        item.classList.toggle('active', item === button);
+      });
+
+      update();
+    });
+  });
+
+  // Network cards display the detected network automatically.
+  // Users do not need to tap a network button.
+  update();
+}
+
 async function loadProfile(){const d=$('profileDetails');if(!d)return;const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){d.textContent='Please log in to view your profile.';return}const u=data.user;d.innerHTML=`<p><strong>${u.user_metadata?.full_name||'Name not added'}</strong></p><p>${u.email||''}</p><p>${u.user_metadata?.phone||'Phone not added'}</p><p class="form-note">Account profile loaded from Supabase.</p><button class="btn" id="profileSignOut">Sign out</button>`;$('profileSignOut').addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();if(error)showToast('Unable to sign out.');else{closeModal();showToast('You have signed out.');loadDashboard()}})}
 function setupAuth(){const form=$('authForm'),mode=$('authMode'),name=$('authFullName'),phone=$('authPhone'),email=$('authEmail'),pass=$('authPassword'),confirm=$('authConfirmPassword'),status=$('authStatus'),submit=$('authSubmit'),signOut=$('authSignOut'),nameField=$('fullNameField'),phoneField=$('phoneField'),confirmField=$('confirmPasswordField');const message=t=>status.textContent=t;function update(){const reg=mode.value==='register';nameField.style.display=phoneField.style.display=confirmField.style.display=reg?'grid':'none';name.required=reg;phone.required=false;confirm.required=reg;submit.textContent=reg?'Create account':'Login';pass.autocomplete=reg?'new-password':'current-password'}mode.addEventListener('change',update);update();supabaseClient.auth.getSession().then(({data})=>{if(data.session){email.value=data.session.user.email||'';message('You are signed in.');signOut.style.display='block'}});form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;message('Please wait…');try{if(mode.value==='register'){if(pass.value.length<8)throw Error('Use a password with at least 8 characters.');if(pass.value!==confirm.value)throw Error('Passwords do not match.');const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:pass.value,options:{data:{full_name:name.value.trim(),phone:phone.value.trim()},emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'}});if(error)throw error;message(data.session?'Registration successful.':'Check your email to confirm registration.')}else{const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:pass.value});if(error)throw error;message('Login successful.');await loadDashboard();closeModal();showToast('Welcome back.')}}catch(err){message(err.message||'Authentication failed.')}finally{submit.disabled=false}});signOut.addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();message(error?'Unable to sign out.':'You have signed out.')})}
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));$('closeModal').addEventListener('click',closeModal);backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('year').textContent=new Date().getFullYear();document.querySelectorAll('.bottom-nav a[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.bottom-nav a[data-tab]').forEach(x=>x.classList.remove('active'));tab.classList.add('active');if(tab.dataset.tab==='profile')openModal('profile');if(tab.dataset.tab==='transactions')openModal('history')}));
