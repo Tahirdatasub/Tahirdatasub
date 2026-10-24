@@ -31,8 +31,8 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 <div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>
 <section class="services" aria-label="Quick services">
 <button class="service" data-action="data"><span class="service-icon">📶</span><strong>Data Bundles</strong></button><button class="service" data-action="airtime"><span class="service-icon">📞</span><strong>Airtime</strong></button><button class="service" data-action="tv"><span class="service-icon">📺</span><strong>Cable TV</strong></button><button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity</strong></button>
-<button class="service" data-action="exam"><span class="service-icon">🎓</span><strong>Exam PIN</strong></button><button class="service" data-action="convert"><span class="service-icon">💱</span><strong>Airtime to Cash</strong></button><button class="service" data-action="ninSlip"><span class="service-icon">🪪</span><strong>NIN Slip</strong></button><button class="service" data-action="ninPhone"><span class="service-icon">📱</span><strong>NIN Phone</strong></button>
-<button class="service" data-action="ninModify"><span class="service-icon">📝</span><strong>NIN Modification</strong></button><button class="service" data-action="bvn"><span class="service-icon">🏦</span><strong>BVN Check</strong></button><button class="service" data-action="withdraw"><span class="service-icon">🏛️</span><strong>Withdraw</strong></button><button class="service" data-action="history"><span class="service-icon">🧾</span><strong>History</strong></button>
+<button class="service" data-action="exam"><span class="service-icon">🎓</span><strong>Exam PIN</strong></button><button class="service" data-action="convert"><span class="service-icon">💱</span><strong>Airtime to Cash</strong></button><button class="service" data-action="ninPhone"><span class="service-icon">📱</span><strong>NIN Phone</strong></button>
+<button class="service" data-action="withdraw"><span class="service-icon">🏛️</span><strong>Withdraw</strong></button><button class="service" data-action="history"><span class="service-icon">🧾</span><strong>History</strong></button>
 <button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong></button><button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong></button><button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong></button><button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong></button>
 </section>
 <div class="section-title" id="activity"><div><h2>Recent Transactions</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div><section class="content-grid"><article class="card"><div id="recentTransactions"><p class="form-note">Loading recent transactions...</p></div><p class="form-note">Transactions are loaded securely from your Supabase account.</p></article><article class="card"><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">Activation requires the necessary approvals and network connection.</p></article></section>
@@ -45,7 +45,7 @@ const SUPABASE_URL="https://dqdethtbegofepqqnwdu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const $=id=>document.getElementById(id);const backdrop=$('modalBackdrop'),modalTitle=$('modalTitle'),modalContent=$('modalContent'),toast=$('toast');let toastTimer;
-const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Fund Wallet',withdraw:'Withdraw',wallet:'My Wallet',tv:'Cable TV',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',support:'Help & Support',account:'Login / Register',exam:'Exam PIN',ninSlip:'NIN Slip',ninPhone:'NIN Phone',ninModify:'NIN Modification',bvn:'BVN Check'};
+const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Fund Wallet',withdraw:'Withdraw',wallet:'My Wallet',tv:'Cable TV',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',support:'Help & Support',account:'Login / Register',exam:'Exam PIN',ninPhone:'NIN Phone'};
 function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3200)}function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}function money(n){return '₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function displayTransactions(container,rows){container.replaceChildren();if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}rows.forEach(tx=>{const row=document.createElement('div');row.className='tx-row';const icon=document.createElement('div');icon.className='tx-icon';icon.textContent='🧾';const info=document.createElement('div');info.className='tx-info';const title=document.createElement('strong');title.textContent=String(tx.type||'Transaction').replaceAll('_',' ');const detail=document.createElement('small');detail.textContent=(tx.created_at?new Date(tx.created_at).toLocaleString('en-NG'):'Date unavailable')+' · '+(tx.status||'pending');const amount=document.createElement('div');amount.className='tx-amount';amount.textContent=money(tx.amount);info.append(title,detail);row.append(icon,info,amount);container.append(row)})}
 async function loadTransactionHistory(containerId,limit=50){const c=$(containerId);if(!c)return;c.textContent='Loading transactions...';const {data:u}=await supabaseClient.auth.getUser();if(!u.user){c.textContent='Please log in to view your transactions.';return}const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,status,description,created_at').eq('user_id',u.user.id).order('created_at',{ascending:false}).limit(limit);if(error){console.error(error);c.textContent='Unable to load transactions. Please try again.';return}displayTransactions(c,data||[])}
@@ -69,7 +69,7 @@ else if(action==='wallet'){body='<p>Your wallet balance is displayed on the dash
 else if(action==='referral'){body='<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Referral rewards will be enabled after the secure backend is connected.</p>'}
 else if(action==='support'){body='<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>'}
 else if(action==='exam'){body=`${selectField('Exam type',['Choose exam','WAEC','NECO','JAMB','NABTEB'])}${field('Quantity','number','Number of PINs')}<p class="form-note">Exam PIN purchase is a preview until an authorised vendor API is connected.</p>`}
-else if(action==='ninSlip'||action==='ninPhone'||action==='ninModify'||action==='bvn'){const desc={ninSlip:'NIN Slip',ninPhone:'NIN Phone',ninModify:'NIN Modification',bvn:'BVN Check'};body=`<p><strong>${desc[action]}</strong></p>${field(action==='bvn'?'BVN number':'NIN number','text',action==='bvn'?'Enter BVN':'Enter NIN')}<p class="form-note">This service is not connected to an authorised identity-verification provider. Do not submit sensitive identity details here yet.</p>`}
+else if(action==='ninPhone'){body=`<p><strong>NIN Phone</strong></p>${field('NIN number','text','Enter NIN')}<p class="form-note">This service is not connected to an authorised identity-verification provider. Do not submit sensitive identity details here yet.</p>`}
 else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}
 modalContent.innerHTML=body+(action==='account'||action==='history'||action==='profile'? '':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:10px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);
 if(action==='account')setupAuth();if(action==='history')loadTransactionHistory('historyList',100);if(action==='profile')loadProfile();
@@ -250,25 +250,16 @@ function setupAirtimePreview() {
 
   function normalizePhone(value) {
     let digits = value.replace(/\D/g, '');
-
-    if (digits.startsWith('234')) {
-      digits = '0' + digits.slice(3);
-    }
-
+    if (digits.startsWith('234')) digits = '0' + digits.slice(3);
     return digits;
   }
 
   function detectNetwork(value) {
     const number = normalizePhone(value);
-
     if (number.length < 4) return '';
-
     for (const [name, list] of Object.entries(prefixes)) {
-      if (list.some(prefix => number.startsWith(prefix))) {
-        return name;
-      }
+      if (list.some(prefix => number.startsWith(prefix))) return name;
     }
-
     return '';
   }
 
@@ -277,30 +268,23 @@ function setupAirtimePreview() {
     detectedNetwork = detectNetwork(number);
 
     networkButtons.forEach(button => {
-      const selected =
-        button.dataset.airnet === detectedNetwork;
-
+      const selected = button.dataset.airnet === detectedNetwork;
       button.classList.toggle('active', selected);
       button.setAttribute('aria-pressed', String(selected));
     });
 
     const value = Number(amount.value || 0);
-
     $('airPrice').textContent = money(value);
-
     const summary = $('airSummary');
 
     if (number.length < 4) {
       summary.textContent = 'Enter your phone number to detect network.';
     } else if (!detectedNetwork) {
-      summary.textContent =
-        'Network not detected. Check the phone number.';
+      summary.textContent = 'Network not detected. Check the phone number.';
     } else if (number.length !== 11) {
-      summary.textContent =
-        detectedNetwork + ' detected · Enter the complete 11-digit number.';
+      summary.textContent = detectedNetwork + ' detected · Enter the complete 11-digit number.';
     } else {
-      summary.textContent =
-        detectedNetwork + ' detected · ' + number + ' · Preview only';
+      summary.textContent = detectedNetwork + ' detected · ' + number + ' · Preview only';
     }
   }
 
@@ -310,17 +294,13 @@ function setupAirtimePreview() {
   document.querySelectorAll('[data-amount]').forEach(button => {
     button.addEventListener('click', () => {
       amount.value = button.dataset.amount;
-
       document.querySelectorAll('[data-amount]').forEach(item => {
         item.classList.toggle('active', item === button);
       });
-
       update();
     });
   });
 
-  // Network cards display the detected network automatically.
-  // Users do not need to tap a network button.
   update();
 }
 
