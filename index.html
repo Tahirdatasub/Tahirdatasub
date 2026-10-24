@@ -75,7 +75,155 @@ modalContent.innerHTML=body+(action==='account'||action==='history'||action==='p
 if(action==='account')setupAuth();if(action==='history')loadTransactionHistory('historyList',100);if(action==='profile')loadProfile();
 if(action==='data')setupDataPreview();if(action==='airtime')setupAirtimePreview();
 const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});backdrop.classList.add('show');document.body.style.overflow='hidden';}
-function setupDataPreview(){let network='MTN',type='SME',selected=null;const plans=[{size:'500MB',period:'WEEKLY',price:280,type:'SME'},{size:'1GB',period:'WEEKLY',price:395,type:'SME'},{size:'1GB',period:'MONTHLY',price:530,type:'SME'},{size:'2GB',period:'WEEKLY',price:800,type:'SME'},{size:'2GB',period:'MONTHLY',price:950,type:'SME'},{size:'5GB',period:'MONTHLY',price:2000,type:'SME'},{size:'1GB',period:'GIFTING',price:500,type:'GIFTING'},{size:'2GB',period:'GIFTING',price:1000,type:'GIFTING'},{size:'5GB',period:'GIFTING',price:2200,type:'GIFTING'},{size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}];const grid=$('dataPlanGrid');function render(){grid.replaceChildren();selected=null;$('dataPrice').textContent='₦0.00';$('dataSummary').textContent='Select a plan. Preview only.';document.querySelectorAll('[data-network]').forEach(b=>b.classList.toggle('active',b.dataset.network===network));plans.filter(p=>p.type===type).forEach(p=>{const b=document.createElement('button');b.type='button';b.className='data-plan-card';b.innerHTML=`<span class="data-plan-top"><span class="data-plan-badge">${network}</span><span class="data-plan-badge">${p.period}</span></span><span class="data-plan-size">${p.size}</span><span class="data-plan-price">₦${p.price.toLocaleString('en-NG')}</span>`;b.addEventListener('click',()=>{selected=p;grid.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));$('dataPrice').textContent=money(p.price);$('dataSummary').textContent=`${network} · ${p.size} · ${p.period} · Demo price`;});grid.append(b)});$('dataHint').textContent='Demo prices only. Not connected to a live data provider.'}document.querySelectorAll('[data-network]').forEach(b=>b.addEventListener('click',()=>{network=b.dataset.network;render()}));document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>{type=b.dataset.type;document.querySelectorAll('[data-type]').forEach(x=>x.classList.toggle('active',x===b));render()}));render()}
+
+function setupDataPreview() {
+  const phone = $('dataPhone');
+  const grid = $('dataPlanGrid');
+
+  let network = '';
+  let type = 'SME';
+
+  const prefixes = {
+    MTN: [
+      '0803','0806','0703','0706','0813','0816',
+      '0810','0814','0903','0906','0913','0916','07025','07026'
+    ],
+    Airtel: [
+      '0802','0808','0708','0812','0701','0902',
+      '0907','0912','0901','0904','0911','0914'
+    ],
+    Glo: [
+      '0805','0807','0705','0815','0811','0905','0915'
+    ],
+    '9mobile': [
+      '0809','0817','0818','0909','0908'
+    ]
+  };
+
+  const plans = [
+    {size:'500MB',period:'WEEKLY',price:280,type:'SME'},
+    {size:'1GB',period:'WEEKLY',price:395,type:'SME'},
+    {size:'1GB',period:'MONTHLY',price:530,type:'SME'},
+    {size:'2GB',period:'WEEKLY',price:800,type:'SME'},
+    {size:'2GB',period:'MONTHLY',price:950,type:'SME'},
+    {size:'5GB',period:'MONTHLY',price:2000,type:'SME'},
+    {size:'1GB',period:'GIFTING',price:500,type:'GIFTING'},
+    {size:'2GB',period:'GIFTING',price:1000,type:'GIFTING'},
+    {size:'5GB',period:'GIFTING',price:2200,type:'GIFTING'},
+    {size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}
+  ];
+
+  function normalizePhone(value) {
+    let n = value.replace(/\D/g, '');
+    if (n.startsWith('234')) n = '0' + n.slice(3);
+    return n;
+  }
+
+  function detectNetwork(value) {
+    const n = normalizePhone(value);
+    if (n.length < 4) return '';
+
+    for (const [name, list] of Object.entries(prefixes)) {
+      if (list.some(prefix => n.startsWith(prefix))) {
+        return name;
+      }
+    }
+
+    return '';
+  }
+
+  function renderPlans() {
+    grid.replaceChildren();
+
+    $('dataPrice').textContent = '₦0.00';
+
+    if (!network) {
+      $('dataSummary').textContent = 'Enter a valid number to detect network.';
+      $('dataHint').textContent =
+        'Network not detected. Check the phone number.';
+      return;
+    }
+
+    $('dataHint').textContent =
+      network + ' detected automatically · Demo prices only.';
+
+    $('dataSummary').textContent = 'Select a data plan.';
+
+    const available = plans.filter(p => p.type === type);
+
+    available.forEach(plan => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'data-plan-card';
+
+      const top = document.createElement('span');
+      top.className = 'data-plan-top';
+
+      const networkBadge = document.createElement('span');
+      networkBadge.className = 'data-plan-badge';
+      networkBadge.textContent = network;
+
+      const periodBadge = document.createElement('span');
+      periodBadge.className = 'data-plan-badge';
+      periodBadge.textContent = plan.period;
+
+      top.append(networkBadge, periodBadge);
+
+      const size = document.createElement('span');
+      size.className = 'data-plan-size';
+      size.textContent = plan.size;
+
+      const price = document.createElement('span');
+      price.className = 'data-plan-price';
+      price.textContent = money(plan.price);
+
+      button.append(top, size, price);
+
+      button.addEventListener('click', () => {
+        grid.querySelectorAll('.data-plan-card').forEach(item => {
+          item.classList.toggle('active', item === button);
+        });
+
+        $('dataPrice').textContent = money(plan.price);
+        $('dataSummary').textContent =
+          network + ' · ' + plan.size + ' · ' +
+          plan.period + ' · Demo price only';
+      });
+
+      grid.append(button);
+    });
+  }
+
+  function updateNetwork() {
+    network = detectNetwork(phone.value);
+
+    document.querySelectorAll('[data-network]').forEach(button => {
+      const active = button.dataset.network === network;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    renderPlans();
+  }
+
+  phone.addEventListener('input', updateNetwork);
+
+  document.querySelectorAll('[data-type]').forEach(button => {
+    button.addEventListener('click', () => {
+      type = button.dataset.type;
+
+      document.querySelectorAll('[data-type]').forEach(tab => {
+        tab.classList.toggle('active', tab === button);
+      });
+
+      renderPlans();
+    });
+  });
+
+  // Detect the network automatically; no network tap is required.
+  updateNetwork();
+}
+
 function setupAirtimePreview() {
   const phone = $('airPhone');
   const amount = $('airAmount');
