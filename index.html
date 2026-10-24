@@ -436,7 +436,241 @@ function setupAirtimePreview() {
   update();
 }
 
-async function loadProfile(){const d=$('profileDetails');if(!d)return;const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){d.textContent='Please log in to view your profile.';return}const u=data.user;d.innerHTML=`<p><strong>${u.user_metadata?.full_name||'Name not added'}</strong></p><p>${u.email||''}</p><p>${u.user_metadata?.phone||'Phone not added'}</p><p class="form-note">Account profile loaded from Supabase.</p><button class="btn" id="profileSignOut">Sign out</button>`;$('profileSignOut').addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();if(error)showToast('Unable to sign out.');else{closeModal();showToast('You have signed out.');loadDashboard()}})}
+
+async function loadProfile() {
+  const d = $('profileDetails');
+  if (!d) return;
+
+  d.innerHTML = '<p class="form-note">Loading your profile...</p>';
+
+  const { data, error } = await supabaseClient.auth.getUser();
+
+  if (error || !data.user) {
+    d.innerHTML = `
+      <p class="form-note">Please log in to view your profile.</p>
+      <button class="btn gold" id="profileLogin">Login</button>
+    `;
+    $('profileLogin').addEventListener('click', () => openModal('account'));
+    return;
+  }
+
+  const u = data.user;
+  const esc = value => String(value || '').replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+
+  const name = u.user_metadata?.full_name || '';
+  const phone = u.user_metadata?.phone || '';
+  const initial = (name.trim()[0] || u.email?.[0] || 'U').toUpperCase();
+
+  d.innerHTML = `
+    <div class="profile-card">
+      <div class="profile-identity">
+        <div class="profile-avatar">${esc(initial)}</div>
+        <div>
+          <h3>${esc(name || 'Your Profile')}</h3>
+          <p>TAHIRDATASUB account</p>
+        </div>
+      </div>
+
+      <div class="profile-info">
+        <div class="profile-info-item">
+          <small>Full name</small>
+          <strong>${esc(name || 'Not added yet')}</strong>
+        </div>
+        <div class="profile-info-item">
+          <small>Email address</small>
+          <strong>${esc(u.email || 'Not available')}</strong>
+        </div>
+        <div class="profile-info-item">
+          <small>Phone number</small>
+          <strong>${esc(phone || 'Not added yet')}</strong>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="btn gold" id="profileEdit">Edit Profile</button>
+        <button class="btn" id="profilePassword">Change Password</button>
+        <button class="btn profile-signout" id="profileSignOut">Sign out</button>
+      </div>
+
+      <p class="profile-status" id="profileStatus">
+        Your account details are loaded from Supabase.
+      </p>
+    </div>
+  `;
+
+  $('profileEdit').addEventListener('click', () => {
+    d.innerHTML = `
+      <h3>Edit Profile</h3>
+      <form id="editProfileForm">
+        <div class="field">
+          <label for="editProfileName">Full name</label>
+          <input id="editProfileName" maxlength="100"
+            autocomplete="name" value="${esc(name)}" required>
+        </div>
+        <div class="field">
+          <label for="editProfilePhone">Phone number</label>
+          <input id="editProfilePhone" type="tel"
+            maxlength="20" autocomplete="tel"
+            value="${esc(phone)}" placeholder="08012345678" required>
+        </div>
+        <p class="profile-status" id="editProfileStatus"></p>
+        <div class="profile-form-actions">
+          <button class="btn gold" type="submit" id="saveProfileBtn">
+            Save Changes
+          </button>
+          <button class="btn" type="button" id="cancelProfileEdit">
+            Cancel
+          </button>
+        </div>
+      </form>
+    `;
+
+    $('cancelProfileEdit').addEventListener('click', loadProfile);
+
+    $('editProfileForm').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const save = $('saveProfileBtn');
+      const status = $('editProfileStatus');
+      const newName = $('editProfileName').value.trim();
+      const newPhone = $('editProfilePhone').value.trim();
+
+      if (!newName || !newPhone) {
+        status.textContent = 'Enter your full name and phone number.';
+        return;
+      }
+
+      save.disabled = true;
+      status.textContent = 'Saving your profile...';
+
+      try {
+        const { data: current, error: authError } =
+          await supabaseClient.auth.getUser();
+
+        if (authError || !current.user || current.user.id !== u.id) {
+          throw new Error('Your session expired. Please log in again.');
+        }
+
+        const { error: updateError } =
+          await supabaseClient.auth.updateUser({
+            data: {
+              full_name: newName,
+              phone: newPhone
+            }
+          });
+
+        if (updateError) throw updateError;
+
+        showToast('Profile updated successfully.');
+        await loadProfile();
+        await loadDashboard();
+      } catch (err) {
+        status.textContent = err.message || 'Unable to save profile.';
+      } finally {
+        if (save.isConnected) save.disabled = false;
+      }
+    });
+  });
+
+  $('profilePassword').addEventListener('click', () => {
+    d.innerHTML = `
+      <h3>Change Password</h3>
+      <form id="changeProfilePassword">
+        <div class="field">
+          <label for="newProfilePassword">New password</label>
+          <input id="newProfilePassword" type="password"
+            autocomplete="new-password" minlength="8"
+            placeholder="At least 8 characters" required>
+        </div>
+        <div class="field">
+          <label for="confirmProfilePassword">Confirm new password</label>
+          <input id="confirmProfilePassword" type="password"
+            autocomplete="new-password" minlength="8" required>
+        </div>
+        <p class="profile-status" id="passwordStatus"></p>
+        <div class="profile-form-actions">
+          <button class="btn gold" type="submit" id="savePasswordBtn">
+            Update Password
+          </button>
+          <button class="btn" type="button" id="cancelPasswordEdit">
+            Cancel
+          </button>
+        </div>
+      </form>
+    `;
+
+    $('cancelPasswordEdit').addEventListener('click', loadProfile);
+
+    $('changeProfilePassword').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const password = $('newProfilePassword').value;
+      const confirmation = $('confirmProfilePassword').value;
+      const status = $('passwordStatus');
+      const save = $('savePasswordBtn');
+
+      if (password.length < 8) {
+        status.textContent = 'Use at least 8 characters.';
+        return;
+      }
+
+      if (password !== confirmation) {
+        status.textContent = 'The passwords do not match.';
+        return;
+      }
+
+      save.disabled = true;
+      status.textContent = 'Updating password...';
+
+      try {
+        const { data: current, error: authError } =
+          await supabaseClient.auth.getUser();
+
+        if (authError || !current.user || current.user.id !== u.id) {
+          throw new Error('Your session expired. Please log in again.');
+        }
+
+        const { error: updateError } =
+          await supabaseClient.auth.updateUser({ password });
+
+        if (updateError) throw updateError;
+
+        showToast('Password updated successfully.');
+        await loadProfile();
+      } catch (err) {
+        status.textContent = err.message || 'Unable to update password.';
+      } finally {
+        if (save.isConnected) save.disabled = false;
+      }
+    });
+  });
+
+  $('profileSignOut').addEventListener('click', async () => {
+    if (!confirm('Are you sure you want to sign out?')) return;
+
+    const button = $('profileSignOut');
+    button.disabled = true;
+
+    const { error: signOutError } = await supabaseClient.auth.signOut();
+
+    if (signOutError) {
+      button.disabled = false;
+      showToast('Unable to sign out. Please try again.');
+      return;
+    }
+
+    closeModal();
+    showToast('You have signed out.');
+    await loadDashboard();
+  });
+}
+
 function setupAuth(){const form=$('authForm'),mode=$('authMode'),name=$('authFullName'),phone=$('authPhone'),email=$('authEmail'),pass=$('authPassword'),confirm=$('authConfirmPassword'),status=$('authStatus'),submit=$('authSubmit'),signOut=$('authSignOut'),nameField=$('fullNameField'),phoneField=$('phoneField'),confirmField=$('confirmPasswordField');const message=t=>status.textContent=t;function update(){const reg=mode.value==='register';nameField.style.display=phoneField.style.display=confirmField.style.display=reg?'grid':'none';name.required=reg;phone.required=false;confirm.required=reg;submit.textContent=reg?'Create account':'Login';pass.autocomplete=reg?'new-password':'current-password'}mode.addEventListener('change',update);update();supabaseClient.auth.getSession().then(({data})=>{if(data.session){email.value=data.session.user.email||'';message('You are signed in.');signOut.style.display='block'}});form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;message('Please wait…');try{if(mode.value==='register'){if(pass.value.length<8)throw Error('Use a password with at least 8 characters.');if(pass.value!==confirm.value)throw Error('Passwords do not match.');const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:pass.value,options:{data:{full_name:name.value.trim(),phone:phone.value.trim()},emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'}});if(error)throw error;message(data.session?'Registration successful.':'Check your email to confirm registration.')}else{const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:pass.value});if(error)throw error;message('Login successful.');await loadDashboard();closeModal();showToast('Welcome back.')}}catch(err){message(err.message||'Authentication failed.')}finally{submit.disabled=false}});signOut.addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();message(error?'Unable to sign out.':'You have signed out.')})}
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));$('closeModal').addEventListener('click',closeModal);backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('year').textContent=new Date().getFullYear();document.querySelectorAll('.bottom-nav a[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.bottom-nav a[data-tab]').forEach(x=>x.classList.remove('active'));tab.classList.add('active');if(tab.dataset.tab==='profile')openModal('profile');if(tab.dataset.tab==='transactions')openModal('history')}));
 </script>
