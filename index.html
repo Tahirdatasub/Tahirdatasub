@@ -184,7 +184,18 @@ function displayTransactions(container,rows){container.replaceChildren();if(!row
 async function loadTransactionHistory(containerId,limit=50){const c=$(containerId);if(!c)return;c.textContent='Loading transactions...';const {data:u}=await supabaseClient.auth.getUser();if(!u.user){c.textContent='Please log in to view your transactions.';return}const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,status,description,created_at').eq('user_id',u.user.id).order('created_at',{ascending:false}).limit(limit);if(error){console.error(error);c.textContent='Unable to load transactions. Please try again.';return}displayTransactions(c,data||[])}
 async function loadTransactionHistoryStats(uid){const [a,b,c]=await Promise.all([supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','success'),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','pending')]);$('totalTransactions').textContent=a.count??0;$('successfulTransactions').textContent=b.count??0;$('pendingTransactions').textContent=c.count??0}
 async function loadDashboard(){const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){$('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return}const u=data.user;$('welcomeTitle').textContent=u.user_metadata?.full_name?`Welcome, ${u.user_metadata.full_name} 👋`:'Welcome to TAHIRDATASUB';const {data:w,error:we}=await supabaseClient.from('wallets').select('balance').eq('user_id',u.id).maybeSingle();if(!we&&w){$('walletBalance').innerHTML=money(w.balance)+' <small>NGN</small>';$('walletMessage').textContent='Wallet balance loaded securely.'}else $('walletMessage').textContent='Unable to load wallet. Please refresh and try again.';await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(u.id)])}
-supabaseClient.auth.onAuthStateChange(()=>setTimeout(loadDashboard,0));loadDashboard();
+if (supabaseClient) {
+  supabaseClient.auth.onAuthStateChange(() => {
+    setTimeout(loadDashboard, 0);
+  });
+
+  loadDashboard();
+} else {
+  $('walletMessage').textContent =
+    'Connection unavailable. Please refresh the page.';
+  $('recentTransactions').textContent =
+    'Transaction history is temporarily unavailable.';
+}
 
 function openModal(action) {
   const modalBox = backdrop.querySelector('.modal');
