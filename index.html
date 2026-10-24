@@ -171,7 +171,12 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 <script>
 const SUPABASE_URL="https://dqdethtbegofepqqnwdu.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+  const supabaseClient = window.supabase?.createClient
+  ? window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    )
+  : null;
 const $=id=>document.getElementById(id);const backdrop=$('modalBackdrop'),modalTitle=$('modalTitle'),modalContent=$('modalContent'),toast=$('toast');let toastTimer;
 const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Fund Wallet',withdraw:'Withdraw',wallet:'My Wallet',tv:'Cable TV',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',support:'Help & Support',account:'Login / Register',exam:'Exam PIN',ninPhone:'NIN Phone'};
 function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3200)}function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}function money(n){return '₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
