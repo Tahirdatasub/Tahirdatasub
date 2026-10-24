@@ -1,312 +1,337 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101010">
-<meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">
-<title>TAHIRDATASUB — Premium Digital Services</title>
-<style>
-:root{--bg:#0d0e10;--panel:#17191d;--panel2:#242424;--gold:#f3c742;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#383838;--green:#55d69e;--red:#ff8585}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#171717 0,#0d0e10 300px,#080808 680px);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}.shell{max-width:1240px;margin:auto;min-height:100vh}
-header{position:sticky;top:0;z-index:10;background:#0d0e10f2;border-bottom:1px solid var(--line)}.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--gold);border:2px solid var(--gold);color:#151515;font-weight:950}.brand em{font-style:normal;color:var(--gold)}.header-actions{display:flex;gap:8px;align-items:center}
-.btn{border:1px solid var(--line);background:var(--panel2);color:var(--white);padding:9px 12px;border-radius:10px;font-weight:750;min-height:38px;font-size:13px}.btn.gold{background:var(--gold);color:#171717;border-color:var(--gold)}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffe28a;outline-offset:2px}
-main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 20px}.welcome h1{font-size:clamp(25px,5vw,36px);line-height:1.15;margin:0 0 6px}.welcome p{margin:0;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}
-.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{background:linear-gradient(145deg,#202020,#111);border:1px solid #383838;border-radius:20px;padding:16px;min-width:0}.balance-card{grid-column:span 12;background:linear-gradient(135deg,#29251a,#111 75%);border:1px solid #77642a;box-shadow:0 14px 35px #0005}.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e4dfcc;font-size:13px}.balance-value{font-size:clamp(30px,6vw,42px);font-weight:900;margin:14px 0 18px;overflow-wrap:anywhere}.balance-value small{font-size:14px;color:#d5d5d5}.balance-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.balance-actions .btn{min-height:36px;padding:8px 11px;border-radius:10px;font-size:13px}.stats{grid-column:span 12;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stat{padding:12px;border-radius:15px;background:#17191d;border:1px solid #383838}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;margin-top:7px;font-size:20px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 12px}.section-title h2{font-size:19px;margin:0}.section-title p{font-size:12px;color:var(--muted);margin:3px 0 0}
-.wallet-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 22px}.shortcut{min-width:0;min-height:86px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:9px 3px;background:#17191d;border:1px solid #383838;border-radius:15px;color:#fff}.shortcut strong{font-size:10px;text-align:center;line-height:1.25}.shortcut-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:900}.shortcut-icon.gold{background:var(--gold);color:#171717}.shortcut-icon.white{background:#fff;color:#171717}.shortcut-icon.gray{background:#d6d6d6;color:#171717}.shortcut-icon.olive{background:#5b4a19;color:#fff}
-.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;background:#050505;border:1px solid #252525;border-radius:20px;padding:12px 7px}.service{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;min-width:0;min-height:92px;padding:8px 2px;background:#121827;border:1px solid #252f46;border-radius:14px;color:var(--text)}.service:hover,.service:focus-visible{border-color:var(--gold)}.service-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#302812;border:1px solid #6f5a1b;color:var(--gold);font-size:21px}.service strong{font-size:11px;line-height:1.25;overflow-wrap:anywhere}.service small{display:none}
-.content-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}.tx-row{display:flex;align-items:center;gap:12px;padding:12px 9px;margin-top:8px;border:1px solid #383838;border-radius:14px;background:#191919}.tx-icon{width:38px;height:38px;border-radius:11px;background:var(--gold);color:#111;display:grid;place-items:center;flex-shrink:0}.tx-info{flex:1;min-width:0}.tx-info strong,.tx-info small{display:block}.tx-info small,.form-note{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.tx-amount{font-size:13px;font-weight:800;white-space:nowrap}.notice{padding:11px 13px;border-radius:12px;background:#f3c74212;border:1px solid #6e5b22;color:#e8dfc1;font-size:12px;margin-top:13px}.ussd-code{font-size:clamp(28px,6vw,40px);font-weight:950;color:var(--gold)}footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line)}.support-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.support-links a{display:inline-flex;padding:9px 12px;border-radius:10px;font-weight:800;background:var(--panel2);border:1px solid var(--line)}.support-links a.whatsapp{background:#1b5e3b;border-color:#1b5e3b}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:12;display:grid;background:#171717f5;border:1px solid #383838;border-radius:24px 24px 0 0;padding:7px 8px calc(7px + env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr);backdrop-filter:blur(14px)}.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#aeb2bb;padding:8px 2px;border-radius:16px}.bottom-nav span{font-size:21px}.bottom-nav a.active{background:#3a3012;color:var(--gold);font-weight:800}
-.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:12px;z-index:30}.modal-backdrop.show{display:flex}.modal{width:min(470px,100%);height:calc(100dvh - 24px);max-height:calc(100dvh - 24px);overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid #77642a;border-radius:18px;padding:14px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:6px 0 10px}.modal h2{margin:0;font-size:20px}.close{border:0;border-radius:9px;background:var(--panel2);color:white;width:38px;height:38px}#modalContent{min-height:0;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:13px;color:#d7d7d7}.field input,.field select{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:#0d0e10;color:white;padding:10px 11px}.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;z-index:50;background:white;color:#151515;border-radius:11px;padding:11px 14px;width:max-content;max-width:calc(100% - 28px);font-size:13px;font-weight:750}.toast.show{opacity:1;transform:translate(-50%,0)}
-.data-networks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:8px 0 18px}.data-network{min-width:0;min-height:75px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1px solid #303030;border-radius:13px;background:#242424;color:#fff}.data-network.active{border-color:var(--gold);background:#302812}.data-logo{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:11px}.data-mtn{background:var(--gold);color:#171717}.data-airtel{background:#ed1c24;color:#fff}.data-glo{background:#168b43;color:#fff}.data-nine{background:#111;color:#c9e52b;font-size:24px}.data-network strong{font-size:11px}.data-phone-box{display:flex;align-items:center;gap:8px;padding:7px 10px;min-height:54px;border:1px solid #383838;border-radius:14px;background:#242424}.data-phone-box input{flex:1;width:100%;min-width:0;border:0;outline:none;background:transparent;color:#fff;font-size:15px;padding:7px 0}.data-phone-box button{border:0;background:transparent;color:var(--gold);font-size:20px;padding:4px}.data-tabs{display:flex;justify-content:center;gap:8px;margin:14px 0}.data-tabs button{flex:1;padding:9px 12px;border:0;border-radius:24px;background:#242424;color:#aaa;font-size:13px;font-weight:800}.data-tabs button.active{background:var(--gold);color:#171717}.data-plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.data-plan-card{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0;min-height:145px;padding:11px 10px;border:1px solid #383838;border-radius:15px;background:#202020;color:#fff;text-align:left}.data-plan-card.active{border-color:var(--gold);background:#302812}.data-plan-top{display:flex;align-items:center;justify-content:space-between;gap:5px}.data-plan-badge{padding:4px 6px;border-radius:7px;background:#383838;color:#ddd;font-size:9px;font-weight:800;text-align:center}.data-plan-size{font-size:22px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}.data-plan-price{display:block;width:100%;padding:8px 4px;border-radius:10px;background:#35302a;color:var(--gold);font-size:14px;font-weight:900;text-align:center}.data-total,.airtime-total{display:grid;gap:6px;margin:14px 0;padding:14px;border:1px solid #77642a;border-radius:15px;background:#29251a}.data-total strong,.airtime-total strong{font-size:23px;color:var(--gold);overflow-wrap:anywhere}.data-total small,.airtime-total small{color:#c9c9c9;line-height:1.5}.airtime-amount-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:8px 0 12px}.airtime-amount-grid button{min-height:44px;border:1px solid #383838;border-radius:11px;background:#242424;color:white;font-size:13px;font-weight:750}.airtime-amount-grid button.active{border-color:var(--gold);background:#302812}.withdrawal-total{display:grid;gap:7px;margin:14px 0;padding:14px;border:1px solid #77642a;border-radius:15px;background:#29251a}.withdrawal-total strong{font-size:24px;color:var(--gold)}
-@media(min-width:801px){.bottom-nav{display:none}.content-grid{grid-template-columns:2fr 1fr}}@media(max-width:520px){.header-inner{padding:9px 10px}.brand{font-size:15px;gap:7px}.logo{width:36px;height:36px}.header-actions{gap:5px}.header-actions .btn{padding:7px 8px;font-size:11px;min-height:34px}main{padding:14px 10px 88px}.welcome{display:block}.welcome .pill{margin-top:10px}.card{padding:13px;border-radius:16px}.stats{gap:7px}.stat{padding:10px}.stat span{font-size:11px}.stat strong{font-size:17px}.section-title{margin-top:21px}.services{gap:5px;padding:9px 4px}.service{min-height:82px;padding:7px 1px;gap:5px;border-radius:12px}.service-icon{width:34px;height:34px;font-size:18px;border-radius:10px}.service strong{font-size:10px}.wallet-shortcuts{gap:6px}.shortcut{min-height:80px;padding:7px 2px}.shortcut-icon{width:34px;height:34px;font-size:18px}.shortcut strong{font-size:9px}.balance-value{margin:11px 0 14px}}@media(max-width:360px){.services{grid-template-columns:repeat(3,minmax(0,1fr))}.service{min-height:88px}.service strong{font-size:10px}.wallet-shortcuts{gap:4px}.shortcut strong{font-size:8px}}
-</style>
-</head>
-<body>
-<header><div class="header-inner"><a class="brand" href="#dashboard"><span class="logo">TR</span><span>TAHIR<em>DATA</em>SUB</span></a><div class="header-actions"><button class="btn" data-action="support">Support</button><button class="btn gold" data-action="account">Login / Register</button></div></div></header>
-<div class="shell"><main id="dashboard">
-<section class="welcome"><div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div><span class="pill"><span class="dot"></span> Mobile-friendly dashboard</span></section>
-<section class="grid" aria-label="Wallet overview"><article class="card balance-card"><div class="balance-top"><span>Wallet balance</span><span>NGN ₦</span></div><div class="balance-value" id="walletBalance">₦0.00 <small>NGN</small></div><p style="margin:0 0 13px;color:#d5d5d5;font-size:13px">Cashback: ₦0 · Tier: smart</p><div class="balance-actions"><button class="btn gold" data-action="deposit">＋ Fund Wallet</button><button class="btn" data-action="withdraw">🏦 Withdraw</button><button class="btn" data-action="wallet">Wallet details</button></div><div class="notice" id="walletMessage">Connecting to your wallet...</div></article><div class="stats" aria-label="Transaction statistics"><article class="stat"><span>Total transactions</span><strong id="totalTransactions">0</strong></article><article class="stat"><span>Successful</span><strong id="successfulTransactions">0</strong></article><article class="stat"><span>Pending</span><strong id="pendingTransactions">0</strong></article></div></section>
-<section class="wallet-shortcuts" aria-label="Wallet shortcuts"><button class="shortcut" data-action="deposit"><span class="shortcut-icon gold">＋</span><strong>Fund Wallet</strong></button><button class="shortcut" data-action="transfer"><span class="shortcut-icon white">➤</span><strong>Send Money</strong></button><button class="shortcut" data-action="withdraw"><span class="shortcut-icon gray">▤</span><strong>Withdraw</strong></button><button class="shortcut" data-action="history"><span class="shortcut-icon olive">◷</span><strong>History</strong></button></section>
-<div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>
-<section class="services" aria-label="Quick services">
-<button class="service" data-action="data"><span class="service-icon">📶</span><strong>Data Bundles</strong></button><button class="service" data-action="airtime"><span class="service-icon">📞</span><strong>Airtime</strong></button><button class="service" data-action="tv"><span class="service-icon">📺</span><strong>Cable TV</strong></button><button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity</strong></button>
-<button class="service" data-action="exam"><span class="service-icon">🎓</span><strong>Exam PIN</strong></button><button class="service" data-action="convert"><span class="service-icon">💱</span><strong>Airtime to Cash</strong></button><button class="service" data-action="ninPhone"><span class="service-icon">📱</span><strong>NIN Phone</strong></button>
-<button class="service" data-action="withdraw"><span class="service-icon">🏛️</span><strong>Withdraw</strong></button><button class="service" data-action="history"><span class="service-icon">🧾</span><strong>History</strong></button>
-<button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong></button><button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong></button><button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong></button><button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong></button>
-</section>
-<div class="section-title" id="activity"><div><h2>Recent Transactions</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div><section class="content-grid"><article class="card"><div id="recentTransactions"><p class="form-note">Loading recent transactions...</p></div><p class="form-note">Transactions are loaded securely from your Supabase account.</p></article><article class="card"><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">Activation requires the necessary approvals and network connection.</p></article></section>
-</main><footer><strong style="color:white;font-size:14px">TAHIRDATASUB Customer Service</strong><p>Call us or contact us on WhatsApp: <strong style="color:white">+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call Customer Service</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp Us</a></div>© <span id="year"></span> TAHIRDATASUB · Premium Black, Gold & White</footer></div>
-<nav class="bottom-nav" aria-label="Main navigation"><a class="active" href="#dashboard" data-tab="home"><span>⌂</span>Home</a><a href="#activity" data-tab="transactions"><span>▤</span>Transactions</a><a href="#services" data-tab="services"><span>▦</span>Services</a><a href="#profileNav" data-tab="profile"><span>♙</span>Profile</a></nav><span id="profileNav" aria-hidden="true"></span>
-<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modal-head"><h2 id="modalTitle">Service</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div><div id="modalContent"></div></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-const SUPABASE_URL="https://dqdethtbegofepqqnwdu.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY="sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";
-const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
-const $=id=>document.getElementById(id);const backdrop=$('modalBackdrop'),modalTitle=$('modalTitle'),modalContent=$('modalContent'),toast=$('toast');let toastTimer;
-const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Fund Wallet',withdraw:'Withdraw',wallet:'My Wallet',tv:'Cable TV',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',support:'Help & Support',account:'Login / Register',exam:'Exam PIN',ninPhone:'NIN Phone'};
-function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3200)}function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}function money(n){return '₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function displayTransactions(container,rows){container.replaceChildren();if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}rows.forEach(tx=>{const row=document.createElement('div');row.className='tx-row';const icon=document.createElement('div');icon.className='tx-icon';icon.textContent='🧾';const info=document.createElement('div');info.className='tx-info';const title=document.createElement('strong');title.textContent=String(tx.type||'Transaction').replaceAll('_',' ');const detail=document.createElement('small');detail.textContent=(tx.created_at?new Date(tx.created_at).toLocaleString('en-NG'):'Date unavailable')+' · '+(tx.status||'pending');const amount=document.createElement('div');amount.className='tx-amount';amount.textContent=money(tx.amount);info.append(title,detail);row.append(icon,info,amount);container.append(row)})}
-async function loadTransactionHistory(containerId,limit=50){const c=$(containerId);if(!c)return;c.textContent='Loading transactions...';const {data:u}=await supabaseClient.auth.getUser();if(!u.user){c.textContent='Please log in to view your transactions.';return}const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,status,description,created_at').eq('user_id',u.user.id).order('created_at',{ascending:false}).limit(limit);if(error){console.error(error);c.textContent='Unable to load transactions. Please try again.';return}displayTransactions(c,data||[])}
-async function loadTransactionHistoryStats(uid){const [a,b,c]=await Promise.all([supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','success'),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','pending')]);$('totalTransactions').textContent=a.count??0;$('successfulTransactions').textContent=b.count??0;$('pendingTransactions').textContent=c.count??0}
-async function loadDashboard(){const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){$('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return}const u=data.user;$('welcomeTitle').textContent=u.user_metadata?.full_name?`Welcome, ${u.user_metadata.full_name} 👋`:'Welcome to TAHIRDATASUB';const {data:w,error:we}=await supabaseClient.from('wallets').select('balance').eq('user_id',u.id).maybeSingle();if(!we&&w){$('walletBalance').innerHTML=money(w.balance)+' <small>NGN</small>';$('walletMessage').textContent='Wallet balance loaded securely.'}else $('walletMessage').textContent='Unable to load wallet. Please refresh and try again.';await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(u.id)])}
-supabaseClient.auth.onAuthStateChange(()=>setTimeout(loadDashboard,0));loadDashboard();
-function openModal(action){modalTitle.textContent=labels[action]||'TAHIRDATASUB';let body='';
-if(action==='account'){body=`<form id="authForm"><div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div><div class="field" id="fullNameField" style="display:none"><label>Full name</label><input id="authFullName" autocomplete="name" placeholder="Your full name"></div><div class="field" id="phoneField" style="display:none"><label>Phone number (optional)</label><input id="authPhone" type="tel" autocomplete="tel" placeholder="08012345678"></div><div class="field"><label>Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" required></div><div class="field" id="confirmPasswordField" style="display:none"><label>Confirm password</label><input id="authConfirmPassword" type="password"></div><p class="form-note" id="authStatus" role="status"></p><button class="btn gold" type="submit" id="authSubmit" style="width:100%">Login</button><button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button></form>`}
-else if(action==='data'){body=`<div class="data-networks"><button type="button" class="data-network" data-network="MTN"><span class="data-logo data-mtn">MTN</span><strong>MTN</strong></button><button type="button" class="data-network" data-network="Airtel"><span class="data-logo data-airtel">airtel</span><strong>Airtel</strong></button><button type="button" class="data-network" data-network="Glo"><span class="data-logo data-glo">glo</span><strong>Glo</strong></button><button type="button" class="data-network" data-network="9mobile"><span class="data-logo data-nine">9</span><strong>9mobile</strong></button></div><div class="field"><label>Phone number</label><input id="dataPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678" required></div><div class="data-tabs"><button class="active" type="button" data-type="SME">SME</button><button type="button" data-type="GIFTING">GIFTING</button></div><p id="dataHint" class="form-note">Demo prices only. Select a network and plan.</p><div id="dataPlanGrid" class="data-plan-grid"></div><div class="data-total"><span>Amount to Pay</span><strong id="dataPrice">₦0.00</strong><small id="dataSummary">Select a plan. This preview does not buy data.</small></div>`}
-else if(action==='airtime'){body=`<div class="data-networks"><button type="button" class="data-network" data-airnet="MTN"><span class="data-logo data-mtn">MTN</span><strong>MTN</strong></button><button type="button" class="data-network" data-airnet="Airtel"><span class="data-logo data-airtel">airtel</span><strong>Airtel</strong></button><button type="button" class="data-network" data-airnet="Glo"><span class="data-logo data-glo">glo</span><strong>Glo</strong></button><button type="button" class="data-network" data-airnet="9mobile"><span class="data-logo data-nine">9</span><strong>9mobile</strong></button></div><div class="field"><label>Phone number</label><input id="airPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678" required></div><div class="field"><label>Airtime amount (₦)</label><div class="airtime-amount-grid">${[100,200,300,500,1000,2000].map(n=>`<button type="button" data-amount="${n}">₦${n.toLocaleString('en-NG')}</button>`).join('')}</div><input id="airAmount" type="number" min="50" max="50000" placeholder="Enter amount" required></div><div class="airtime-total"><span>Amount to Pay</span><strong id="airPrice">₦0.00</strong><small id="airSummary">Select network and amount.</small></div>`}
-else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Wallet funding is not connected to a live payment provider in this form. Never credit a wallet until payment is verified server-side.</p>`}
-else if(action==='withdraw'){body=`${field('Amount (₦)','number','Minimum ₦100')}${selectField('Choose bank',['Select bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}<p class="form-note">Preview only. Account-name verification and secure payout processing are not connected.</p>`}
-else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}
-else if(action==='electricity'){body=`${selectField('Electricity provider',['Choose provider','KEDCO','AEDC','IKEDC','EKEDC','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Meter number')}${field('Amount (₦)','number','e.g. 5000')}`}
-else if(action==='water'){body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Customer number')}${field('Amount (₦)','number','e.g. 2000')}`}
-else if(action==='convert'){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}<p class="form-note">Do not credit a wallet until incoming airtime has been verified through an approved provider or manual reconciliation.</p>`}
-else if(action==='transfer'){body=`${selectField('Recipient bank',['Select bank','Access Bank','Ecobank','Fidelity Bank','First Bank','FCMB','GTBank','Jaiz Bank','Kuda','Moniepoint','Opay','PalmPay','Polaris Bank','Stanbic IBTC','UBA','Union Bank','Wema Bank','Zenith Bank','Other'])}${field('Recipient account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}<p class="form-note">Preview only. This form does not transfer money.</p>`}
-else if(action==='history'){body='<div id="historyList"><p class="form-note">Loading transaction history...</p></div>'}
-else if(action==='profile'){body='<div id="profileDetails"><p class="form-note">Loading your profile...</p></div>'}
-else if(action==='wallet'){body='<p>Your wallet balance is displayed on the dashboard.</p><p class="form-note">Deposits and withdrawals require a secure backend.</p>'}
-else if(action==='referral'){body='<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Referral rewards will be enabled after the secure backend is connected.</p>'}
-else if(action==='support'){body='<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>'}
-else if(action==='exam'){body=`${selectField('Exam type',['Choose exam','WAEC','NECO','JAMB','NABTEB'])}${field('Quantity','number','Number of PINs')}<p class="form-note">Exam PIN purchase is a preview until an authorised vendor API is connected.</p>`}
-else if(action==='ninPhone'){body=`<p><strong>NIN Phone</strong></p>${field('NIN number','text','Enter NIN')}<p class="form-note">This service is not connected to an authorised identity-verification provider. Do not submit sensitive identity details here yet.</p>`}
-else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}
-modalContent.innerHTML=body+(action==='account'||action==='history'||action==='profile'? '':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:10px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);
-if(action==='account')setupAuth();if(action==='history')loadTransactionHistory('historyList',100);if(action==='profile')loadProfile();
-if(action==='data')setupDataPreview();if(action==='airtime')setupAirtimePreview();
-const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});backdrop.classList.add('show');document.body.style.overflow='hidden';}
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1">  
+<meta name="theme-color" content="#101010">  
+<meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">  
+<title>TAHIRDATASUB — Premium Digital Services</title>  
+<style>  
+:root{--bg:#0d0e10;--panel:#17191d;--panel2:#242424;--gold:#f3c742;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#383838;--green:#55d69e;--red:#ff8585}  
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#171717 0,#0d0e10 300px,#080808 680px);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}.shell{max-width:1240px;margin:auto;min-height:100vh}  
+header{position:sticky;top:0;z-index:10;background:#0d0e10f2;border-bottom:1px solid var(--line)}.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--gold);border:2px solid var(--gold);color:#151515;font-weight:950}.brand em{font-style:normal;color:var(--gold)}.header-actions{display:flex;gap:8px;align-items:center}  
+.btn{border:1px solid var(--line);background:var(--panel2);color:var(--white);padding:9px 12px;border-radius:10px;font-weight:750;min-height:38px;font-size:13px}.btn.gold{background:var(--gold);color:#171717;border-color:var(--gold)}.btn:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ffe28a;outline-offset:2px}  
+main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin:12px 0 20px}.welcome h1{font-size:clamp(25px,5vw,36px);line-height:1.15;margin:0 0 6px}.welcome p{margin:0;color:var(--muted)}.pill{display:inline-flex;align-items:center;gap:7px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);font-size:12px;color:var(--muted)}.dot{width:7px;height:7px;background:var(--green);border-radius:50%}  
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}.card{background:linear-gradient(145deg,#202020,#111);border:1px solid #383838;border-radius:20px;padding:16px;min-width:0}.balance-card{grid-column:span 12;background:linear-gradient(135deg,#29251a,#111 75%);border:1px solid #77642a;box-shadow:0 14px 35px #0005}.balance-top{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#e4dfcc;font-size:13px}.balance-value{font-size:clamp(30px,6vw,42px);font-weight:900;margin:14px 0 18px;overflow-wrap:anywhere}.balance-value small{font-size:14px;color:#d5d5d5}.balance-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.balance-actions .btn{min-height:36px;padding:8px 11px;border-radius:10px;font-size:13px}.stats{grid-column:span 12;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.stat{padding:12px;border-radius:15px;background:#17191d;border:1px solid #383838}.stat span{display:block;color:var(--muted);font-size:12px}.stat strong{display:block;margin-top:7px;font-size:20px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:24px 0 12px}.section-title h2{font-size:19px;margin:0}.section-title p{font-size:12px;color:var(--muted);margin:3px 0 0}  
+.wallet-shortcuts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0 22px}.shortcut{min-width:0;min-height:86px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:9px 3px;background:#17191d;border:1px solid #383838;border-radius:15px;color:#fff}.shortcut strong{font-size:10px;text-align:center;line-height:1.25}.shortcut-icon{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;font-size:20px;font-weight:900}.shortcut-icon.gold{background:var(--gold);color:#171717}.shortcut-icon.white{background:#fff;color:#171717}.shortcut-icon.gray{background:#d6d6d6;color:#171717}.shortcut-icon.olive{background:#5b4a19;color:#fff}  
+.services{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;background:#050505;border:1px solid #252525;border-radius:20px;padding:12px 7px}.service{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;min-width:0;min-height:92px;padding:8px 2px;background:#121827;border:1px solid #252f46;border-radius:14px;color:var(--text)}.service:hover,.service:focus-visible{border-color:var(--gold)}.service-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#302812;border:1px solid #6f5a1b;color:var(--gold);font-size:21px}.service strong{font-size:11px;line-height:1.25;overflow-wrap:anywhere}.service small{display:none}  
+.content-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}.tx-row{display:flex;align-items:center;gap:12px;padding:12px 9px;margin-top:8px;border:1px solid #383838;border-radius:14px;background:#191919}.tx-icon{width:38px;height:38px;border-radius:11px;background:var(--gold);color:#111;display:grid;place-items:center;flex-shrink:0}.tx-info{flex:1;min-width:0}.tx-info strong,.tx-info small{display:block}.tx-info small,.form-note{color:var(--muted);font-size:12px;overflow-wrap:anywhere}.tx-amount{font-size:13px;font-weight:800;white-space:nowrap}.notice{padding:11px 13px;border-radius:12px;background:#f3c74212;border:1px solid #6e5b22;color:#e8dfc1;font-size:12px;margin-top:13px}.ussd-code{font-size:clamp(28px,6vw,40px);font-weight:950;color:var(--gold)}footer{padding:20px 16px 90px;color:var(--muted);font-size:12px;text-align:center;border-top:1px solid var(--line)}.support-links{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0}.support-links a{display:inline-flex;padding:9px 12px;border-radius:10px;font-weight:800;background:var(--panel2);border:1px solid var(--line)}.support-links a.whatsapp{background:#1b5e3b;border-color:#1b5e3b}  
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:12;display:grid;background:#171717f5;border:1px solid #383838;border-radius:24px 24px 0 0;padding:7px 8px calc(7px + env(safe-area-inset-bottom));grid-template-columns:repeat(4,1fr);backdrop-filter:blur(14px)}.bottom-nav a{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:#aeb2bb;padding:8px 2px;border-radius:16px}.bottom-nav span{font-size:21px}.bottom-nav a.active{background:#3a3012;color:var(--gold);font-weight:800}  
+.modal-backdrop{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:12px;z-index:30}.modal-backdrop.show{display:flex}.modal{width:min(470px,100%);height:calc(100dvh - 24px);max-height:calc(100dvh - 24px);overflow:hidden;display:flex;flex-direction:column;background:var(--panel);border:1px solid #77642a;border-radius:18px;padding:14px}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:6px 0 10px}.modal h2{margin:0;font-size:20px}.close{border:0;border-radius:9px;background:var(--panel2);color:white;width:38px;height:38px}#modalContent{min-height:0;flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;padding-bottom:12px}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:13px;color:#d7d7d7}.field input,.field select{width:100%;min-height:44px;border-radius:10px;border:1px solid var(--line);background:#0d0e10;color:white;padding:10px 11px}.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,15px);opacity:0;pointer-events:none;transition:.2s;z-index:50;background:white;color:#151515;border-radius:11px;padding:11px 14px;width:max-content;max-width:calc(100% - 28px);font-size:13px;font-weight:750}.toast.show{opacity:1;transform:translate(-50%,0)}  
+.data-networks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:8px 0 18px}.data-network{min-width:0;min-height:75px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1px solid #303030;border-radius:13px;background:#242424;color:#fff}.data-network.active{border-color:var(--gold);background:#302812}.data-logo{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:900;font-size:11px}.data-mtn{background:var(--gold);color:#171717}.data-airtel{background:#ed1c24;color:#fff}.data-glo{background:#168b43;color:#fff}.data-nine{background:#111;color:#c9e52b;font-size:24px}.data-network strong{font-size:11px}.data-phone-box{display:flex;align-items:center;gap:8px;padding:7px 10px;min-height:54px;border:1px solid #383838;border-radius:14px;background:#242424}.data-phone-box input{flex:1;width:100%;min-width:0;border:0;outline:none;background:transparent;color:#fff;font-size:15px;padding:7px 0}.data-phone-box button{border:0;background:transparent;color:var(--gold);font-size:20px;padding:4px}.data-tabs{display:flex;justify-content:center;gap:8px;margin:14px 0}.data-tabs button{flex:1;padding:9px 12px;border:0;border-radius:24px;background:#242424;color:#aaa;font-size:13px;font-weight:800}.data-tabs button.active{background:var(--gold);color:#171717}.data-plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.data-plan-card{display:flex;flex-direction:column;justify-content:space-between;gap:12px;min-width:0;min-height:145px;padding:11px 10px;border:1px solid #383838;border-radius:15px;background:#202020;color:#fff;text-align:left}.data-plan-card.active{border-color:var(--gold);background:#302812}.data-plan-top{display:flex;align-items:center;justify-content:space-between;gap:5px}.data-plan-badge{padding:4px 6px;border-radius:7px;background:#383838;color:#ddd;font-size:9px;font-weight:800;text-align:center}.data-plan-size{font-size:22px;font-weight:800;line-height:1.2;overflow-wrap:anywhere}.data-plan-price{display:block;width:100%;padding:8px 4px;border-radius:10px;background:#35302a;color:var(--gold);font-size:14px;font-weight:900;text-align:center}.data-total,.airtime-total{display:grid;gap:6px;margin:14px 0;padding:14px;border:1px solid #77642a;border-radius:15px;background:#29251a}.data-total strong,.airtime-total strong{font-size:23px;color:var(--gold);overflow-wrap:anywhere}.data-total small,.airtime-total small{color:#c9c9c9;line-height:1.5}.airtime-amount-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:8px 0 12px}.airtime-amount-grid button{min-height:44px;border:1px solid #383838;border-radius:11px;background:#242424;color:white;font-size:13px;font-weight:750}.airtime-amount-grid button.active{border-color:var(--gold);background:#302812}.withdrawal-total{display:grid;gap:7px;margin:14px 0;padding:14px;border:1px solid #77642a;border-radius:15px;background:#29251a}.withdrawal-total strong{font-size:24px;color:var(--gold)}  
+@media(min-width:801px){.bottom-nav{display:none}.content-grid{grid-template-columns:2fr 1fr}}@media(max-width:520px){.header-inner{padding:9px 10px}.brand{font-size:15px;gap:7px}.logo{width:36px;height:36px}.header-actions{gap:5px}.header-actions .btn{padding:7px 8px;font-size:11px;min-height:34px}main{padding:14px 10px 88px}.welcome{display:block}.welcome .pill{margin-top:10px}.card{padding:13px;border-radius:16px}.stats{gap:7px}.stat{padding:10px}.stat span{font-size:11px}.stat strong{font-size:17px}.section-title{margin-top:21px}.services{gap:5px;padding:9px 4px}.service{min-height:82px;padding:7px 1px;gap:5px;border-radius:12px}.service-icon{width:34px;height:34px;font-size:18px;border-radius:10px}.service strong{font-size:10px}.wallet-shortcuts{gap:6px}.shortcut{min-height:80px;padding:7px 2px}.shortcut-icon{width:34px;height:34px;font-size:18px}.shortcut strong{font-size:9px}.balance-value{margin:11px 0 14px}}@media(max-width:360px){.services{grid-template-columns:repeat(3,minmax(0,1fr))}.service{min-height:88px}.service strong{font-size:10px}.wallet-shortcuts{gap:4px}.shortcut strong{font-size:8px}}  
+</style>  
+</head>  
+<body>  
+<header><div class="header-inner"><a class="brand" href="#dashboard"><span class="logo">TR</span><span>TAHIR<em>DATA</em>SUB</span></a><div class="header-actions"><button class="btn" data-action="support">Support</button><button class="btn gold" data-action="account">Login / Register</button></div></div></header>  
+<div class="shell"><main id="dashboard">  
+<section class="welcome"><div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div><span class="pill"><span class="dot"></span> Mobile-friendly dashboard</span></section>  
+<section class="grid" aria-label="Wallet overview"><article class="card balance-card"><div class="balance-top"><span>Wallet balance</span><span>NGN ₦</span></div><div class="balance-value" id="walletBalance">₦0.00 <small>NGN</small></div><p style="margin:0 0 13px;color:#d5d5d5;font-size:13px">Cashback: ₦0 · Tier: smart</p><div class="balance-actions"><button class="btn gold" data-action="deposit">＋ Fund Wallet</button><button class="btn" data-action="withdraw">🏦 Withdraw</button><button class="btn" data-action="wallet">Wallet details</button></div><div class="notice" id="walletMessage">Connecting to your wallet...</div></article><div class="stats" aria-label="Transaction statistics"><article class="stat"><span>Total transactions</span><strong id="totalTransactions">0</strong></article><article class="stat"><span>Successful</span><strong id="successfulTransactions">0</strong></article><article class="stat"><span>Pending</span><strong id="pendingTransactions">0</strong></article></div></section>  
+<section class="wallet-shortcuts" aria-label="Wallet shortcuts"><button class="shortcut" data-action="deposit"><span class="shortcut-icon gold">＋</span><strong>Fund Wallet</strong></button><button class="shortcut" data-action="transfer"><span class="shortcut-icon white">➤</span><strong>Send Money</strong></button><button class="shortcut" data-action="withdraw"><span class="shortcut-icon gray">▤</span><strong>Withdraw</strong></button><button class="shortcut" data-action="history"><span class="shortcut-icon olive">◷</span><strong>History</strong></button></section>  
+<div class="section-title" id="services"><div><h2>Quick services</h2><p>Choose a service to get started.</p></div></div>  
+<section class="services" aria-label="Quick services">  
+<button class="service" data-action="data"><span class="service-icon">📶</span><strong>Data Bundles</strong></button><button class="service" data-action="airtime"><span class="service-icon">📞</span><strong>Airtime</strong></button><button class="service" data-action="tv"><span class="service-icon">📺</span><strong>Cable TV</strong></button><button class="service" data-action="electricity"><span class="service-icon">💡</span><strong>Electricity</strong></button>  
+<button class="service" data-action="exam"><span class="service-icon">🎓</span><strong>Exam PIN</strong></button><button class="service" data-action="convert"><span class="service-icon">💱</span><strong>Airtime to Cash</strong></button><button class="service" data-action="ninSlip"><span class="service-icon">🪪</span><strong>NIN Slip</strong></button><button class="service" data-action="ninPhone"><span class="service-icon">📱</span><strong>NIN Phone</strong></button>  
+<button class="service" data-action="ninModify"><span class="service-icon">📝</span><strong>NIN Modification</strong></button><button class="service" data-action="bvn"><span class="service-icon">🏦</span><strong>BVN Check</strong></button><button class="service" data-action="withdraw"><span class="service-icon">🏛️</span><strong>Withdraw</strong></button><button class="service" data-action="history"><span class="service-icon">🧾</span><strong>History</strong></button>  
+<button class="service" data-action="water"><span class="service-icon">💧</span><strong>Water Bill</strong></button><button class="service" data-action="transfer"><span class="service-icon">🏦</span><strong>Bank Transfer</strong></button><button class="service" data-action="referral"><span class="service-icon">🎁</span><strong>Refer Friends</strong></button><button class="service" data-action="profile"><span class="service-icon">👤</span><strong>My Profile</strong></button>  
+</section>  
+<div class="section-title" id="activity"><div><h2>Recent Transactions</h2><p>Your latest wallet and service updates.</p></div><button class="btn" data-action="history">View all</button></div><section class="content-grid"><article class="card"><div id="recentTransactions"><p class="form-note">Loading recent transactions...</p></div><p class="form-note">Transactions are loaded securely from your Supabase account.</p></article><article class="card"><span class="pill">Planned for the future</span><div class="ussd-code">*433#</div><p>Proposed TAHIRDATASUB USSD code — not active yet.</p><p class="form-note">Activation requires the necessary approvals and network connection.</p></article></section>  
+</main><footer><strong style="color:white;font-size:14px">TAHIRDATASUB Customer Service</strong><p>Call us or contact us on WhatsApp: <strong style="color:white">+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call Customer Service</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp Us</a></div>© <span id="year"></span> TAHIRDATASUB · Premium Black, Gold & White</footer></div>  
+<nav class="bottom-nav" aria-label="Main navigation"><a class="active" href="#dashboard" data-tab="home"><span>⌂</span>Home</a><a href="#activity" data-tab="transactions"><span>▤</span>Transactions</a><a href="#services" data-tab="services"><span>▦</span>Services</a><a href="#profileNav" data-tab="profile"><span>♙</span>Profile</a></nav><span id="profileNav" aria-hidden="true"></span>  
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal"><div class="modal-head"><h2 id="modalTitle">Service</h2><button class="close" id="closeModal" aria-label="Close">✕</button></div><div id="modalContent"></div></div></div><div class="toast" id="toast" role="status" aria-live="polite"></div>  
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  
+<script>  
+const SUPABASE_URL="https://dqdethtbegofepqqnwdu.supabase.co";  
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_uD8OR-2P1yfaLIYrpIJMGg_cSdEOzm8";  
+const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);  
+const $=id=>document.getElementById(id);const backdrop=$('modalBackdrop'),modalTitle=$('modalTitle'),modalContent=$('modalContent'),toast=$('toast');let toastTimer;  
+const labels={data:'Buy Data',airtime:'Buy Airtime',deposit:'Fund Wallet',withdraw:'Withdraw',wallet:'My Wallet',tv:'Cable TV',electricity:'Electricity Bill',water:'Water Bill',convert:'Airtime to Cash',transfer:'Bank Transfer',referral:'Refer Friends',history:'Transaction History',profile:'My Profile',support:'Help & Support',account:'Login / Register',exam:'Exam PIN',ninSlip:'NIN Slip',ninPhone:'NIN Phone',ninModify:'NIN Modification',bvn:'BVN Check'};  
+function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),3200)}function closeModal(){backdrop.classList.remove('show');document.body.style.overflow=''}function field(label,type='text',placeholder='',required=true){return `<div class="field"><label>${label}</label><input type="${type}" placeholder="${placeholder}" ${required?'required':''}></div>`}function selectField(label,options){return `<div class="field"><label>${label}</label><select required>${options.map(x=>`<option value="${x}">${x}</option>`).join('')}</select></div>`}function money(n){return '₦'+Number(n||0).toLocaleString('en-NG',{minimumFractionDigits:2,maximumFractionDigits:2})}  
+function displayTransactions(container,rows){container.replaceChildren();if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}rows.forEach(tx=>{const row=document.createElement('div');row.className='tx-row';const icon=document.createElement('div');icon.className='tx-icon';icon.textContent='🧾';const info=document.createElement('div');info.className='tx-info';const title=document.createElement('strong');title.textContent=String(tx.type||'Transaction').replaceAll('_',' ');const detail=document.createElement('small');detail.textContent=(tx.created_at?new Date(tx.created_at).toLocaleString('en-NG'):'Date unavailable')+' · '+(tx.status||'pending');const amount=document.createElement('div');amount.className='tx-amount';amount.textContent=money(tx.amount);info.append(title,detail);row.append(icon,info,amount);container.append(row)})}  
+async function loadTransactionHistory(containerId,limit=50){const c=$(containerId);if(!c)return;c.textContent='Loading transactions...';const {data:u}=await supabaseClient.auth.getUser();if(!u.user){c.textContent='Please log in to view your transactions.';return}const {data,error}=await supabaseClient.from('transactions').select('id,type,amount,status,description,created_at').eq('user_id',u.user.id).order('created_at',{ascending:false}).limit(limit);if(error){console.error(error);c.textContent='Unable to load transactions. Please try again.';return}displayTransactions(c,data||[])}  
+async function loadTransactionHistoryStats(uid){const [a,b,c]=await Promise.all([supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','success'),supabaseClient.from('transactions').select('id',{count:'exact',head:true}).eq('user_id',uid).eq('status','pending')]);$('totalTransactions').textContent=a.count??0;$('successfulTransactions').textContent=b.count??0;$('pendingTransactions').textContent=c.count??0}  
+async function loadDashboard(){const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){$('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return}const u=data.user;$('welcomeTitle').textContent=u.user_metadata?.full_name?`Welcome, ${u.user_metadata.full_name} 👋`:'Welcome to TAHIRDATASUB';const {data:w,error:we}=await supabaseClient.from('wallets').select('balance').eq('user_id',u.id).maybeSingle();if(!we&&w){$('walletBalance').innerHTML=money(w.balance)+' <small>NGN</small>';$('walletMessage').textContent='Wallet balance loaded securely.'}else $('walletMessage').textContent='Unable to load wallet. Please refresh and try again.';await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(u.id)])}  
+supabaseClient.auth.onAuthStateChange(()=>setTimeout(loadDashboard,0));loadDashboard();  
+function openModal(action){modalTitle.textContent=labels[action]||'TAHIRDATASUB';let body='';  
+if(action==='account'){body=`<form id="authForm"><div class="field"><label for="authMode">Choose option</label><select id="authMode"><option value="login">Login</option><option value="register">Register</option></select></div><div class="field" id="fullNameField" style="display:none"><label>Full name</label><input id="authFullName" autocomplete="name" placeholder="Your full name"></div><div class="field" id="phoneField" style="display:none"><label>Phone number (optional)</label><input id="authPhone" type="tel" autocomplete="tel" placeholder="08012345678"></div><div class="field"><label>Email address</label><input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" required></div><div class="field"><label>Password</label><input id="authPassword" type="password" autocomplete="current-password" required></div><div class="field" id="confirmPasswordField" style="display:none"><label>Confirm password</label><input id="authConfirmPassword" type="password"></div><p class="form-note" id="authStatus" role="status"></p><button class="btn gold" type="submit" id="authSubmit" style="width:100%">Login</button><button class="btn" type="button" id="authSignOut" style="width:100%;margin-top:8px;display:none">Sign out</button></form>`}  
+else if(action==='data'){body=`<div class="data-networks"><button type="button" class="data-network" data-network="MTN"><span class="data-logo data-mtn">MTN</span><strong>MTN</strong></button><button type="button" class="data-network" data-network="Airtel"><span class="data-logo data-airtel">airtel</span><strong>Airtel</strong></button><button type="button" class="data-network" data-network="Glo"><span class="data-logo data-glo">glo</span><strong>Glo</strong></button><button type="button" class="data-network" data-network="9mobile"><span class="data-logo data-nine">9</span><strong>9mobile</strong></button></div><div class="field"><label>Phone number</label><input id="dataPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678" required></div><div class="data-tabs"><button class="active" type="button" data-type="SME">SME</button><button type="button" data-type="GIFTING">GIFTING</button></div><p id="dataHint" class="form-note">Demo prices only. Select a network and plan.</p><div id="dataPlanGrid" class="data-plan-grid"></div><div class="data-total"><span>Amount to Pay</span><strong id="dataPrice">₦0.00</strong><small id="dataSummary">Select a plan. This preview does not buy data.</small></div>`}  
+else if(action==='airtime'){body=`<div class="data-networks"><button type="button" class="data-network" data-airnet="MTN"><span class="data-logo data-mtn">MTN</span><strong>MTN</strong></button><button type="button" class="data-network" data-airnet="Airtel"><span class="data-logo data-airtel">airtel</span><strong>Airtel</strong></button><button type="button" class="data-network" data-airnet="Glo"><span class="data-logo data-glo">glo</span><strong>Glo</strong></button><button type="button" class="data-network" data-airnet="9mobile"><span class="data-logo data-nine">9</span><strong>9mobile</strong></button></div><div class="field"><label>Phone number</label><input id="airPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678" required></div><div class="field"><label>Airtime amount (₦)</label><div class="airtime-amount-grid">${[100,200,300,500,1000,2000].map(n=>`<button type="button" data-amount="${n}">₦${n.toLocaleString('en-NG')}</button>`).join('')}</div><input id="airAmount" type="number" min="50" max="50000" placeholder="Enter amount" required></div><div class="airtime-total"><span>Amount to Pay</span><strong id="airPrice">₦0.00</strong><small id="airSummary">Select network and amount.</small></div>`}  
+else if(action==='deposit'){body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Wallet funding is not connected to a live payment provider in this form. Never credit a wallet until payment is verified server-side.</p>`}  
+else if(action==='withdraw'){body=`${field('Amount (₦)','number','Minimum ₦100')}${selectField('Choose bank',['Select bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}<p class="form-note">Preview only. Account-name verification and secure payout processing are not connected.</p>`}  
+else if(action==='tv'){body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`}  
+else if(action==='electricity'){body=`${selectField('Electricity provider',['Choose provider','KEDCO','AEDC','IKEDC','EKEDC','JED','Other'])}${selectField('Meter type',['Choose type','Prepaid','Postpaid'])}${field('Meter number','text','Meter number')}${field('Amount (₦)','number','e.g. 5000')}`}  
+else if(action==='water'){body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Customer number')}${field('Amount (₦)','number','e.g. 2000')}`}  
+else if(action==='convert'){body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}<p class="form-note">Do not credit a wallet until incoming airtime has been verified through an approved provider or manual reconciliation.</p>`}  
+else if(action==='transfer'){body=`${selectField('Recipient bank',['Select bank','Access Bank','Ecobank','Fidelity Bank','First Bank','FCMB','GTBank','Jaiz Bank','Kuda','Moniepoint','Opay','PalmPay','Polaris Bank','Stanbic IBTC','UBA','Union Bank','Wema Bank','Zenith Bank','Other'])}${field('Recipient account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}<p class="form-note">Preview only. This form does not transfer money.</p>`}  
+else if(action==='history'){body='<div id="historyList"><p class="form-note">Loading transaction history...</p></div>'}  
+else if(action==='profile'){body='<div id="profileDetails"><p class="form-note">Loading your profile...</p></div>'}  
+else if(action==='wallet'){body='<p>Your wallet balance is displayed on the dashboard.</p><p class="form-note">Deposits and withdrawals require a secure backend.</p>'}  
+else if(action==='referral'){body='<p>Example referral code: <strong>TAHIR433</strong></p><p class="form-note">Referral rewards will be enabled after the secure backend is connected.</p>'}  
+else if(action==='support'){body='<p>TAHIRDATASUB customer support</p><p>Phone / WhatsApp: <strong>+234 813 455 9773</strong></p><div class="support-links"><a href="tel:+2348134559773">📞 Call us</a><a class="whatsapp" href="https://wa.me/2348134559773" target="_blank" rel="noopener noreferrer">💬 WhatsApp us</a></div>'}  
+else if(action==='exam'){body=`${selectField('Exam type',['Choose exam','WAEC','NECO','JAMB','NABTEB'])}${field('Quantity','number','Number of PINs')}<p class="form-note">Exam PIN purchase is a preview until an authorised vendor API is connected.</p>`}  
+else if(action==='ninSlip'||action==='ninPhone'||action==='ninModify'||action==='bvn'){const desc={ninSlip:'NIN Slip',ninPhone:'NIN Phone',ninModify:'NIN Modification',bvn:'BVN Check'};body=`<p><strong>${desc[action]}</strong></p>${field(action==='bvn'?'BVN number':'NIN number','text',action==='bvn'?'Enter BVN':'Enter NIN')}<p class="form-note">This service is not connected to an authorised identity-verification provider. Do not submit sensitive identity details here yet.</p>`}  
+else{body='<p>This feature is currently a preview and is not connected to a live provider.</p>'}  
+modalContent.innerHTML=body+(action==='account'||action==='history'||action==='profile'? '':`<button class="btn gold" id="demoSubmit" style="width:100%;margin-top:10px">Continue (Preview)</button><p class="form-note">Preview only — this screen does not debit, credit, or transfer real money.</p>`);  
+if(action==='account')setupAuth();if(action==='history')loadTransactionHistory('historyList',100);if(action==='profile')loadProfile();  
+if(action==='data')setupDataPreview();if(action==='airtime')setupAirtimePreview();  
+const demo=$('demoSubmit');if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});backdrop.classList.add('show');document.body.style.overflow='hidden';}  function setupDataPreview() {
+const phone = $('dataPhone');
+const grid = $('dataPlanGrid');
 
-function setupDataPreview() {
-  const phone = $('dataPhone');
-  const grid = $('dataPlanGrid');
+let network = '';
+let type = 'SME';
 
-  let network = '';
-  let type = 'SME';
+const prefixes = {
+MTN: [
+'0803','0806','0703','0706','0813','0816',
+'0810','0814','0903','0906','0913','0916','07025','07026'
+],
+Airtel: [
+'0802','0808','0708','0812','0701','0902',
+'0907','0912','0901','0904','0911','0914'
+],
+Glo: [
+'0805','0807','0705','0815','0811','0905','0915'
+],
+'9mobile': [
+'0809','0817','0818','0909','0908'
+]
+};
 
-  const prefixes = {
-    MTN: [
-      '0803','0806','0703','0706','0813','0816',
-      '0810','0814','0903','0906','0913','0916','07025','07026'
-    ],
-    Airtel: [
-      '0802','0808','0708','0812','0701','0902',
-      '0907','0912','0901','0904','0911','0914'
-    ],
-    Glo: [
-      '0805','0807','0705','0815','0811','0905','0915'
-    ],
-    '9mobile': [
-      '0809','0817','0818','0909','0908'
-    ]
-  };
+const plans = [
+{size:'500MB',period:'WEEKLY',price:280,type:'SME'},
+{size:'1GB',period:'WEEKLY',price:395,type:'SME'},
+{size:'1GB',period:'MONTHLY',price:530,type:'SME'},
+{size:'2GB',period:'WEEKLY',price:800,type:'SME'},
+{size:'2GB',period:'MONTHLY',price:950,type:'SME'},
+{size:'5GB',period:'MONTHLY',price:2000,type:'SME'},
+{size:'1GB',period:'GIFTING',price:500,type:'GIFTING'},
+{size:'2GB',period:'GIFTING',price:1000,type:'GIFTING'},
+{size:'5GB',period:'GIFTING',price:2200,type:'GIFTING'},
+{size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}
+];
 
-  const plans = [
-    {size:'500MB',period:'WEEKLY',price:280,type:'SME'},
-    {size:'1GB',period:'WEEKLY',price:395,type:'SME'},
-    {size:'1GB',period:'MONTHLY',price:530,type:'SME'},
-    {size:'2GB',period:'WEEKLY',price:800,type:'SME'},
-    {size:'2GB',period:'MONTHLY',price:950,type:'SME'},
-    {size:'5GB',period:'MONTHLY',price:2000,type:'SME'},
-    {size:'1GB',period:'GIFTING',price:500,type:'GIFTING'},
-    {size:'2GB',period:'GIFTING',price:1000,type:'GIFTING'},
-    {size:'5GB',period:'GIFTING',price:2200,type:'GIFTING'},
-    {size:'10GB',period:'GIFTING',price:4000,type:'GIFTING'}
-  ];
+function normalizePhone(value) {
+let n = value.replace(/\D/g, '');
+if (n.startsWith('234')) n = '0' + n.slice(3);
+return n;
+}
 
-  function normalizePhone(value) {
-    let n = value.replace(/\D/g, '');
-    if (n.startsWith('234')) n = '0' + n.slice(3);
-    return n;
-  }
+function detectNetwork(value) {
+const n = normalizePhone(value);
+if (n.length < 4) return '';
 
-  function detectNetwork(value) {
-    const n = normalizePhone(value);
-    if (n.length < 4) return '';
+for (const [name, list] of Object.entries(prefixes)) {  
+  if (list.some(prefix => n.startsWith(prefix))) {  
+    return name;  
+  }  
+}  
 
-    for (const [name, list] of Object.entries(prefixes)) {
-      if (list.some(prefix => n.startsWith(prefix))) {
-        return name;
-      }
-    }
+return '';
 
-    return '';
-  }
+}
 
-  function renderPlans() {
-    grid.replaceChildren();
+function renderPlans() {
+grid.replaceChildren();
 
-    $('dataPrice').textContent = '₦0.00';
+$('dataPrice').textContent = '₦0.00';  
 
-    if (!network) {
-      $('dataSummary').textContent = 'Enter a valid number to detect network.';
-      $('dataHint').textContent =
-        'Network not detected. Check the phone number.';
-      return;
-    }
+if (!network) {  
+  $('dataSummary').textContent = 'Enter a valid number to detect network.';  
+  $('dataHint').textContent =  
+    'Network not detected. Check the phone number.';  
+  return;  
+}  
 
-    $('dataHint').textContent =
-      network + ' detected automatically · Demo prices only.';
+$('dataHint').textContent =  
+  network + ' detected automatically · Demo prices only.';  
 
-    $('dataSummary').textContent = 'Select a data plan.';
+$('dataSummary').textContent = 'Select a data plan.';  
 
-    const available = plans.filter(p => p.type === type);
+const available = plans.filter(p => p.type === type);  
 
-    available.forEach(plan => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = 'data-plan-card';
+available.forEach(plan => {  
+  const button = document.createElement('button');  
+  button.type = 'button';  
+  button.className = 'data-plan-card';  
 
-      const top = document.createElement('span');
-      top.className = 'data-plan-top';
+  const top = document.createElement('span');  
+  top.className = 'data-plan-top';  
 
-      const networkBadge = document.createElement('span');
-      networkBadge.className = 'data-plan-badge';
-      networkBadge.textContent = network;
+  const networkBadge = document.createElement('span');  
+  networkBadge.className = 'data-plan-badge';  
+  networkBadge.textContent = network;  
 
-      const periodBadge = document.createElement('span');
-      periodBadge.className = 'data-plan-badge';
-      periodBadge.textContent = plan.period;
+  const periodBadge = document.createElement('span');  
+  periodBadge.className = 'data-plan-badge';  
+  periodBadge.textContent = plan.period;  
 
-      top.append(networkBadge, periodBadge);
+  top.append(networkBadge, periodBadge);  
 
-      const size = document.createElement('span');
-      size.className = 'data-plan-size';
-      size.textContent = plan.size;
+  const size = document.createElement('span');  
+  size.className = 'data-plan-size';  
+  size.textContent = plan.size;  
 
-      const price = document.createElement('span');
-      price.className = 'data-plan-price';
-      price.textContent = money(plan.price);
+  const price = document.createElement('span');  
+  price.className = 'data-plan-price';  
+  price.textContent = money(plan.price);  
 
-      button.append(top, size, price);
+  button.append(top, size, price);  
 
-      button.addEventListener('click', () => {
-        grid.querySelectorAll('.data-plan-card').forEach(item => {
-          item.classList.toggle('active', item === button);
-        });
+  button.addEventListener('click', () => {  
+    grid.querySelectorAll('.data-plan-card').forEach(item => {  
+      item.classList.toggle('active', item === button);  
+    });  
 
-        $('dataPrice').textContent = money(plan.price);
-        $('dataSummary').textContent =
-          network + ' · ' + plan.size + ' · ' +
-          plan.period + ' · Demo price only';
-      });
+    $('dataPrice').textContent = money(plan.price);  
+    $('dataSummary').textContent =  
+      network + ' · ' + plan.size + ' · ' +  
+      plan.period + ' · Demo price only';  
+  });  
 
-      grid.append(button);
-    });
-  }
+  grid.append(button);  
+});
 
-  function updateNetwork() {
-    network = detectNetwork(phone.value);
+}
 
-    document.querySelectorAll('[data-network]').forEach(button => {
-      const active = button.dataset.network === network;
-      button.classList.toggle('active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
+function updateNetwork() {
+network = detectNetwork(phone.value);
 
-    renderPlans();
-  }
+document.querySelectorAll('[data-network]').forEach(button => {  
+  const active = button.dataset.network === network;  
+  button.classList.toggle('active', active);  
+  button.setAttribute('aria-pressed', String(active));  
+});  
 
-  phone.addEventListener('input', updateNetwork);
+renderPlans();
 
-  document.querySelectorAll('[data-type]').forEach(button => {
-    button.addEventListener('click', () => {
-      type = button.dataset.type;
+}
 
-      document.querySelectorAll('[data-type]').forEach(tab => {
-        tab.classList.toggle('active', tab === button);
-      });
+phone.addEventListener('input', updateNetwork);
 
-      renderPlans();
-    });
-  });
+document.querySelectorAll('[data-type]').forEach(button => {
+button.addEventListener('click', () => {
+type = button.dataset.type;
 
-  // Detect the network automatically; no network tap is required.
-  updateNetwork();
+document.querySelectorAll('[data-type]').forEach(tab => {  
+    tab.classList.toggle('active', tab === button);  
+  });  
+
+  renderPlans();  
+});
+
+});
+
+// Detect the network automatically; no network tap is required.
+updateNetwork();
 }
 
 function setupAirtimePreview() {
-  const phone = $('airPhone');
-  const amount = $('airAmount');
-  const networkButtons = [...document.querySelectorAll('[data-airnet]')];
+const phone = $('airPhone');
+const amount = $('airAmount');
+const networkButtons = [...document.querySelectorAll('[data-airnet]')];
 
-  const prefixes = {
-    MTN: [
-      '0803','0806','0703','0706','0813','0816',
-      '0810','0814','0903','0906','0913','0916','07025','07026'
-    ],
-    Airtel: [
-      '0802','0808','0708','0812','0701','0902',
-      '0907','0912','0901','0904','0911','0914'
-    ],
-    Glo: [
-      '0805','0807','0705','0815','0811','0905','0915'
-    ],
-    '9mobile': [
-      '0809','0817','0818','0909','0908'
-    ]
-  };
+const prefixes = {
+MTN: [
+'0803','0806','0703','0706','0813','0816',
+'0810','0814','0903','0906','0913','0916','07025','07026'
+],
+Airtel: [
+'0802','0808','0708','0812','0701','0902',
+'0907','0912','0901','0904','0911','0914'
+],
+Glo: [
+'0805','0807','0705','0815','0811','0905','0915'
+],
+'9mobile': [
+'0809','0817','0818','0909','0908'
+]
+};
 
-  let detectedNetwork = '';
+let detectedNetwork = '';
 
-  function normalizePhone(value) {
-    let digits = value.replace(/\D/g, '');
-    if (digits.startsWith('234')) digits = '0' + digits.slice(3);
-    return digits;
-  }
+function normalizePhone(value) {
+let digits = value.replace(/\D/g, '');
 
-  function detectNetwork(value) {
-    const number = normalizePhone(value);
-    if (number.length < 4) return '';
-    for (const [name, list] of Object.entries(prefixes)) {
-      if (list.some(prefix => number.startsWith(prefix))) return name;
-    }
-    return '';
-  }
+if (digits.startsWith('234')) {  
+  digits = '0' + digits.slice(3);  
+}  
 
-  function update() {
-    const number = normalizePhone(phone.value);
-    detectedNetwork = detectNetwork(number);
+return digits;
 
-    networkButtons.forEach(button => {
-      const selected = button.dataset.airnet === detectedNetwork;
-      button.classList.toggle('active', selected);
-      button.setAttribute('aria-pressed', String(selected));
-    });
-
-    const value = Number(amount.value || 0);
-    $('airPrice').textContent = money(value);
-    const summary = $('airSummary');
-
-    if (number.length < 4) {
-      summary.textContent = 'Enter your phone number to detect network.';
-    } else if (!detectedNetwork) {
-      summary.textContent = 'Network not detected. Check the phone number.';
-    } else if (number.length !== 11) {
-      summary.textContent = detectedNetwork + ' detected · Enter the complete 11-digit number.';
-    } else {
-      summary.textContent = detectedNetwork + ' detected · ' + number + ' · Preview only';
-    }
-  }
-
-  phone.addEventListener('input', update);
-  amount.addEventListener('input', update);
-
-  document.querySelectorAll('[data-amount]').forEach(button => {
-    button.addEventListener('click', () => {
-      amount.value = button.dataset.amount;
-      document.querySelectorAll('[data-amount]').forEach(item => {
-        item.classList.toggle('active', item === button);
-      });
-      update();
-    });
-  });
-
-  update();
 }
 
-async function loadProfile(){const d=$('profileDetails');if(!d)return;const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){d.textContent='Please log in to view your profile.';return}const u=data.user;d.innerHTML=`<p><strong>${u.user_metadata?.full_name||'Name not added'}</strong></p><p>${u.email||''}</p><p>${u.user_metadata?.phone||'Phone not added'}</p><p class="form-note">Account profile loaded from Supabase.</p><button class="btn" id="profileSignOut">Sign out</button>`;$('profileSignOut').addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();if(error)showToast('Unable to sign out.');else{closeModal();showToast('You have signed out.');loadDashboard()}})}
+function detectNetwork(value) {
+const number = normalizePhone(value);
+
+if (number.length < 4) return '';  
+
+for (const [name, list] of Object.entries(prefixes)) {  
+  if (list.some(prefix => number.startsWith(prefix))) {  
+    return name;  
+  }  
+}  
+
+return '';
+
+}
+
+function update() {
+const number = normalizePhone(phone.value);
+detectedNetwork = detectNetwork(number);
+
+networkButtons.forEach(button => {  
+  const selected =  
+    button.dataset.airnet === detectedNetwork;  
+
+  button.classList.toggle('active', selected);  
+  button.setAttribute('aria-pressed', String(selected));  
+});  
+
+const value = Number(amount.value || 0);  
+
+$('airPrice').textContent = money(value);  
+
+const summary = $('airSummary');  
+
+if (number.length < 4) {  
+  summary.textContent = 'Enter your phone number to detect network.';  
+} else if (!detectedNetwork) {  
+  summary.textContent =  
+    'Network not detected. Check the phone number.';  
+} else if (number.length !== 11) {  
+  summary.textContent =  
+    detectedNetwork + ' detected · Enter the complete 11-digit number.';  
+} else {  
+  summary.textContent =  
+    detectedNetwork + ' detected · ' + number + ' · Preview only';  
+}
+
+}
+
+phone.addEventListener('input', update);
+amount.addEventListener('input', update);
+
+document.querySelectorAll('[data-amount]').forEach(button => {
+button.addEventListener('click', () => {
+amount.value = button.dataset.amount;
+
+document.querySelectorAll('[data-amount]').forEach(item => {  
+    item.classList.toggle('active', item === button);  
+  });  
+
+  update();  
+});
+
+});
+
+// Network cards display the detected network automatically.
+// Users do not need to tap a network button.
+update();
+}
+
+async function loadProfile(){const d=$('profileDetails');if(!d)return;const {data,error}=await supabaseClient.auth.getUser();if(error||!data.user){d.textContent='Please log in to view your profile.';return}const u=data.user;d.innerHTML=<p><strong>${u.user_metadata?.full_name||'Name not added'}</strong></p><p>${u.email||''}</p><p>${u.user_metadata?.phone||'Phone not added'}</p><p class="form-note">Account profile loaded from Supabase.</p><button class="btn" id="profileSignOut">Sign out</button>;$('profileSignOut').addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();if(error)showToast('Unable to sign out.');else{closeModal();showToast('You have signed out.');loadDashboard()}})}
 function setupAuth(){const form=$('authForm'),mode=$('authMode'),name=$('authFullName'),phone=$('authPhone'),email=$('authEmail'),pass=$('authPassword'),confirm=$('authConfirmPassword'),status=$('authStatus'),submit=$('authSubmit'),signOut=$('authSignOut'),nameField=$('fullNameField'),phoneField=$('phoneField'),confirmField=$('confirmPasswordField');const message=t=>status.textContent=t;function update(){const reg=mode.value==='register';nameField.style.display=phoneField.style.display=confirmField.style.display=reg?'grid':'none';name.required=reg;phone.required=false;confirm.required=reg;submit.textContent=reg?'Create account':'Login';pass.autocomplete=reg?'new-password':'current-password'}mode.addEventListener('change',update);update();supabaseClient.auth.getSession().then(({data})=>{if(data.session){email.value=data.session.user.email||'';message('You are signed in.');signOut.style.display='block'}});form.addEventListener('submit',async e=>{e.preventDefault();submit.disabled=true;message('Please wait…');try{if(mode.value==='register'){if(pass.value.length<8)throw Error('Use a password with at least 8 characters.');if(pass.value!==confirm.value)throw Error('Passwords do not match.');const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:pass.value,options:{data:{full_name:name.value.trim(),phone:phone.value.trim()},emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'}});if(error)throw error;message(data.session?'Registration successful.':'Check your email to confirm registration.')}else{const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:pass.value});if(error)throw error;message('Login successful.');await loadDashboard();closeModal();showToast('Welcome back.')}}catch(err){message(err.message||'Authentication failed.')}finally{submit.disabled=false}});signOut.addEventListener('click',async()=>{const {error}=await supabaseClient.auth.signOut();message(error?'Unable to sign out.':'You have signed out.')})}
 document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>openModal(b.dataset.action)));$('closeModal').addEventListener('click',closeModal);backdrop.addEventListener('click',e=>{if(e.target===backdrop)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('year').textContent=new Date().getFullYear();document.querySelectorAll('.bottom-nav a[data-tab]').forEach(tab=>tab.addEventListener('click',()=>{document.querySelectorAll('.bottom-nav a[data-tab]').forEach(x=>x.classList.remove('active'));tab.classList.add('active');if(tab.dataset.tab==='profile')openModal('profile');if(tab.dataset.tab==='transactions')openModal('history')}));
 </script>
-</body>
-</html>
+</body>  
+</html> 
