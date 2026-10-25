@@ -216,8 +216,10 @@ function openModal(action){
     body=`<div class="data-networks"><button type="button" class="data-network" data-airnet="MTN"><span class="data-logo data-mtn">MTN</span><strong>MTN</strong></button><button type="button" class="data-network" data-airnet="Airtel"><span class="data-logo data-airtel">airtel</span><strong>Airtel</strong></button><button type="button" class="data-network" data-airnet="Glo"><span class="data-logo data-glo">glo</span><strong>Glo</strong></button><button type="button" class="data-network" data-airnet="9mobile"><span class="data-logo data-nine">9</span><strong>9mobile</strong></button></div><div class="field"><label for="airPhone">Phone number</label><input id="airPhone" type="tel" inputmode="numeric" maxlength="11" placeholder="08012345678" required></div><div class="field"><label for="airAmount">Airtime amount (₦)</label><div class="airtime-amount-grid">${[100,200,300,500,1000,2000].map(n=>`<button type="button" data-amount="${n}">₦${n.toLocaleString('en-NG')}</button>`).join('')}</div><input id="airAmount" type="number" min="50" max="50000" placeholder="Enter amount" required></div><div class="airtime-total"><span>Amount to Pay</span><strong id="airPrice">₦0.00</strong><small id="airSummary">Enter a phone number and amount.</small></div>`;
   }else if(action==='deposit'){
     body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Wallet funding is not connected to a live payment provider in this form. Never credit a wallet until payment is verified server-side.</p>`;
-  }else if(action==='withdraw'){
-    body=`${field('Amount (₦)','number','Minimum ₦1,000')}${selectField('Choose bank',['Select bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}<p class="form-note">Preview only. Account-name verification and secure payout processing are not connected.</p>`;
+  
+}else if(action==='withdraw'){
+    body=`${field('Amount (₦)','number','Minimum ₦1,000')}${selectField('Choose bank',['Select bank','Access Bank','Citibank Nigeria','Ecobank','Fidelity Bank','First Bank','FCMB','GTBank','Heritage Bank','Jaiz Bank','Keystone Bank','Kuda','Moniepoint','Opay','PalmPay','Polaris Bank','Stanbic IBTC','Standard Chartered','Sterling Bank','UBA','Union Bank','Unity Bank','Wema Bank','Zenith Bank'])}${field('Account number','text','10-digit account number')}${field('Account name','text','Account holder name')}<p class="form-note">Preview only. Verify the account name with an authorised provider before processing any withdrawal.</p>`;
+
   }else if(action==='tv'){
     body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`;
   }else if(action==='electricity'){
@@ -226,8 +228,10 @@ function openModal(action){
     body=`${selectField('Water provider',['Choose provider','State water board','Other'])}${field('Customer / meter number','text','Customer number')}${field('Amount (₦)','number','e.g. 2000')}`;
   }else if(action==='convert'){
     body=`${selectField('Network',['Choose network','MTN','Airtel','Glo','9mobile'])}${field('Airtime sender phone','tel','08012345678')}${field('Airtime amount (₦)','number','e.g. 1000')}<p class="form-note">Do not credit a wallet until incoming airtime is verified through an approved provider or manual reconciliation.</p>`;
-  }else if(action==='transfer'){
-    body=`${selectField('Recipient bank',['Select bank','Access Bank','Ecobank','Fidelity Bank','First Bank','FCMB','GTBank','Jaiz Bank','Kuda','Moniepoint','Opay','PalmPay','Polaris Bank','Stanbic IBTC','UBA','Union Bank','Wema Bank','Zenith Bank','Other'])}${field('Recipient account number','text','10-digit account number')}${field('Amount (₦)','number','e.g. 5000')}<p class="form-note">Preview only. This form does not transfer money.</p>`;
+  
+}else if(action==='transfer'){
+    body=`${selectField('Recipient bank',['Select bank','Access Bank','Citibank Nigeria','Ecobank','Fidelity Bank','First Bank','FCMB','GTBank','Heritage Bank','Jaiz Bank','Keystone Bank','Kuda','Moniepoint','Opay','PalmPay','Polaris Bank','Stanbic IBTC','Standard Chartered','Sterling Bank','UBA','Union Bank','Unity Bank','Wema Bank','Zenith Bank'])}${field('Recipient account number','text','10-digit account number')}${field('Recipient account name','text','Account holder name')}${field('Amount (₦)','number','e.g. 5000')}<p class="form-note">Preview only. This form does not transfer money. Verify recipient details before enabling live transfers.</p>`;
+
   }else if(action==='history'){
     body='<div id="historyList"><p class="form-note">Loading transaction history...</p></div>';
   }else if(action==='profile'){
