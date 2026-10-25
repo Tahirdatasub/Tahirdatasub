@@ -217,7 +217,7 @@ function openModal(action){
   }else if(action==='deposit'){
     body=`${field('Amount (₦)','number','e.g. 5000')}${field('Email address','email','Registered email')}<p class="form-note">Wallet funding is not connected to a live payment provider in this form. Never credit a wallet until payment is verified server-side.</p>`;
   }else if(action==='withdraw'){
-    body=`${field('Amount (₦)','number','Minimum ₦100')}${selectField('Choose bank',['Select bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}<p class="form-note">Preview only. Account-name verification and secure payout processing are not connected.</p>`;
+    body=`${field('Amount (₦)','number','Minimum ₦1,000')}${selectField('Choose bank',['Select bank','Access Bank','GTBank','First Bank','UBA','Zenith Bank','Opay','PalmPay','Other'])}${field('Account number','text','10-digit account number')}<p class="form-note">Preview only. Account-name verification and secure payout processing are not connected.</p>`;
   }else if(action==='tv'){
     body=`${selectField('Provider',['Choose provider','DStv','GOtv','StarTimes'])}${field('Smartcard / IUC number','text','Decoder number')}${selectField('Package',['Choose package','Basic','Standard','Premium'])}`;
   }else if(action==='electricity'){
@@ -253,8 +253,24 @@ function openModal(action){
     if(action==='profile')loadProfile();
     if(action==='data')setupDataPreview();
     if(action==='airtime')setupAirtimePreview();
+    
     const demo=$('demoSubmit');
-    if(demo)demo.addEventListener('click',()=>{closeModal();showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.')});
+    if(demo)demo.addEventListener('click',()=>{
+      if(action==='withdraw'){
+        const amountInput=modalContent.querySelector('input[type="number"]');
+        const amount=Number(amountInput?.value||0);
+
+        if(!Number.isFinite(amount)||amount<1000){
+          showToast('Minimum withdrawal is ₦1,000.');
+          amountInput?.focus();
+          return;
+        }
+      }
+
+      closeModal();
+      showToast('Preview only: '+(labels[action]||'Service')+' is not connected yet.');
+    });
+
   }catch(error){console.error('Could not initialize modal:',error);modalContent.insertAdjacentHTML('beforeend','<p class="form-note">This section could not start. Please close it and try again.</p>')}
 }
 function setupDataPreview(){
