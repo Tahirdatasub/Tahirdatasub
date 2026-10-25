@@ -360,8 +360,15 @@ function setupAuth(){
   });
   signOut.addEventListener('click',async()=>{try{const {error}=await supabaseClient.auth.signOut();if(error)throw error;message('You have signed out.');await loadDashboard()}catch(error){message(error.message||'Unable to sign out.')}});
 }
-function initializePage(){
-  document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>openModal(button.dataset.action)));
+function initializePage(){  
+document.querySelectorAll('[data-action]').forEach(button=>button.addEventListener('click',()=>{
+  if(button.dataset.action==='notifications'){
+    loadNotifications();
+  }else{
+    openModal(button.dataset.action);
+  }
+}));
+
   $('closeModal').addEventListener('click',closeModal);
   backdrop.addEventListener('click',event=>{if(event.target===backdrop)closeModal()});
   document.addEventListener('keydown',event=>{if(event.key==='Escape')closeModal()});
