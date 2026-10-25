@@ -122,10 +122,44 @@ async function loadDashboard(){
   try{
     const {data:wallet,error}=await supabaseClient.from('wallets').select('balance').eq('user_id',user.id).maybeSingle();
     if(error)throw error;
-    if(wallet){$('walletBalance').innerHTML=money(wallet.balance)+' <small>NGN</small>';$('walletMessage').textContent='Wallet balance loaded securely.'}
-    else{$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Wallet record not found yet.'}
-  }catch(error){console.error('Wallet loading error:',error);$('walletMessage').textContent='Unable to load wallet. Please refresh and try again.'}
+    
+if (wallet) {
+  const balanceEl = $('walletBalance');
+  balanceEl.dataset.realBalance =
+    money(wallet.balance) + ' <small>NGN</small>';
+  balanceEl.innerHTML = balanceHidden
+    ? '₦••••••'
+    : balanceEl.dataset.realBalance;
+} else {
+  const balanceEl = $('walletBalance');
+  balanceEl.dataset.realBalance = '₦0.00 <small>NGN</small>';
+  balanceEl.innerHTML = balanceHidden
+    ? '₦••••••'
+    : balanceEl.dataset.realBalance;
+}
+}
+  catch(error){console.error('Wallet loading error:',error);$('walletMessage').textContent='Unable to load wallet. Please refresh and try again.'}
   await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(user.id)]);
+}
+
+let balanceHidden = false;
+
+function toggleWalletBalance() {
+  const el = $('walletBalance');
+  const eye = $('toggleBalance');
+
+  if (!el) return;
+
+  balanceHidden = !balanceHidden;
+
+  if (balanceHidden) {
+    el.textContent = '₦••••••';
+    if (eye) eye.textContent = '🙈';
+  } else {
+    el.innerHTML =
+      el.dataset.realBalance || '₦0.00 <small>NGN</small>';
+    if (eye) eye.textContent = '👁️';
+  }
 }
 
 async function loadNotifications(){
