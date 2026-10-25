@@ -127,6 +127,82 @@ async function loadDashboard(){
   }catch(error){console.error('Wallet loading error:',error);$('walletMessage').textContent='Unable to load wallet. Please refresh and try again.'}
   await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(user.id)]);
 }
+
+async function loadNotifications(){
+  const user = await getCurrentUser();
+
+  if(!user){
+    showToast('Please log in to view notifications.');
+    return;
+  }
+
+  try{
+    const {data,error} = await supabaseClient
+      .from('notifications')
+      .select('id,title,message,type,is_read,created_at')
+      .eq('user_id',user.id)
+      .order('created_at',{ascending:false})
+      .limit(50);
+
+    if(error) throw error;
+
+    const unread = (data || []).filter(n => !n.is_read).length;
+    const count = $('notificationCount');
+
+    if(count){
+      count.textContent = unread > 99 ? '99+' : unread;
+      count.hidden = unread === 0;
+    }
+
+    const body = (data || []).length
+      ? data.map(n => `
+        <article class="tx-row">
+          <div class="tx-icon">🔔</div>
+          <div class="tx-info">
+            <strong>${escapeNotificationText(n.title)}</strong>
+            <small>${escapeNotificationText(n.message)}</small>
+            <small>${n.created_at ? new Date(n.created_at).toLocaleString('en-NG') : ''}</small>
+            ${n.is_read ? '<small>Read</small>' : `<button class="btn" type="button" data-read-notification="${n.id}">Mark as read</button>`}
+          </div>
+        </article>`).join('')
+      : '<p class="form-note">No notifications yet.</p>';
+
+    modalTitle.textContent = 'Notifications';
+    modalContent.innerHTML = body;
+    backdrop.querySelector('.modal').classList.remove('profile-modal');
+    backdrop.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    modalContent.querySelectorAll('[data-read-notification]').forEach(button=>{
+      button.addEventListener('click',async()=>{
+        button.disabled = true;
+        const {error} = await supabaseClient
+          .from('notifications')
+          .update({is_read:true})
+          .eq('id',button.dataset.readNotification)
+          .eq('user_id',user.id);
+
+        if(error){
+          button.disabled = false;
+          showToast('Unable to mark notification as read.');
+          return;
+        }
+
+        await loadNotifications();
+      });
+    });
+  }catch(error){
+    console.error('Notifications error:',error);
+    showToast('Unable to load notifications.');
+  }
+}
+
+function escapeNotificationText(value){
+  return String(value || '').replace(/[&<>"']/g,ch=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  }[ch]));
+}
 function openModal(action){
   const modalBox=backdrop.querySelector('.modal');
   modalBox.classList.toggle('profile-modal',action==='profile');
