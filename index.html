@@ -25,7 +25,9 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 </style>
 </head>
 <body>
-<header><div class="header-inner"><a class="brand" href="#dashboard"><span class="logo">TR</span><span>TAHIR<em>DATA</em>SUB</span></a><div class="header-actions"><button class="btn" data-action="support">Support</button><button class="btn gold" data-action="account">Login / Register</button></div></div></header>
+<header><div class="header-inner"><a class="brand" href="#dashboard"><span class="logo">TR</span><span>TAHIR<em>DATA</em>SUB</span></a><div class="header-actions"><button class="btn" data-action="support">Support</button>
+<button class="btn" data-action="notifications" aria-label="Notifications">🔔 <span id="notificationCount" hidden>0</span></button>
+<button class="btn gold" data-action="account">Login / Register</button>
 <div class="shell"><main id="dashboard">
 <section class="welcome"><div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div><span class="pill"><span class="dot"></span> Mobile-friendly dashboard</span></section>
 <section class="grid" aria-label="Wallet overview"><article class="card balance-card"><div class="balance-top"><span>Wallet balance</span><span>NGN ₦</span></div><div class="balance-value" id="walletBalance">₦0.00 <small>NGN</small></div><p style="margin:0 0 13px;color:#d5d5d5;font-size:13px">Cashback: ₦0 · Tier: smart</p><div class="balance-actions"><button class="btn gold" data-action="deposit">＋ Fund Wallet</button><button class="btn" data-action="withdraw">🏦 Withdraw</button><button class="btn" data-action="wallet">Wallet details</button></div><div class="notice" id="walletMessage">Connecting to your wallet...</div></article><div class="stats" aria-label="Transaction statistics"><article class="stat"><span>Total transactions</span><strong id="totalTransactions">0</strong></article><article class="stat"><span>Successful</span><strong id="successfulTransactions">0</strong></article><article class="stat"><span>Pending</span><strong id="pendingTransactions">0</strong></article></div></section>
