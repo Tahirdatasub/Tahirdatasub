@@ -152,26 +152,42 @@ async function loadDashboard(){
   }
   const name=String(user.user_metadata?.full_name||'').trim();
   $('welcomeTitle').textContent=name?`Welcome, ${name} 👋`:'Welcome to TAHIRDATASUB';
-  try{
-    const {data:wallet,error}=await supabaseClient.from('wallets').select('balance').eq('user_id',user.id).maybeSingle();
-    if(error)throw error;
-    
-if (wallet) {
-  const balanceEl = $('walletBalance');
-  balanceEl.dataset.realBalance =
-    money(wallet.balance) + ' <small>NGN</small>';
-  balanceEl.innerHTML = balanceHidden
-    ? '₦••••••'
-    : balanceEl.dataset.realBalance;
-} else {
-  const balanceEl = $('walletBalance');
-  balanceEl.dataset.realBalance = '₦0.00 <small>NGN</small>';
-  balanceEl.innerHTML = balanceHidden
-    ? '₦••••••'
-    : balanceEl.dataset.realBalance;
-}
-}
-  catch(error){console.error('Wallet loading error:',error);$('walletMessage').textContent='Unable to load wallet. Please refresh and try again.'}
+  
+  try {
+    $('walletMessage').textContent = 'Loading wallet balance...';
+
+    const { data: wallet, error } = await supabaseClient
+      .from('wallets')
+      .select('balance')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (error) throw error;
+
+    const balanceEl = $('walletBalance');
+    if (!balanceEl) throw new Error('Wallet balance element not found.');
+
+    const balance = wallet ? Number(wallet.balance) : 0;
+
+    if (!Number.isFinite(balance) || balance < 0) {
+      throw new Error('Invalid wallet balance returned from database.');
+    }
+
+    balanceEl.dataset.realBalance =
+      money(balance) + ' <small>NGN</small>';
+
+    balanceEl.innerHTML = balanceHidden
+      ? '₦••••••'
+      : balanceEl.dataset.realBalance;
+
+    $('walletMessage').textContent = wallet
+      ? 'Wallet balance loaded successfully.'
+      : 'Wallet account not found. Please contact support.';
+  } catch (error) {
+    console.error('Wallet loading error:', error);
+    $('walletMessage').textContent =
+      'Unable to load wallet. Please refresh and try again.';
+  }
   await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(user.id)]);
 }
 
