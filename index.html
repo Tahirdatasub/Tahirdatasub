@@ -237,9 +237,24 @@ if(user){
   if(['super_admin','admin','support','operations'].includes(role)){
     if(staffDashboard) staffDashboard.hidden=false;
 
-    document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-      .forEach(el=>el.hidden=true);
+    
+document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+  .forEach(el=>{
+    el.hidden=true;
+    el.style.display='none';
+  });
 
+const staffSignOut=$('staffSignOut');
+if(staffSignOut){
+  staffSignOut.onclick=async()=>{
+    const {error}=await supabaseClient.auth.signOut();
+    if(error){
+      showToast('Unable to sign out.');
+      return;
+    }
+    location.reload();
+  };
+}
     const titles={
       super_admin:'Super Admin Dashboard',
       admin:'Admin Dashboard',
