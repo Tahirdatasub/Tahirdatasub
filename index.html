@@ -236,7 +236,19 @@ document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
 
 if(user){
   const role=await getCurrentUserRole();
-
+if(role==='super_admin'){
+  const countEl=$('staffUserCount');
+  if(countEl){
+    countEl.textContent='Loading user count...';
+    const {data,error}=await supabaseClient.rpc('admin_get_user_count');
+    if(error){
+      console.error('User count error:',error);
+      countEl.textContent='Unable to load user count';
+    }else{
+      countEl.textContent=String(data??0)+' registered users';
+    }
+  }
+}
   if(['super_admin','admin','support','operations'].includes(role)){
     if(staffDashboard) staffDashboard.hidden=false;
 document.body.classList.add('staff-mode');
