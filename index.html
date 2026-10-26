@@ -6,7 +6,106 @@
 <meta name="theme-color" content="#101010">
 <meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">
 <title>TAHIRDATASUB — Premium Digital Services</title>
-<style> body.staff-mode footer,
+<style> 
+#publicWelcome[hidden] {
+  display: none !important;
+}
+
+#publicWelcome {
+  min-height: calc(100vh - 90px);
+  padding: 28px 18px 40px;
+  background: radial-gradient(ellipse at top, #29220d 0%, #0d0e10 60%);
+  color: #fff;
+}
+
+.welcome-hero {
+  max-width: 480px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-logo {
+  width: 76px;
+  height: 76px;
+  margin: 12px auto 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f3c742;
+  color: #101010;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.welcome-hero h1 {
+  margin: 8px 0;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+.welcome-hero h1 span {
+  color: #f3c742;
+}
+
+.welcome-tagline {
+  color: #f3c742;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.welcome-trust,
+.welcome-copy p,
+.welcome-secure {
+  color: #b8b8b8;
+}
+
+.welcome-copy {
+  margin: 38px 0 28px;
+}
+
+.welcome-copy h2 {
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+.welcome-register,
+.welcome-login {
+  width: 100%;
+  min-height: 54px;
+  margin: 7px 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.welcome-login {
+  background: #202020;
+  color: #fff;
+}
+
+.welcome-services {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 30px 0 22px;
+}
+
+.welcome-services span {
+  padding: 16px 4px;
+  border: 1px solid #383838;
+  border-radius: 14px;
+  background: #17191d;
+  color: #f3c742;
+  font-size: 23px;
+}
+
+.welcome-services small {
+  display: block;
+  margin-top: 8px;
+  color: #fff;
+  font-size: 11px;
+}
+
+  body.staff-mode footer,
 body.staff-mode .bottom-nav {
   display: none !important;
 }
@@ -81,6 +180,39 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
     </div>
   </div>
 </header>
+
+<section id="publicWelcome" hidden>
+  <div class="welcome-hero">
+    <div class="welcome-logo">TR</div>
+    <h1>TAHIR<span>DATA</span>SUB</h1>
+    <p class="welcome-tagline">PREMIUM DIGITAL SERVICES</p>
+    <p class="welcome-trust">Fast • Secure • Reliable</p>
+
+    <div class="welcome-copy">
+      <h2>Welcome to<br>TAHIRDATASUB</h2>
+      <p>Your trusted platform for data, airtime, bills and more.</p>
+    </div>
+
+    <button class="btn gold welcome-register"
+      type="button" data-action="account">
+      Register Now →
+    </button>
+
+    <button class="btn welcome-login"
+      type="button" data-action="account">
+      Login
+    </button>
+
+    <div class="welcome-services">
+      <span>▤<small>Data</small></span>
+      <span>☎<small>Airtime</small></span>
+      <span>▣<small>TV Sub</small></span>
+      <span>ϟ<small>Bills</small></span>
+    </div>
+
+    <p class="welcome-secure">♢ Secure • Fast • Trusted</p>
+  </div>
+</section>
 
 <div class="shell"><main id="dashboard">
   
