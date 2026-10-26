@@ -211,7 +211,34 @@ async function loadTransactionHistoryStats(uid){
 }
 async function loadDashboard(){
   if(!supabaseClient){$('walletMessage').textContent='Supabase connection unavailable.';$('recentTransactions').textContent='Transaction history is temporarily unavailable.';return}
-  const user=await getCurrentUser();
+  const user=await getCurrentUser(); const staffDashboard=$('staffDashboard');
+if(staffDashboard) staffDashboard.hidden=true;
+
+document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+  .forEach(el=>el.hidden=false);
+
+if(user){
+  const role=await getCurrentUserRole();
+
+  if(['super_admin','admin','support','operations'].includes(role)){
+    if(staffDashboard) staffDashboard.hidden=false;
+
+    document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+      .forEach(el=>el.hidden=true);
+
+    const titles={
+      super_admin:'Super Admin Dashboard',
+      admin:'Admin Dashboard',
+      support:'Support Dashboard',
+      operations:'Operations Dashboard'
+    };
+
+    $('staffWelcomeTitle').textContent=titles[role]||'Staff Dashboard';
+    $('staffWelcomeSubtitle').textContent='Signed in with role: '+role;
+    $('staffDashboardMessage').textContent='Staff dashboard is active. Management tools are not connected yet.';
+    return;
+  }
+}
   if(!user){
     $('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return;
   }
