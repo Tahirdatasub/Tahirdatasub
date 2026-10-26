@@ -109,6 +109,30 @@ async function getCurrentUser(){
   try{const {data,error}=await supabaseClient.auth.getUser();if(error)console.warn(error);return data?.user||null}
   catch(error){console.error('Could not get user:',error);return null}
 }
+  async function getCurrentUserRole(){
+  if(!supabaseClient) return null;
+
+  const user = await getCurrentUser();
+  if(!user) return null;
+
+  try{
+    const {data,error} = await supabaseClient
+      .from('user_roles')
+      .select('role')
+      .eq('user_id',user.id)
+      .maybeSingle();
+
+    if(error){
+      console.error('Could not load user role:',error);
+      return null;
+    }
+
+    return data?.role || 'customer';
+  }catch(error){
+    console.error('User role check failed:',error);
+    return null;
+  }
+}
 function displayTransactions(container,rows){
   container.replaceChildren();
   if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}
