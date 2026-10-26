@@ -358,89 +358,151 @@ async function loadTransactionHistoryStats(uid){
     $('totalTransactions').textContent=results[0].count??0;$('successfulTransactions').textContent=results[1].count??0;$('pendingTransactions').textContent=results[2].count??0;
   }catch(error){console.error('Transaction stats error:',error)}
 }
+
 async function loadDashboard(){
-  if(!supabaseClient){$('walletMessage').textContent='Supabase connection unavailable.';$('recentTransactions').textContent='Transaction history is temporarily unavailable.';return}
-  const user=await getCurrentUser(); const staffDashboard=$('staffDashboard');
-if(staffDashboard) staffDashboard.hidden=true;
+  const publicWelcome = $('publicWelcome');
+  const staffDashboard = $('staffDashboard');
 
-document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-  .forEach(el=>{
-    el.hidden=true;
-    el.style.display='none';
-  });
+  if(!supabaseClient){
+    if(publicWelcome) publicWelcome.hidden = false;
+    if(staffDashboard) staffDashboard.hidden = true;
+    document.body.classList.remove('staff-mode');
 
-if(user){
-  const role=await getCurrentUserRole();
-if(role==='super_admin'){
-  const countEl=$('staffUserCount');
-  if(countEl){
-    countEl.textContent='Loading user count...';
-    const {data,error}=await supabaseClient.rpc('admin_get_user_count');
-    if(error){
-      console.error('User count error:',error);
-      countEl.textContent='Unable to load user count';
-    }else{
-      countEl.textContent=String(data??0)+' registered users';
-    }
-  }
-}
-  if(['super_admin','admin','support','operations'].includes(role)){
-    if(staffDashboard) staffDashboard.hidden=false;
-document.body.classList.add('staff-mode');
-    
-document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-  .forEach(el=>{
-    el.hidden=true;
-    el.style.display='none';
-  });
+    document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+      .forEach(el => {
+        el.hidden = true;
+        el.style.display = 'none';
+      });
 
-const staffSignOut=$('staffSignOut');
-if(staffSignOut){
-  staffSignOut.onclick=async()=>{
-    const {error}=await supabaseClient.auth.signOut();
-    if(error){
-      showToast('Unable to sign out.');
-      return;
-    }
-    location.reload();
-  };
-}
-    const titles={
-      super_admin:'Super Admin Dashboard',
-      admin:'Admin Dashboard',
-      support:'Support Dashboard',
-      operations:'Operations Dashboard'
-    };
-
-    $('staffWelcomeTitle').textContent=titles[role]||'Staff Dashboard';
-    $('staffWelcomeSubtitle').textContent='Signed in with role: '+role;
-    $('staffDashboardMessage').textContent='Staff dashboard is active. Management tools are not connected yet.';
     return;
   }
-}
+
+  const user = await getCurrentUser();
+
+  // Fara da tsaftace yanayin shafi
+  document.body.classList.remove('staff-mode');
+
+  if(publicWelcome) publicWelcome.hidden = true;
+  if(staffDashboard) staffDashboard.hidden = true;
+
+  document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+    .forEach(el => {
+      el.hidden = false;
+      el.style.display = '';
+    });
+
+  // Idan ba a shiga account ba, nuna Welcome Screen
   if(!user){
-    $('welcomeTitle').textContent='Welcome to TAHIRDATASUB';$('walletBalance').innerHTML='₦0.00 <small>NGN</small>';$('walletMessage').textContent='Please log in to view your wallet.';$('totalTransactions').textContent=$('successfulTransactions').textContent=$('pendingTransactions').textContent='0';$('recentTransactions').textContent='Please log in to view your transactions.';return;
+    if(publicWelcome) publicWelcome.hidden = false;
+
+    $('walletBalance').innerHTML = '₦0.00 <small>NGN</small>';
+    $('walletMessage').textContent = 'Please log in to view your wallet.';
+    $('totalTransactions').textContent = '0';
+    $('successfulTransactions').textContent = '0';
+    $('pendingTransactions').textContent = '0';
+    $('recentTransactions').textContent = 'Please log in to view your transactions.';
+
+    return;
   }
-  const name=String(user.user_metadata?.full_name||'').trim();
-  $('welcomeTitle').textContent=name?`Welcome, ${name} 👋`:'Welcome to TAHIRDATASUB';
-  
-  try {
+
+  // Duba matsayin mai amfani
+  const role = await getCurrentUserRole();
+
+  if(['super_admin','admin','support','operations'].includes(role)){
+    if(staffDashboard) staffDashboard.hidden = false;
+
+    document.body.classList.add('staff-mode');
+
+    document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+      .forEach(el => {
+        el.hidden = true;
+        el.style.display = 'none';
+      });
+
+    const titles = {
+      super_admin: 'Super Admin Dashboard',
+      admin: 'Admin Dashboard',
+      support: 'Support Dashboard',
+      operations: 'Operations Dashboard'
+    };
+
+    $('staffWelcomeTitle').textContent =
+      titles[role] || 'Staff Dashboard';
+
+    $('staffWelcomeSubtitle').textContent =
+      'Signed in with role: ' + role;
+
+    $('staffDashboardMessage').textContent =
+      'Staff dashboard is active. Management tools are not connected yet.';
+
+    if(role === 'super_admin'){
+      const countEl = $('staffUserCount');
+
+      if(countEl){
+        countEl.textContent = 'Loading user count...';
+
+        try{
+          const {data, error} =
+            await supabaseClient.rpc('admin_get_user_count');
+
+          if(error) throw error;
+
+          countEl.textContent =
+            String(data ?? 0) + ' registered users';
+        }catch(error){
+          console.error('User count error:', error);
+          countEl.textContent = 'Unable to load user count';
+        }
+      }
+    }
+
+    const staffSignOut = $('staffSignOut');
+
+    if(staffSignOut){
+      staffSignOut.onclick = async () => {
+        staffSignOut.disabled = true;
+
+        try{
+          const {error} = await supabaseClient.auth.signOut();
+
+          if(error) throw error;
+
+          location.reload();
+        }catch(error){
+          console.error('Staff sign-out error:', error);
+          showToast('Unable to sign out.');
+          staffSignOut.disabled = false;
+        }
+      };
+    }
+
+    return;
+  }
+
+  // Customer dashboard
+  const name = String(user.user_metadata?.full_name || '').trim();
+
+  $('welcomeTitle').textContent = name
+    ? `Welcome, ${name} 👋`
+    : 'Welcome to TAHIRDATASUB';
+
+  try{
     $('walletMessage').textContent = 'Loading wallet balance...';
 
-    const { data: wallet, error } = await supabaseClient
+    const {data: wallet, error} = await supabaseClient
       .from('wallets')
       .select('balance')
       .eq('user_id', user.id)
       .maybeSingle();
 
-    if (error) throw error;
+    if(error) throw error;
 
     const balanceEl = $('walletBalance');
-    if (!balanceEl) throw new Error('Wallet balance element not found.');
+    if(!balanceEl) throw new Error('Wallet balance element not found.');
 
     const balance = wallet ? Number(wallet.balance) : 0;
 
-    if (!Number.isFinite(balance) || balance < 0) {
+    if(!Number.isFinite(balance) || balance < 0){
       throw new Error('Invalid wallet balance returned from database.');
     }
 
@@ -454,12 +516,16 @@ if(staffSignOut){
     $('walletMessage').textContent = wallet
       ? 'Wallet balance loaded successfully.'
       : 'Wallet account not found. Please contact support.';
-  } catch (error) {
+  }catch(error){
     console.error('Wallet loading error:', error);
     $('walletMessage').textContent =
       'Unable to load wallet. Please refresh and try again.';
   }
-  await Promise.all([loadTransactionHistory('recentTransactions',5),loadTransactionHistoryStats(user.id)]);
+
+  await Promise.all([
+    loadTransactionHistory('recentTransactions', 5),
+    loadTransactionHistoryStats(user.id)
+  ]);
 }
 
 let balanceHidden = false;
