@@ -364,7 +364,10 @@ async function loadDashboard(){
 if(staffDashboard) staffDashboard.hidden=true;
 
 document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-  .forEach(el=>el.hidden=false);
+  .forEach(el=>{
+    el.hidden=true;
+    el.style.display='none';
+  });
 
 if(user){
   const role=await getCurrentUserRole();
