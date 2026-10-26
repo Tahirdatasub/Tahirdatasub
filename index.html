@@ -6,7 +6,10 @@
 <meta name="theme-color" content="#101010">
 <meta name="description" content="TAHIRDATASUB — mobile-first digital services dashboard.">
 <title>TAHIRDATASUB — Premium Digital Services</title>
-<style>
+<style> body.staff-mode footer,
+body.staff-mode .bottom-nav {
+  display: none !important;
+}
 :root{--bg:#0d0e10;--panel:#17191d;--panel2:#242424;--gold:#f3c742;--white:#fff;--text:#f6f6f6;--muted:#aeb2bb;--line:#383838;--green:#55d69e;--red:#ff8585}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#171717 0,#0d0e10 300px,#080808 680px);color:var(--text);font:15px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{cursor:pointer}.shell{max-width:1240px;margin:auto;min-height:100vh}
 header{position:sticky;top:0;z-index:10;background:#0d0e10f2;border-bottom:1px solid var(--line)}.header-inner{max-width:1240px;margin:auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--gold);border:2px solid var(--gold);color:#151515;font-weight:950}.brand em{font-style:normal;color:var(--gold)}.header-actions{display:flex;gap:8px;align-items:center}
@@ -236,7 +239,7 @@ if(user){
 
   if(['super_admin','admin','support','operations'].includes(role)){
     if(staffDashboard) staffDashboard.hidden=false;
-
+document.body.classList.add('staff-mode');
     
 document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
   .forEach(el=>{
