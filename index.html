@@ -66,6 +66,47 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 </header>
 
 <div class="shell"><main id="dashboard">
+  
+<section id="staffDashboard" hidden>
+  <section class="welcome">
+    <div>
+      <h1 id="staffWelcomeTitle">TAHIRDATASUB Dashboard</h1>
+      <p id="staffWelcomeSubtitle">Secure staff workspace.</p>
+    </div>
+    <span class="pill">Restricted staff area</span>
+  </section>
+
+  <section class="grid" aria-label="Staff dashboard overview">
+    <article class="card">
+      <strong>Users</strong>
+      <p class="form-note">Not connected yet</p>
+    </article>
+    <article class="card">
+      <strong>Transactions</strong>
+      <p class="form-note">Not connected yet</p>
+    </article>
+    <article class="card">
+      <strong>Pending tasks</strong>
+      <p class="form-note">Not connected yet</p>
+    </article>
+  </section>
+
+  <div class="section-title">
+    <div>
+      <h2>Management</h2>
+      <p>Tools will depend on your assigned role.</p>
+    </div>
+  </div>
+
+  <div class="notice" id="staffDashboardMessage">
+    Staff dashboard is being configured.
+  </div>
+
+  <button class="btn" id="staffSignOut" type="button">
+    Sign out
+  </button>
+</section>
+
 <section class="welcome"><div><h1 id="welcomeTitle">Welcome to TAHIRDATASUB</h1><p>Your everyday digital services, made simple.</p></div><span class="pill"><span class="dot"></span> Mobile-friendly dashboard</span></section>
 <section class="grid" aria-label="Wallet overview"><article class="card balance-card"><div class="balance-top"><span>Wallet balance</span><span>NGN ₦</span></div><div class="balance-value-row">
   <div class="balance-value" id="walletBalance">₦0.00 <small>NGN</small></div>
