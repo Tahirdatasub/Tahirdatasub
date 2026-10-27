@@ -511,9 +511,20 @@ async function loadDashboard(){
       el.style.display = '';
     });
 
-if(!user){
-  if(publicWelcome) publicWelcome.hidden=false;
 
+if(!user){
+  document.body.classList.remove('staff-mode');
+  document.body.classList.add('public-mode');
+
+  if(publicWelcome){
+    publicWelcome.hidden = false;
+    publicWelcome.style.display = '';
+  }
+
+  if(staffDashboard){
+    staffDashboard.hidden = true;
+    staffDashboard.style.display = 'none';
+  }
   document.body.classList.remove('staff-mode');
 
   document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
