@@ -416,10 +416,13 @@ async function getCurrentUser(){
       list.appendChild(card);
     });
   }catch(error){
-    console.error('Staff user list error:', error);
-    message.textContent =
-      'Unable to load users. Database function or permissions need checking.';
-  }
+  console.error('Staff user list error:', error);
+
+  message.textContent =
+    'Error: ' + (error?.message || 'Unknown error');
+
+  showToast(error?.message || 'Unable to load users');
+}
 
   panel.scrollIntoView({behavior:'smooth', block:'start'});
 }
