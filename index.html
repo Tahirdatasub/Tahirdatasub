@@ -323,6 +323,27 @@ async function getCurrentUser(){
     return null;
   }
 }
+  async function loadStaffUserCount(){
+  const countEl = $('staffUserCount');
+  if(!countEl || !supabaseClient) return;
+
+  countEl.textContent = 'Loading user count...';
+
+  try{
+    const { count, error } = await supabaseClient
+      .from('user_roles')
+      .select('user_id', { count: 'exact', head: true });
+
+    if(error) throw error;
+
+    countEl.textContent =
+      'Registered users: ' + (count ?? 0);
+  }catch(error){
+    console.error('Staff user count error:', error);
+    countEl.textContent =
+      'Unable to load user count. Check database permissions.';
+  }
+}
 function displayTransactions(container,rows){
   container.replaceChildren();
   if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}
@@ -426,7 +447,7 @@ if(['super_admin','admin','support','operations'].includes(role)){
     staffDashboard.hidden = false;
     staffDashboard.style.display = '';
   }
-
+loadStaffUserCount();
   document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
     .forEach(el=>{
       el.hidden = true;
