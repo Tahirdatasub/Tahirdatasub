@@ -895,7 +895,26 @@ function setupAuth(){
       }
     }catch(error){message(error.message||'Authentication failed.')}finally{submit.disabled=false}
   });
-  signOut.addEventListener('click',async()=>{try{const {error}=await supabaseClient.auth.signOut();if(error)throw error;message('You have signed out.');await loadDashboard()}catch(error){message(error.message||'Unable to sign out.')}});
+  
+signOut.addEventListener('click', async () => {
+  try {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) throw error;
+
+    document.body.classList.remove('staff-mode');
+    document.body.classList.remove('public-mode');
+
+    await loadDashboard();
+
+    const publicWelcome = document.getElementById('publicWelcome');
+    if (publicWelcome) publicWelcome.hidden = false;
+
+    message('You have signed out.');
+  } catch (error) {
+    message(error.message || 'Unable to sign out.');
+  }
+});
+
 }
 function initializePage(){  
 document.querySelectorAll('[data-action]').forEach(button=>{
