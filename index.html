@@ -323,7 +323,8 @@ async function getCurrentUser(){
     return null;
   }
 }
-  async function loadStaffUserCount(){
+  
+async function loadStaffUserCount(){
   const countEl = $('staffUserCount');
   if(!countEl || !supabaseClient) return;
 
@@ -331,19 +332,20 @@ async function getCurrentUser(){
 
   try{
     const { count, error } = await supabaseClient
-      .from('user_roles')
+      .from('wallets')
       .select('user_id', { count: 'exact', head: true });
 
     if(error) throw error;
 
     countEl.textContent =
-      'Registered users: ' + (count ?? 0);
+      'Registered users with wallets: ' + (count ?? 0);
   }catch(error){
     console.error('Staff user count error:', error);
     countEl.textContent =
-      'Unable to load user count. Check database permissions.';
+      'Unable to load user count. Please try again.';
   }
 }
+
 function displayTransactions(container,rows){
   container.replaceChildren();
   if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}
