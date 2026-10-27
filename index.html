@@ -226,10 +226,16 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
   </section>
 
   <section class="grid" aria-label="Staff dashboard overview">
-    <article class="card">
-      <strong>Users</strong>
-    <p class="form-note" id="staffUserCount">Loading user count...</p>
-    </article>
+    
+<article class="card" id="staffUsersCard"
+  role="button" tabindex="0"
+  aria-label="View registered users"
+  style="cursor:pointer">
+  <strong>Users</strong>
+  <p class="form-note" id="staffUserCount">Loading user count...</p>
+  <p class="form-note">Tap to view registered accounts</p>
+</article>
+
     <article class="card">
       <strong>Transactions</strong>
       <p class="form-note">Not connected yet</p>
@@ -250,6 +256,22 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
   <div class="notice" id="staffDashboardMessage">
     Staff dashboard is being configured.
   </div>
+
+<section id="staffUsersPanel" class="card" hidden>
+  <div class="section-title">
+    <div>
+      <h2>Registered Users</h2>
+      <p>View registered accounts</p>
+    </div>
+    <button class="btn" id="closeStaffUsers" type="button">
+      Close
+    </button>
+  </div>
+  <p class="form-note" id="staffUsersMessage">
+    Users will appear here.
+  </p>
+  <div id="staffUsersList"></div>
+</section>
 
   <button class="btn" id="staffSignOut" type="button">
     Sign out
