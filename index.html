@@ -391,95 +391,43 @@ async function loadDashboard(){
       el.style.display = '';
     });
 
-  // Idan ba a shiga account ba, nuna Welcome Screen
-  if(!user){
-    if(publicWelcome) publicWelcome.hidden = false;
+if(!user){
+  const publicWelcome=$('publicWelcome');
 
-    $('walletBalance').innerHTML = '₦0.00 <small>NGN</small>';
-    $('walletMessage').textContent = 'Please log in to view your wallet.';
-    $('totalTransactions').textContent = '0';
-    $('successfulTransactions').textContent = '0';
-    $('pendingTransactions').textContent = '0';
-    $('recentTransactions').textContent = 'Please log in to view your transactions.';
+  if(publicWelcome) publicWelcome.hidden=false;
 
-    return;
-  }
+  document.body.classList.remove('staff-mode');
 
-  // Duba matsayin mai amfani
-  const role = await getCurrentUserRole();
+  document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+    .forEach(el=>{
+      el.hidden=true;
+      el.style.display='none';
+    });
 
-  if(['super_admin','admin','support','operations'].includes(role)){
-    if(staffDashboard) staffDashboard.hidden = false;
+  const nav=document.querySelector('.bottom-nav');
+  if(nav) nav.style.display='none';
 
-    document.body.classList.add('staff-mode');
+  const footer=document.querySelector('footer');
+  if(footer) footer.style.display='none';
 
-    document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-      .forEach(el => {
-        el.hidden = true;
-        el.style.display = 'none';
-      });
+  $('walletBalance').innerHTML='₦0.00 <small>NGN</small>';
+  $('walletMessage').textContent='Please log in to view your wallet.';
+  $('totalTransactions').textContent='0';
+  $('successfulTransactions').textContent='0';
+  $('pendingTransactions').textContent='0';
+  $('recentTransactions').textContent='Please log in to view your transactions.';
 
-    const titles = {
-      super_admin: 'Super Admin Dashboard',
-      admin: 'Admin Dashboard',
-      support: 'Support Dashboard',
-      operations: 'Operations Dashboard'
-    };
+  return;
+}
 
-    $('staffWelcomeTitle').textContent =
-      titles[role] || 'Staff Dashboard';
+const publicWelcome=$('publicWelcome');
+if(publicWelcome) publicWelcome.hidden=true;
 
-    $('staffWelcomeSubtitle').textContent =
-      'Signed in with role: ' + role;
+const nav=document.querySelector('.bottom-nav');
+if(nav) nav.style.display='';
 
-    $('staffDashboardMessage').textContent =
-      'Staff dashboard is active. Management tools are not connected yet.';
-
-    if(role === 'super_admin'){
-      const countEl = $('staffUserCount');
-
-      if(countEl){
-        countEl.textContent = 'Loading user count...';
-
-        try{
-          const {data, error} =
-            await supabaseClient.rpc('admin_get_user_count');
-
-          if(error) throw error;
-
-          countEl.textContent =
-            String(data ?? 0) + ' registered users';
-        }catch(error){
-          console.error('User count error:', error);
-          countEl.textContent = 'Unable to load user count';
-        }
-      }
-    }
-
-    const staffSignOut = $('staffSignOut');
-
-    if(staffSignOut){
-      staffSignOut.onclick = async () => {
-        staffSignOut.disabled = true;
-
-        try{
-          const {error} = await supabaseClient.auth.signOut();
-
-          if(error) throw error;
-
-          location.reload();
-        }catch(error){
-          console.error('Staff sign-out error:', error);
-          showToast('Unable to sign out.');
-          staffSignOut.disabled = false;
-        }
-      };
-    }
-
-    return;
-  }
-
-  // Customer dashboard
+const footer=document.querySelector('footer');
+if(footer) footer.style.display='';
   const name = String(user.user_metadata?.full_name || '').trim();
 
   $('welcomeTitle').textContent = name
