@@ -365,6 +365,78 @@ async function getCurrentUser(){
       'Unable to load user count. Please refresh.';
   }
 }
+  async function openStaffUsers(){
+  const panel = $('staffUsersPanel');
+  const message = $('staffUsersMessage');
+  const list = $('staffUsersList');
+
+  if(!panel || !message || !list) return;
+
+  const role = await getCurrentUserRole();
+
+  if(role !== 'super_admin'){
+    showToast('Access denied. Super Admin only.');
+    return;
+  }
+
+  panel.hidden = false;
+  message.textContent = 'Loading users...';
+  list.replaceChildren();
+
+  try{
+    const {data, error} = await supabaseClient
+      .rpc('get_staff_user_list');
+
+    if(error) throw error;
+
+    if(!data || !data.length){
+      message.textContent = 'No users found.';
+      return;
+    }
+
+    message.textContent = 'Registered accounts: ' + data.length;
+
+    data.forEach(user=>{
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const name = document.createElement('strong');
+      name.textContent = user.full_name || 'User';
+
+      const email = document.createElement('p');
+      email.textContent = user.email || 'No email';
+
+      const id = document.createElement('p');
+      id.textContent = 'User ID: ' + user.user_id;
+
+      const userRole = document.createElement('p');
+      userRole.textContent = 'Role: ' + (user.role || 'customer');
+
+      card.append(name, email, id, userRole);
+      list.appendChild(card);
+    });
+  }catch(error){
+    console.error('Staff user list error:', error);
+    message.textContent =
+      'Unable to load users. Database function or permissions need checking.';
+  }
+
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function closeStaffUsers(){
+  const panel = $('staffUsersPanel');
+  if(panel) panel.hidden = true;
+}
+
+$('staffUsersCard')?.addEventListener('click', openStaffUsers);
+$('closeStaffUsers')?.addEventListener('click', closeStaffUsers);
+$('staffUsersCard')?.addEventListener('keydown', event=>{
+  if(event.key === 'Enter' || event.key === ' '){
+    event.preventDefault();
+    openStaffUsers();
+  }
+});
 function displayTransactions(container,rows){
   container.replaceChildren();
   if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}
