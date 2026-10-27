@@ -323,29 +323,26 @@ async function getCurrentUser(){
     return null;
   }
 }
-  
-async function loadStaffUserCount(){
+  async function loadStaffUserCount(){
   const countEl = $('staffUserCount');
+
   if(!countEl || !supabaseClient) return;
 
   countEl.textContent = 'Loading user count...';
 
   try{
-    const { count, error } = await supabaseClient
-      .from('wallets')
-      .select('user_id', { count: 'exact', head: true });
+    const { data, error } = await supabaseClient
+      .rpc('get_staff_total_users');
 
     if(error) throw error;
 
-    countEl.textContent =
-      'Registered users with wallets: ' + (count ?? 0);
+    countEl.textContent = 'Total registered accounts: ' + data;
   }catch(error){
     console.error('Staff user count error:', error);
     countEl.textContent =
-      'Unable to load user count. Please try again.';
+      'Unable to load user count. Please refresh.';
   }
 }
-
 function displayTransactions(container,rows){
   container.replaceChildren();
   if(!rows.length){container.innerHTML='<p class="form-note">No transactions found yet.</p>';return}
