@@ -417,7 +417,39 @@ if(!user){
 
   return;
 }
-  
+const role = await getCurrentUserRole();
+
+if(['super_admin','admin','support','operations'].includes(role)){
+  document.body.classList.add('staff-mode');
+
+  if(staffDashboard){
+    staffDashboard.hidden = false;
+    staffDashboard.style.display = '';
+  }
+
+  document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
+    .forEach(el=>{
+      el.hidden = true;
+      el.style.display = 'none';
+    });
+
+  if(publicWelcome) publicWelcome.hidden = true;
+
+  const nav = document.querySelector('.bottom-nav');
+  if(nav) nav.style.display = 'none';
+
+  const footer = document.querySelector('footer');
+  if(footer) footer.style.display = 'none';
+
+  const staffTitle = $('staffWelcomeTitle');
+  if(staffTitle){
+    staffTitle.textContent = role === 'super_admin'
+      ? 'Super Admin Dashboard'
+      : role.charAt(0).toUpperCase() + role.slice(1) + ' Dashboard';
+  }
+
+  return;
+}  
 if(publicWelcome) publicWelcome.hidden=true;
 
 const nav=document.querySelector('.bottom-nav');
