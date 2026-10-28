@@ -266,6 +266,246 @@ body:not(.staff-mode) #dashboard {
   padding-top: 16px;
 }
 
+/* TAHIRDATASUB PREMIUM GOLD WELCOME DESIGN */
+#publicWelcome {
+  background: #080706 !important;
+  color: #fff !important;
+  min-height: 100vh;
+}
+
+#publicWelcome .welcome-hero-photo {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 34px 22px 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+  background:
+    radial-gradient(ellipse at 12% 12%,
+      rgba(255,174,0,.28), transparent 38%),
+    radial-gradient(ellipse at 95% 58%,
+      rgba(255,166,0,.17), transparent 35%),
+    linear-gradient(145deg,#211405 0%,#080706 48%,#171006 75%,#050505 100%);
+}
+
+/* Golden light beams */
+#publicWelcome .welcome-hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+  background:
+    linear-gradient(112deg,transparent 34%,
+      rgba(255,180,20,.06) 35%,
+      rgba(255,190,30,.48) 36%,
+      transparent 37%),
+    linear-gradient(72deg,transparent 65%,
+      rgba(255,180,20,.08) 66%,
+      rgba(255,190,30,.35) 67%,
+      transparent 69%),
+    linear-gradient(125deg,transparent 78%,
+      rgba(255,190,30,.38) 79%,
+      transparent 80%),
+    radial-gradient(ellipse at 50% 0%,
+      rgba(255,185,35,.25),transparent 48%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  animation: goldWelcomeGlow 5s ease-in-out infinite alternate;
+}
+
+#publicWelcome .welcome-hero-photo > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes goldWelcomeGlow {
+  from { opacity: .65; }
+  to { opacity: 1; }
+}
+
+/* Brand and logo */
+#publicWelcome .welcome-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+  margin: 0 0 34px;
+}
+
+#publicWelcome .welcome-logo {
+  width: 150px;
+  height: 150px;
+  box-sizing: border-box;
+  border: 5px solid #ffca28;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle,#17120a,#030303 75%);
+  color: #ffca28;
+  font-size: 58px;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow:
+    0 0 12px #ffb900,
+    0 0 35px rgba(255,177,0,.4),
+    inset 0 0 18px rgba(255,190,20,.13);
+}
+
+#publicWelcome .welcome-brand h1 {
+  margin: 0;
+  font-size: clamp(23px,6vw,34px);
+  font-weight: 850;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+#publicWelcome .welcome-brand h1 span,
+#publicWelcome .welcome-copy h2 span {
+  color: #ffca28;
+}
+
+/* Welcome message */
+#publicWelcome .welcome-copy {
+  margin: 0 0 27px;
+  max-width: 100%;
+}
+
+#publicWelcome .welcome-copy h2 {
+  margin: 0 0 16px;
+  font-size: clamp(35px,9vw,49px);
+  line-height: 1.04;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  color: #fff;
+}
+
+#publicWelcome .welcome-copy p {
+  margin: 0;
+  color: #d0cbc3;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+/* Service tiles */
+#publicWelcome .welcome-services {
+  display: grid;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 8px;
+  padding: 12px;
+  margin: 0 0 22px;
+  border: 1px solid rgba(255,195,55,.42);
+  border-radius: 25px;
+  background: rgba(10,9,7,.72);
+  box-shadow: 0 12px 35px rgba(0,0,0,.35);
+}
+
+#publicWelcome .welcome-services > span {
+  min-width: 0;
+  min-height: 125px;
+  padding: 14px 3px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  text-align: center;
+  border: 1px solid rgba(255,205,90,.28);
+  border-radius: 22px;
+  background: rgba(0,0,0,.42);
+  color: #fff;
+}
+
+#publicWelcome .welcome-services > span b {
+  color: #ffca28;
+  font-size: 29px;
+  line-height: 1;
+}
+
+#publicWelcome .welcome-services > span small {
+  color: #fff;
+  font-size: clamp(10px,3vw,14px);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Register and Login */
+#publicWelcome .welcome-register,
+#publicWelcome .welcome-login {
+  width: 100%;
+  min-height: 65px;
+  box-sizing: border-box;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 23px;
+  font-size: 19px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform .2s ease,filter .2s ease;
+}
+
+#publicWelcome .welcome-register {
+  margin: 0 0 14px;
+  color: #100d05;
+  background: linear-gradient(110deg,#ffdc65,#ffbd19,#f5a900);
+  border: 2px solid #ffdb55;
+  box-shadow: 0 5px 20px rgba(255,181,0,.2);
+}
+
+#publicWelcome .welcome-login {
+  color: #fff;
+  background: rgba(0,0,0,.72);
+  border: 2px solid #ffca28;
+}
+
+#publicWelcome .welcome-register:active,
+#publicWelcome .welcome-login:active {
+  transform: scale(.98);
+}
+
+/* Small Android screens */
+@media (max-width: 380px) {
+  #publicWelcome .welcome-hero-photo {
+    padding: 25px 15px 28px;
+  }
+
+  #publicWelcome .welcome-brand {
+    margin-bottom: 25px;
+  }
+
+  #publicWelcome .welcome-logo {
+    width: 125px;
+    height: 125px;
+    font-size: 48px;
+  }
+
+  #publicWelcome .welcome-copy h2 {
+    font-size: 35px;
+  }
+
+  #publicWelcome .welcome-services {
+    gap: 5px;
+    padding: 7px;
+  }
+
+  #publicWelcome .welcome-services > span {
+    min-height: 112px;
+    border-radius: 16px;
+  }
+}
+
 </style>
 </head>
 <body>
