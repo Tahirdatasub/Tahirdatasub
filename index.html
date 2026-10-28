@@ -946,6 +946,45 @@ document.querySelectorAll('[data-action]').forEach(button=>{
   });
 });
 
+const staffSignOut = $('staffSignOut');
+
+if (staffSignOut) {
+  staffSignOut.addEventListener('click', async () => {
+    if (!supabaseClient) {
+      showToast('Supabase connection unavailable.');
+      return;
+    }
+
+    staffSignOut.disabled = true;
+
+    try {
+      const { error } = await supabaseClient.auth.signOut();
+      if (error) throw error;
+
+      document.body.classList.remove('staff-mode');
+      await loadDashboard();
+
+      const welcome = $('publicWelcome');
+      if (welcome) {
+        welcome.hidden = false;
+        welcome.style.display = '';
+      }
+
+      const staff = $('staffDashboard');
+      if (staff) {
+        staff.hidden = true;
+        staff.style.display = 'none';
+      }
+
+      showToast('You have signed out.');
+    } catch (error) {
+      console.error('Staff sign out error:', error);
+      showToast(error.message || 'Unable to sign out.');
+    } finally {
+      staffSignOut.disabled = false;
+    }
+  });
+}
   $('closeModal').addEventListener('click',closeModal);
   backdrop.addEventListener('click',event=>{if(event.target===backdrop)closeModal()});
   document.addEventListener('keydown',event=>{if(event.key==='Escape')closeModal()});
