@@ -165,6 +165,23 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 body.staff-mode .header-actions {
   display: none !important;
 }
+  
+/* Hide top header on Welcome Screen and Customer Dashboard */
+body:not(.staff-mode) > header {
+  display: none !important;
+}
+
+/* Keep the Welcome Screen spacing neat */
+body:not(.staff-mode) #publicWelcome {
+  min-height: 100vh;
+  padding-top: 20px;
+}
+
+/* Adjust dashboard spacing after hiding the header */
+body:not(.staff-mode) #dashboard {
+  padding-top: 16px;
+}
+
 </style>
 </head>
 <body>
