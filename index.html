@@ -165,7 +165,40 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 body.staff-mode .header-actions {
   display: none !important;
 }
-  
+ /* TAHIRDATASUB welcome portrait layout */
+.welcome-hero-photo {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.welcome-hero-photo::after {
+  content: "";
+  position: absolute;
+  top: 12%;
+  right: -5%;
+  width: 48%;
+  height: 75%;
+  background-image: url("assets/tahir.png");
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: contain;
+  opacity: 0.9;
+  z-index: -1;
+  pointer-events: none;
+  animation: tahirPhotoEnter 1.8s ease-out both;
+}
+
+@keyframes tahirPhotoEnter {
+  from {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 0.9;
+  }
+} 
 /* Hide top header on Welcome Screen and Customer Dashboard */
 body:not(.staff-mode) > header {
   display: none !important;
