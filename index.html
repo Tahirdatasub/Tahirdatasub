@@ -704,7 +704,24 @@ body:not(.staff-mode) #dashboard {
 @media (prefers-reduced-motion: reduce) {
   .td-person { animation: none; }
 }
+/* TAHIRDATASUB: Hide navigation on Welcome Screen */
+body.public-mode > header {
+  display: none !important;
+}
 
+body.public-mode .bottom-nav {
+  display: none !important;
+}
+
+body.public-mode footer {
+  display: none !important;
+}
+
+body.public-mode #publicWelcome {
+  margin: 0 !important;
+  padding-top: 20px;
+  min-height: 100vh;
+}
 </style>
 </head>
 <body>
