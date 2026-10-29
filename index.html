@@ -679,19 +679,25 @@ body:not(.staff-mode) #dashboard {
 
 .td-person {
   position: absolute;
-  z-index: 1;
+  z-index: 0;
   pointer-events: none;
   width: min(76%, 430px);
   height: auto;
   right: -12%;
   bottom: 0;
-  opacity: .82;
+  opacity: 0.82;
   animation: tdPersonEnter 1.8s ease-out both;
 }
 
 @keyframes tdPersonEnter {
-  from { transform: translateX(100px); opacity: 0; }
-  to { transform: translateX(0); opacity: .82; }
+  from {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 0.82;
+  }
 }
 
 @media (max-width: 380px) {
