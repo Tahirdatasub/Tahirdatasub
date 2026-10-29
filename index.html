@@ -722,6 +722,31 @@ body.public-mode #publicWelcome {
   font-size: 16px !important;
 }
 
+/* Welcome Screen - Full Size Person Image */
+#publicWelcome {
+  position: relative;
+  overflow: hidden;
+}
+
+#publicWelcome .td-person {
+  position: absolute !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  right: -18% !important;
+  bottom: 0 !important;
+  object-fit: cover !important;
+  object-position: right center !important;
+  opacity: 0.9 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
+
+#publicWelcome .td-welcome-content {
+  position: relative;
+  z-index: 2;
+}
+
 </style>
 </head>
 <body>
