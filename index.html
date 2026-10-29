@@ -1196,10 +1196,10 @@ if(nav) nav.style.display='';
 
 const footer=document.querySelector('footer');
 if(footer) footer.style.display='';
-  const name = String(user.user_metadata?.first_name || '').trim();
+  const name = String(user.user_metadata?.full_name || '').trim();
 
   $('welcomeTitle').textContent = name
-    ? `hello! ${name} 👋`
+    ? `welcome, ${name} 👋`
     : 'Welcome to TAHIRDATASUB';
 
   try{
@@ -1255,12 +1255,12 @@ function toggleWalletBalance() {
   balanceHidden = !balanceHidden;
 
   if (balanceHidden) {
-    el.textContent = '₦••••••';
-    if (eye) eye.textContent = '🔒';
+    el.textContent = '₦••••';
+    if (lock) lock.textContent = '🔒';
   } else {
     el.innerHTML =
       el.dataset.realBalance || '₦0.00 <small>NGN</small>';
-    if (eye) eye.textContent = '🔓';
+    if (unlock) unlock.textContent = '🔓';
   }
 }
 
