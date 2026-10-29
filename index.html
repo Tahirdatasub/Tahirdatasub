@@ -747,10 +747,10 @@ body:not(.staff-mode) #dashboard {
     </div>
 
     <div class="td-actions">
-      <button type="button" class="td-register" data-action="account">
+      <button type="button" class="td-register" data-action="account" data-auth-mode="register">
         <span>♙</span><strong>Register Now</strong><span>›</span>
       </button>
-      <button type="button" class="td-login" data-action="account">
+      <button type="button" class="td-login" data-action="account" data-auth-mode="login">
         <span>⇥</span><strong>Login</strong><span>›</span>
       </button>
     </div>
@@ -1058,22 +1058,22 @@ if (!user) {
   document.body.classList.remove('staff-mode');
   document.body.classList.add('public-mode');
 
-  if (publicWelcome) {
-    publicWelcome.hidden = true;
-    publicWelcome.style.display = 'none';
-  }
+if (publicWelcome) {
+  publicWelcome.hidden = false;
+  publicWelcome.style.display = 'block';
+}
 
   if (staffDashboard) {
     staffDashboard.hidden = true;
     staffDashboard.style.display = 'none';
   }
 
-  document.querySelectorAll(
-    '#dashboard > *:not(#staffDashboard)'
-  ).forEach(el => {
-    el.hidden = false;
-    el.style.display = '';
-  });
+ document.querySelectorAll(
+  '#dashboard > *:not(#staffDashboard)'
+).forEach(el => {
+  el.hidden = true;
+  el.style.display = 'none';
+}); 
 
   const nav = document.querySelector('.bottom-nav');
   if (nav) nav.style.display = '';
