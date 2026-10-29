@@ -747,6 +747,23 @@ body.public-mode #publicWelcome {
   z-index: 2;
 }
 
+/* Smooth welcome photo animation */
+.welcome-hero-photo img {
+  opacity: 0;
+  animation: welcomePhotoFade 2.5s ease-in-out forwards;
+}
+
+@keyframes welcomePhotoFade {
+  from {
+    opacity: 0;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -778,7 +795,7 @@ body.public-mode #publicWelcome {
     <div class="td-copy">
       <h1>Fast<br><span>Reliable</span><br>Digital Services</h1>
       <div class="td-gold-line"></div>
-      <p>All everything services<br>in one place.</p>
+      <p>All your everyday services<br>in one place.</p>
     </div>
 
 
