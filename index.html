@@ -1179,6 +1179,8 @@ loadStaffUserCount();
 
   if(publicWelcome) publicWelcome.hidden = true;
 
+document.body.classList.add('customer-dashboard-active');
+
   const nav = document.querySelector('.bottom-nav');
   if(nav) nav.style.display = 'none';
 
@@ -1253,7 +1255,7 @@ let balanceHidden = false;
 
 function toggleWalletBalance() {
   const el = $('walletBalance');
-  const key = $('toggleBalance');
+  const eye = $('toggleBalance');
 
   if (!el) return;
 
@@ -1261,11 +1263,11 @@ function toggleWalletBalance() {
 
   if (balanceHidden) {
     el.textContent = '₦••••';
-    if (key) lock.textContent = '🔒';
+    if (eye) eye.textContent = '🔒';
   } else {
     el.innerHTML =
       el.dataset.realBalance || '₦0.00 <small>NGN</small>';
-    if (key) unlock.textContent = '🔓';
+    if (eye) eye.textContent = '👁️';
   }
 }
 
