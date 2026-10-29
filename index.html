@@ -820,42 +820,46 @@ async function loadDashboard(){
     });
 
 
-if(!user){
+if (!user) {
   document.body.classList.remove('staff-mode');
   document.body.classList.add('public-mode');
 
-  if(publicWelcome){
-    publicWelcome.hidden = false;
-    publicWelcome.style.display = '';
+  if (publicWelcome) {
+    publicWelcome.hidden = true;
+    publicWelcome.style.display = 'none';
   }
 
-  if(staffDashboard){
+  if (staffDashboard) {
     staffDashboard.hidden = true;
     staffDashboard.style.display = 'none';
   }
-  document.body.classList.remove('staff-mode');
 
-  document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
-    .forEach(el=>{
-      el.hidden=true;
-      el.style.display='none';
-    });
+  document.querySelectorAll(
+    '#dashboard > *:not(#staffDashboard)'
+  ).forEach(el => {
+    el.hidden = false;
+    el.style.display = '';
+  });
 
-  const nav=document.querySelector('.bottom-nav');
-  if(nav) nav.style.display='none';
+  const nav = document.querySelector('.bottom-nav');
+  if (nav) nav.style.display = '';
 
-  const footer=document.querySelector('footer');
-  if(footer) footer.style.display='none';
+  const footer = document.querySelector('footer');
+  if (footer) footer.style.display = '';
 
-  $('walletBalance').innerHTML='₦0.00 <small>NGN</small>';
-  $('walletMessage').textContent='Please log in to view your wallet.';
-  $('totalTransactions').textContent='0';
-  $('successfulTransactions').textContent='0';
-  $('pendingTransactions').textContent='0';
-  $('recentTransactions').textContent='Please log in to view your transactions.';
+  $('walletBalance').innerHTML = '₦0.00 <small>NGN</small>';
+  $('walletMessage').textContent =
+    'Please log in to access your wallet.';
+  $('totalTransactions').textContent = '0';
+  $('successfulTransactions').textContent = '0';
+  $('pendingTransactions').textContent = '0';
+  $('recentTransactions').textContent =
+    'Please log in to view your transactions.';
 
   return;
 }
+
+
 const role = await getCurrentUserRole();
 
 if(['super_admin','admin','support','operations'].includes(role)){
