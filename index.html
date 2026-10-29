@@ -1484,6 +1484,14 @@ document.querySelectorAll('[data-action]').forEach(button=>{
         });
       }else{
         openModal(button.dataset.action);
+
+if (button.dataset.action === 'account' && button.dataset.authMode) {
+  const authMode = document.getElementById('authMode');
+  if (authMode) {
+    authMode.value = button.dataset.authMode;
+    authMode.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+}
       }
     }catch(error){
       console.error('Button error:',error);
