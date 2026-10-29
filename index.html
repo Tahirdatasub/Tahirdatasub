@@ -213,43 +213,7 @@ main{padding:20px 16px 92px}.welcome{display:flex;align-items:flex-start;justify
 body.staff-mode .header-actions {
   display: none !important;
 }
- /* TAHIRDATASUB welcome portrait layout */
-.welcome-hero-photo {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-}
-.welcome-hero-photo > * {
-  position: relative;
-  z-index: 1;
-}
-.welcome-hero-photo::after {
-  content: "";
-  position: absolute;
-  top: 0%;
-  right: -0%;
-  width: 130%;
-height: 110%;
-  background-image: url("./tahir.png");
-  background-repeat: no-repeat;
-  background-position: center right;
-  background-size: cover;
-  opacity: 0.9;
-  z-index: 0;
-  pointer-events: none;
-  animation: tahirPhotoEnter 1.8s ease-out both;
-}
 
-@keyframes tahirPhotoEnter {
-  from {
-    transform: translateX(80px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 0.9;
-  }
-} 
 /* TAHIRDATASUB: Keep the main header visible */
 body:not(.staff-mode) > header {
   display: block;
