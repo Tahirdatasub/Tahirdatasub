@@ -692,6 +692,25 @@ body.public-mode #publicWelcome {
   padding-top: 20px;
   min-height: 100vh;
 }
+  
+/* Make Welcome Screen buttons smaller */
+#publicWelcome .td-actions {
+  gap: 12px;
+}
+
+#publicWelcome .td-actions .td-register,
+#publicWelcome .td-actions .td-login {
+  min-height: 68px !important;
+  padding: 14px 20px !important;
+  border-radius: 40px !important;
+  font-size: 20px !important;
+}
+
+#publicWelcome .td-actions .td-register strong,
+#publicWelcome .td-actions .td-login strong {
+  font-size: 20px !important;
+}
+
 </style>
 </head>
 <body>
