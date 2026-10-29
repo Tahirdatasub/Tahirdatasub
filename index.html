@@ -764,6 +764,12 @@ body.public-mode #publicWelcome {
   }
 }
 
+/* Hide top header on customer and staff dashboards only */
+body.customer-dashboard-active > header,
+body.staff-dashboard-active > header {
+  display: none !important;
+}
+
 </style>
 </head>
 <body>
@@ -1190,10 +1196,10 @@ if(nav) nav.style.display='';
 
 const footer=document.querySelector('footer');
 if(footer) footer.style.display='';
-  const name = String(user.user_metadata?.full_name || '').trim();
+  const name = String(user.user_metadata?.first_name || '').trim();
 
   $('welcomeTitle').textContent = name
-    ? `Welcome, ${name} 👋`
+    ? `hello! ${name} 👋`
     : 'Welcome to TAHIRDATASUB';
 
   try{
@@ -1250,11 +1256,11 @@ function toggleWalletBalance() {
 
   if (balanceHidden) {
     el.textContent = '₦••••••';
-    if (eye) eye.textContent = '🙈';
+    if (eye) eye.textContent = '🔒';
   } else {
     el.innerHTML =
       el.dataset.realBalance || '₦0.00 <small>NGN</small>';
-    if (eye) eye.textContent = '👁️';
+    if (eye) eye.textContent = '🔓';
   }
 }
 
