@@ -896,6 +896,27 @@ body.staff-mode > header {
   <div id="staffUsersList"></div>
 </section>
 
+<section id="staffTransactionsPanel" class="card" hidden>
+
+  <div class="section-title">
+    <div>
+      <h2>All Transactions</h2>
+      <p>View customer transactions</p>
+    </div>
+
+    <button class="btn" id="closeStaffTransactions" type="button">
+      Close
+    </button>
+  </div>
+
+  <p class="form-note" id="staffTransactionsMessage">
+    Loading transactions...
+  </p>
+
+  <div id="staffTransactionsList"></div>
+
+</section>
+
   <button class="btn" id="staffSignOut" type="button">
     Sign out
   </button>
