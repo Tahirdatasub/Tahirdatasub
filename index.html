@@ -1076,6 +1076,116 @@ function closeStaffUsers(){
   if(panel) panel.hidden = true;
 }
 
+async function openStaffTransactions(){
+  const role = await getCurrentUserRole();
+
+  if(role !== 'super_admin'){
+    showToast('Access denied.');
+    return;
+  }
+
+  const panel = $('staffTransactionsPanel');
+  const message = $('staffTransactionsMessage');
+  const list = $('staffTransactionsList');
+
+  if(!panel || !list || !message) return;
+
+  const usersPanel = $('staffUsersPanel');
+  if(usersPanel) usersPanel.hidden = true;
+
+  panel.hidden = false;
+  message.textContent = 'Loading transactions...';
+  list.replaceChildren();
+
+  if(!supabaseClient){
+    message.textContent = 'Supabase connection unavailable.';
+    return;
+  }
+
+  try{
+    const {data,error} = await supabaseClient
+      .from('transactions')
+      .select('id,user_id,type,amount,status,reference,description,created_at')
+      .order('created_at',{ascending:false})
+      .limit(100);
+
+    if(error) throw error;
+
+    if(!data || !data.length){
+      message.textContent = 'No transactions found yet.';
+      return;
+    }
+
+    message.textContent =
+      'Showing latest ' + data.length + ' transactions.';
+
+    data.forEach(tx=>{
+      const row = document.createElement('div');
+      row.className = 'tx-row';
+
+      const info = document.createElement('div');
+      info.className = 'tx-info';
+
+      const title = document.createElement('strong');
+      title.textContent =
+        String(tx.type || 'Transaction').replaceAll('_',' ');
+
+      const detail = document.createElement('small');
+      detail.textContent =
+        'User ID: ' + (tx.user_id || 'Unavailable') +
+        ' · ' + (tx.created_at
+          ? new Date(tx.created_at).toLocaleString('en-NG')
+          : 'Date unavailable') +
+        ' · ' + (tx.status || 'pending');
+
+      const reference = document.createElement('small');
+      reference.textContent =
+        'Reference: ' + (tx.reference || 'Unavailable');
+
+      const description = document.createElement('small');
+      description.textContent = tx.description || '';
+
+      const amount = document.createElement('div');
+      amount.className = 'tx-amount';
+      amount.textContent = money(tx.amount);
+
+      info.append(title,detail,reference,description);
+      row.append(info,amount);
+      list.appendChild(row);
+    });
+
+  }catch(error){
+    console.error('Staff transactions error:',error);
+    message.textContent =
+      'Unable to load transactions: ' + (error.message || 'Unknown error');
+  }
+
+  panel.scrollIntoView({
+    behavior:'smooth',
+    block:'start'
+  });
+}
+
+function closeStaffTransactions(){
+  const panel = $('staffTransactionsPanel');
+  if(panel) panel.hidden = true;
+}
+
+$('staffTransactionsCard')?.addEventListener(
+  'click',openStaffTransactions
+);
+
+$('closeStaffTransactions')?.addEventListener(
+  'click',closeStaffTransactions
+);
+
+$('staffTransactionsCard')?.addEventListener('keydown',event=>{
+  if(event.key === 'Enter' || event.key === ' '){
+    event.preventDefault();
+    openStaffTransactions();
+  }
+});
+
 $('staffUsersCard')?.addEventListener('click', openStaffUsers);
 $('closeStaffUsers')?.addEventListener('click', closeStaffUsers);
 $('staffUsersCard')?.addEventListener('keydown', event=>{
