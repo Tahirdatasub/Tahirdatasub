@@ -1119,40 +1119,64 @@ async function openStaffTransactions(){
     message.textContent =
       'Showing latest ' + data.length + ' transactions.';
 
-    data.forEach(tx=>{
-      const row = document.createElement('div');
-      row.className = 'tx-row';
+const {data:staffUsers,error:usersError} =
+  await supabaseClient.rpc('get_staff_user_list');
 
-      const info = document.createElement('div');
-      info.className = 'tx-info';
+if(usersError){
+  console.warn('Could not load customer names:',usersError);
+}
 
-      const title = document.createElement('strong');
-      title.textContent =
-        String(tx.type || 'Transaction').replaceAll('_',' ');
+const userMap = new Map(
+  (staffUsers || []).map(user=>[
+    user.user_id,
+    user
+  ])
+);
 
-      const detail = document.createElement('small');
-      detail.textContent =
-        'User ID: ' + (tx.user_id || 'Unavailable') +
-        ' · ' + (tx.created_at
-          ? new Date(tx.created_at).toLocaleString('en-NG')
-          : 'Date unavailable') +
-        ' · ' + (tx.status || 'pending');
+data.forEach(tx=>{
+  const row = document.createElement('div');
+  row.className = 'tx-row';
 
-      const reference = document.createElement('small');
-      reference.textContent =
-        'Reference: ' + (tx.reference || 'Unavailable');
+  const info = document.createElement('div');
+  info.className = 'tx-info';
 
-      const description = document.createElement('small');
-      description.textContent = tx.description || '';
+  const customer = userMap.get(tx.user_id);
 
-      const amount = document.createElement('div');
-      amount.className = 'tx-amount';
-      amount.textContent = money(tx.amount);
+  const name = document.createElement('strong');
+  name.textContent = customer?.full_name || 'Unknown customer';
 
-      info.append(title,detail,reference,description);
-      row.append(info,amount);
-      list.appendChild(row);
-    });
+  const email = document.createElement('small');
+  email.textContent = customer?.email || 'Email unavailable';
+
+  const title = document.createElement('strong');
+  title.textContent =
+    String(tx.type || 'Transaction').replaceAll('_',' ');
+
+  const detail = document.createElement('small');
+  detail.textContent =
+    'Status: ' + (tx.status || 'pending') +
+    ' · ' +
+    (tx.created_at
+      ? new Date(tx.created_at).toLocaleString('en-NG')
+      : 'Date unavailable');
+
+  const reference = document.createElement('small');
+  reference.textContent =
+    'Reference: ' + (tx.reference || 'Unavailable');
+
+  const description = document.createElement('small');
+  description.textContent = tx.description || '';
+
+  const amount = document.createElement('div');
+  amount.className = 'tx-amount';
+  amount.textContent = money(tx.amount);
+
+  info.append(name,email,title,detail,reference,description);
+  row.append(info,amount);
+  list.appendChild(row);
+});
+
+    
 
   }catch(error){
     console.error('Staff transactions error:',error);
