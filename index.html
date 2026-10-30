@@ -845,10 +845,24 @@ body.staff-mode > header {
   <p class="form-note">Tap to view registered accounts</p>
 </article>
 
-    <article class="card">
-      <strong>Transactions</strong>
-      <p class="form-note">Not connected yet</p>
-    </article>
+    <article class="card"
+  id="staffTransactionsCard"
+  role="button"
+  tabindex="0"
+  aria-label="View all transactions"
+  style="cursor:pointer">
+
+  <strong>Transactions</strong>
+
+  <p class="form-note" id="staffTransactionCount">
+    View all customer transactions
+  </p>
+
+  <p class="form-note">
+    Tap to manage transactions
+  </p>
+</article>
+    
     <article class="card">
       <strong>Pending tasks</strong>
       <p class="form-note">Not connected yet</p>
