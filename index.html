@@ -765,9 +765,11 @@ body.public-mode #publicWelcome {
 }
 
 
-/* Hide header on logged-in customer and staff dashboards */
-body.customer-dashboard-active > header,
-body.staff-mode > header {
+/* Hide logo and Login/Register on dashboard */
+body.customer-dashboard-active > header .brand,
+body.staff-mode > header .brand,
+body.customer-dashboard-active > header [data-action="account"],
+body.staff-mode > header [data-action="account"] {
   display: none !important;
 }
 
