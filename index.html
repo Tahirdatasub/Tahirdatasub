@@ -797,6 +797,27 @@ header .header-actions {
   margin-left: auto !important;
   margin-right: 12px !important;
 }
+  header .header-inner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.header-welcome {
+  color: #f5ca45;
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-right: auto;
+}
+
+header .header-actions {
+  display: flex !important;
+  align-items: center !important;
+  margin-left: auto !important;
+  gap: 8px;
+}
 </style>
 </head>
 <body>
@@ -1397,11 +1418,28 @@ if(nav) nav.style.display='';
 
 const footer=document.querySelector('footer');
 if(footer) footer.style.display='';
-  const name = String(user.user_metadata?.full_name || '').trim();
+  const fullName = String(
+  user.user_metadata?.full_name ||
+  user.user_metadata?.name ||
+  user.email?.split('@')[0] ||
+  ''
+).trim();
 
-  $('welcomeTitle').textContent = name
-    ? `welcome, ${name} 👋`
-    : 'Welcome to TAHIRDATASUB';
+const firstName = fullName.split(/\s+/)[0] || '';
+
+const greeting = firstName
+  ? `Hello, ${firstName} 👋`
+  : 'Hello 👋';
+
+const headerWelcome = document.getElementById('headerWelcome');
+if (headerWelcome) {
+  headerWelcome.textContent = greeting;
+}
+
+const welcomeTitle = $('welcomeTitle');
+if (welcomeTitle) {
+  welcomeTitle.style.display = 'none';
+}
 
   try{
     $('walletMessage').textContent = 'Loading wallet balance...';
