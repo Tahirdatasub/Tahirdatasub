@@ -772,7 +772,17 @@ body.customer-dashboard-active > header [data-action="account"],
 body.staff-mode > header [data-action="account"] {
   display: none !important;
 }
-
+/* Permanently hide header brand and account button */
+header .brand,
+header .header-inner > .brand,
+header .header-actions [data-action="account"] {
+  display: none !important;
+  visibility: hidden !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
 
 </style>
 </head>
