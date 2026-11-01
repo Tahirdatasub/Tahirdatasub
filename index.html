@@ -1746,48 +1746,121 @@ async function loadProfile(){
     catch(error){button.disabled=false;showToast('Unable to sign out. Please try again.');console.error(error)}
   });
 }
+
 function setupAuth(){
-  if(!supabaseClient){$('authStatus').textContent='Supabase connection unavailable.';return}
-  const form=$('authForm'),mode=$('authMode'),name=$('authFullName'),phone=$('authPhone'),email=$('authEmail'),pass=$('authPassword'),confirm=$('authConfirmPassword'),status=$('authStatus'),submit=$('authSubmit'),signOut=$('authSignOut'),nameField=$('fullNameField'),phoneField=$('phoneField'),confirmField=$('confirmPasswordField');
+  if(!supabaseClient){
+    $('authStatus').textContent='Supabase connection unavailable.';
+    return;
+  }
+
+  const form=$('authForm');
+  const mode=$('authMode');
+  const name=$('authFullName');
+  const phone=$('authPhone');
+  const email=$('authEmail');
+  const pass=$('authPassword');
+  const confirm=$('authConfirmPassword');
+  const status=$('authStatus');
+  const submit=$('authSubmit');
+  const signOut=$('authSignOut');
+  const nameField=$('fullNameField');
+  const phoneField=$('phoneField');
+  const confirmField=$('confirmPasswordField');
+
   const message=t=>status.textContent=t;
-  function update(){const reg=mode.value==='register';nameField.style.display=phoneField.style.display=confirmField.style.display=reg?'grid':'none';name.required=reg;phone.required=false;confirm.required=reg;submit.textContent=reg?'Create account':'Login';pass.autocomplete=reg?'new-password':'current-password'}
-  mode.addEventListener('change',update);update();
-  supabaseClient.auth.getSession().then(({data,error})=>{if(error)console.warn(error);if(data?.session){email.value=data.session.user.email||'';message('You are signed in.');signOut.style.display='block'}});
+
+  function update(){
+    const reg=mode.value==='register';
+
+    nameField.style.display=reg?'grid':'none';
+    phoneField.style.display=reg?'grid':'none';
+    confirmField.style.display=reg?'grid':'none';
+
+    name.required=reg;
+    phone.required=reg;
+    confirm.required=reg;
+
+    submit.textContent=reg?'Create account':'Login';
+    pass.autocomplete=reg?'new-password':'current-password';
+  }
+
+  mode.addEventListener('change',update);
+  update();
+
   form.addEventListener('submit',async e=>{
-    e.preventDefault();submit.disabled=true;message('Please wait…');
+    e.preventDefault();
+    submit.disabled=true;
+    message('Please wait...');
+
     try{
       if(mode.value==='register'){
-        if(pass.value.length<8)throw Error('Use a password with at least 8 characters.');
-        if(pass.value!==confirm.value)throw Error('Passwords do not match.');
-        const {data,error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:pass.value,options:{data:{full_name:name.value.trim(),phone:phone.value.trim()},emailRedirectTo:'https://tahirdatasub.github.io/Tahirdatasub/'}});
-        if(error)throw error;message(data.session?'Registration successful.':'Check your email to confirm registration.');
-      }else{
-        const {error}=await supabaseClient.auth.signInWithPassword({email:email.value.trim(),password:pass.value});if(error)throw error;
-        message('Login successful.');await loadDashboard();closeModal();showToast('Welcome back.');
-      }
-    }catch(error){message(error.message||'Authentication failed.')}finally{submit.disabled=false}
-  });
-  
-signOut.addEventListener('click', async () => {
-  try {
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) throw error;
+        const fullName=name.value.trim();
+        const phoneNumber=phone.value.trim();
 
-    document.body.classList.remove('staff-mode');
-    document.body.classList.remove('public-mode');
+        if(!fullName) throw Error('Enter your full name.');
+        if(!/^(0\d{10}|\+234\d{10})$/.test(phoneNumber))
+          throw Error('Enter a valid Nigerian phone number.');
+        if(pass.value.length<8)
+          throw Error('Password must contain at least 8 characters.');
+        if(pass.value!==confirm.value)
+          throw Error('Passwords do not match.');
+
+        const {data,error}=await supabaseClient.auth.signUp({
+          email:email.value.trim(),
+          password:pass.value,
+          options:{
+            data:{
+              full_name:fullName,
+              phone:phoneNumber
+            }
+          }
+        });
+
+        if(error) throw error;
+
+        if(!data.session){
+          message('No session returned. Disable Confirm email in Supabase.');
+          return;
+        }
+
+        await loadDashboard();
+        closeModal();
+        showToast('Welcome to TAHIRDATASUB!');
+
+      }else{
+        const {error}=await supabaseClient.auth.signInWithPassword({
+          email:email.value.trim(),
+          password:pass.value
+        });
+
+        if(error) throw error;
+
+        await loadDashboard();
+        closeModal();
+        showToast('Welcome back!');
+      }
+
+    }catch(error){
+      console.error(error);
+      message(error.message||'Authentication failed.');
+    }finally{
+      submit.disabled=false;
+    }
+  });
+
+  signOut.addEventListener('click',async()=>{
+    const {error}=await supabaseClient.auth.signOut();
+
+    if(error){
+      message(error.message);
+      return;
+    }
 
     await loadDashboard();
-
-    const publicWelcome = document.getElementById('publicWelcome');
-    if (publicWelcome) publicWelcome.hidden = false;
-
     message('You have signed out.');
-  } catch (error) {
-    message(error.message || 'Unable to sign out.');
-  }
-});
-
+  });
 }
+
 function initializePage(){  
 document.querySelectorAll('[data-action]').forEach(button=>{
   button.addEventListener('click',()=>{
