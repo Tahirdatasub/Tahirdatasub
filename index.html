@@ -950,10 +950,23 @@ footer {
       Close
     </button>
   </div>
-  <p class="form-note" id="staffUsersMessage">
-    Users will appear here.
-  </p>
-  <div id="staffUsersList"></div>
+  
+<p class="form-note" id="staffUsersMessage">
+  Users will appear here.
+</p>
+
+<div class="field">
+  <label for="staffUserSearch">Search Customer</label>
+  <input
+    type="search"
+    id="staffUserSearch"
+    placeholder="Search name, phone or email..."
+    autocomplete="off"
+  >
+</div>
+
+<div id="staffUsersList"></div>
+
 </section>
 
 <section id="staffTransactionsPanel" class="card" hidden>
@@ -1103,7 +1116,15 @@ async function openStaffUsers(){
 
     data.forEach(user => {
       const card = document.createElement('article');
-      card.className = 'card';
+card.className = 'card staff-user-card';
+
+card.dataset.searchText = [
+  user.full_name,
+  user.email,
+  user.phone,
+  user.user_id,
+  user.role
+].join(' ').toLowerCase();
 
       const name = document.createElement('strong');
       name.textContent = user.full_name || 'User';
@@ -1134,6 +1155,36 @@ async function openStaffUsers(){
     block: 'start'
   });
 }
+  
+function searchStaffUsers(){
+  const input = $('staffUserSearch');
+  const list = $('staffUsersList');
+
+  if(!input || !list) return;
+
+  const query = input.value.trim().toLowerCase();
+
+  const cards = list.querySelectorAll('.staff-user-card');
+
+  let visible = 0;
+
+  cards.forEach(card => {
+    const matches = card.dataset.searchText.includes(query);
+
+    card.style.display = matches ? '' : 'none';
+
+    if(matches) visible++;
+  });
+
+  const message = $('staffUsersMessage');
+
+  if(message){
+    message.textContent = query
+      ? visible + ' matching customer(s) found.'
+      : 'Registered accounts: ' + cards.length;
+  }
+}
+
 function closeStaffUsers(){
   const panel = $('staffUsersPanel');
   if(panel) panel.hidden = true;
@@ -1274,6 +1325,10 @@ $('staffTransactionsCard')?.addEventListener('keydown',event=>{
 });
 
 $('staffUsersCard')?.addEventListener('click', openStaffUsers);
+  $('staffUserSearch')?.addEventListener(
+  'input',
+  searchStaffUsers
+);
 $('closeStaffUsers')?.addEventListener('click', closeStaffUsers);
 $('staffUsersCard')?.addEventListener('keydown', event=>{
   if(event.key === 'Enter' || event.key === ' '){
