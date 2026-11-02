@@ -1069,7 +1069,8 @@ async function getCurrentUser(){
       'Unable to load user count. Please refresh.';
   }
 }
-  async function openStaffUsers(){
+  
+async function openStaffUsers(){
   const panel = $('staffUsersPanel');
   const message = $('staffUsersMessage');
   const list = $('staffUsersList');
@@ -1087,20 +1088,20 @@ async function getCurrentUser(){
   message.textContent = 'Loading users...';
   list.replaceChildren();
 
-  try{
+  try {
     const {data, error} = await supabaseClient
       .rpc('get_staff_user_list_with_phone');
 
     if(error) throw error;
 
-    if(!data || !data.length){
+    if(!data || data.length === 0){
       message.textContent = 'No users found.';
       return;
     }
 
     message.textContent = 'Registered accounts: ' + data.length;
 
-    data.forEach(user=>{
+    data.forEach(user => {
       const card = document.createElement('article');
       card.className = 'card';
 
@@ -1108,32 +1109,31 @@ async function getCurrentUser(){
       name.textContent = user.full_name || 'User';
 
       const email = document.createElement('p');
-      email.textContent = user.email || 'No email';
+      email.textContent = 'Email: ' + (user.email || 'No email');
 
       const phone = document.createElement('p');
-phone.textContent = 'Phone Number: ' + (user.phone || 'Not provided');
+      phone.textContent = 'Phone: ' + (user.phone || 'Not provided');
+
+      const userId = document.createElement('p');
+      userId.textContent = 'User ID: ' + user.user_id;
 
       const userRole = document.createElement('p');
       userRole.textContent = 'Role: ' + (user.role || 'customer');
 
-      const userId = document.createElement('p');
-userId.textContent = 'User ID: ' + user.user_id;
-
-card.append(name, email, phone, userId, userRole);
+      card.append(name, email, phone, userId, userRole);
       list.appendChild(card);
     });
-  }catch(error){
-  console.error('Staff user list error:', error);
 
-  message.textContent =
-    'Error: ' + (error?.message || 'Unknown error');
+  } catch(error) {
+    console.error('Staff user list error:', error);
+    message.textContent = 'Error: ' + (error.message || 'Unknown error');
+  }
 
-  showToast(error?.message || 'Unable to load users');
+  panel.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 }
-
-  panel.scrollIntoView({behavior:'smooth', block:'start'});
-}
-
 function closeStaffUsers(){
   const panel = $('staffUsersPanel');
   if(panel) panel.hidden = true;
