@@ -1360,7 +1360,7 @@ $('closeStaffTransactions')?.addEventListener(
 );
 $('staffTransactionsCard')?.addEventListener(
   'click',
-  openStaffTransactions
+  () => openStaffTransactions(false)
 );
 $('staffTransactionsCard')?.addEventListener('keydown',event=>{
   if(event.key === 'Enter' || event.key === ' '){
