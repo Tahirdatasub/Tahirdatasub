@@ -1349,25 +1349,22 @@ function closeStaffTransactions(){
   const panel = $('staffTransactionsPanel');
   if(panel) panel.hidden = true;
 }
+$('staffPendingTasksCard').onclick = function(){
+  openStaffTransactions(true);
+};
 
-$('staffPendingTasksCard')?.addEventListener(
-  'click',
-  () => openStaffTransactions(true)
-);
+$('staffTransactionsCard').onclick = function(){
+  openStaffTransactions(false);
+};
 
-$('closeStaffTransactions')?.addEventListener(
-  'click',closeStaffTransactions
-);
-$('staffTransactionsCard')?.addEventListener(
-  'click',
-  () => openStaffTransactions(false)
-);
-$('staffTransactionsCard')?.addEventListener('keydown',event=>{
+$('staffTransactionsCard').onkeydown = function(event){
   if(event.key === 'Enter' || event.key === ' '){
     event.preventDefault();
-    openStaffTransactions();
+    openStaffTransactions(false);
   }
-});
+};
+
+$('closeStaffTransactions').onclick = closeStaffTransactions;
 
 $('staffUsersCard')?.addEventListener('click', openStaffUsers);
   $('staffUserSearch')?.addEventListener(
