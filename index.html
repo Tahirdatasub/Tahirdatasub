@@ -1236,6 +1236,13 @@ async function openStaffTransactions(pendingOnly = false){
   if(usersPanel) usersPanel.hidden = true;
 
   panel.hidden = false;
+  const title = $('staffTransactionsTitle');
+
+if (title) {
+  title.textContent = pendingOnly
+    ? 'Pending Transactions'
+    : 'All Transactions';
+}
   message.textContent = 'Loading transactions...';
   list.replaceChildren();
 
