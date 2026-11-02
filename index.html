@@ -1116,7 +1116,10 @@ phone.textContent = 'Phone Number: ' + (user.phone || 'Not provided');
       const userRole = document.createElement('p');
       userRole.textContent = 'Role: ' + (user.role || 'customer');
 
-      card.append(name, email, phone, id, userRole);
+      const userId = document.createElement('p');
+userId.textContent = 'User ID: ' + user.user_id;
+
+card.append(name, email, phone, userId, userRole);
       list.appendChild(card);
     });
   }catch(error){
