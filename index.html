@@ -1342,8 +1342,9 @@ function closeStaffTransactions(){
   if(panel) panel.hidden = true;
 }
 
-$('staffTransactionsCard')?.addEventListener(
-  'click',openStaffTransactions
+$('staffPendingTasksCard')?.addEventListener(
+  'click',
+  () => openStaffTransactions(true)
 );
 
 $('closeStaffTransactions')?.addEventListener(
