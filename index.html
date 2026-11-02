@@ -1089,7 +1089,7 @@ async function getCurrentUser(){
 
   try{
     const {data, error} = await supabaseClient
-      .rpc('get_staff_user_list');
+      .rpc('get_staff_user_list_with_phone');
 
     if(error) throw error;
 
@@ -1110,13 +1110,13 @@ async function getCurrentUser(){
       const email = document.createElement('p');
       email.textContent = user.email || 'No email';
 
-      const id = document.createElement('p');
-      id.textContent = 'User ID: ' + user.user_id;
+      const phone = document.createElement('p');
+phone.textContent = 'Phone Number: ' + (user.phone || 'Not provided');
 
       const userRole = document.createElement('p');
       userRole.textContent = 'Role: ' + (user.role || 'customer');
 
-      card.append(name, email, id, userRole);
+      card.append(name, email, phone, id, userRole);
       list.appendChild(card);
     });
   }catch(error){
