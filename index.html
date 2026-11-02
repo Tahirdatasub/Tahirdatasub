@@ -1087,7 +1087,29 @@ async function getCurrentUser(){
       'Unable to load user count. Please refresh.';
   }
 }
-  
+async function loadPendingTaskCount() {
+  const countElement = $('staffPendingTasksCount');
+
+  if (!countElement) return;
+
+  countElement.textContent = 'Loading pending tasks...';
+
+  try {
+    const { count, error } = await supabaseClient
+      .from('transactions')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'pending');
+
+    if (error) throw error;
+
+    countElement.textContent =
+      'Pending transactions: ' + (count || 0);
+
+  } catch (error) {
+    console.error('Pending tasks error:', error);
+    countElement.textContent = 'Unable to load pending tasks.';
+  }
+}  
 async function openStaffUsers(){
   const panel = $('staffUsersPanel');
   const message = $('staffUsersMessage');
