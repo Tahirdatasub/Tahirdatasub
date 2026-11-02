@@ -1485,6 +1485,7 @@ if(['super_admin','admin','support','operations'].includes(role)){
     staffDashboard.style.display = '';
   }
 loadStaffUserCount();
+  loadPendingTaskCount();
   document.querySelectorAll('#dashboard > *:not(#staffDashboard)')
     .forEach(el=>{
       el.hidden = true;
