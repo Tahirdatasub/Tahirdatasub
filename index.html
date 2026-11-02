@@ -1492,7 +1492,11 @@ if (publicWelcome) {
 
 const role = await getCurrentUserRole();
 
-if(['super_admin','admin','support','operations'].includes(role)){
+if([
+  'super_admin',
+  'support_staff',
+  'operations_staff'
+].includes(role)){
   document.body.classList.add('staff-mode');
 
   if(staffDashboard){
@@ -1519,9 +1523,13 @@ document.body.classList.add('customer-dashboard-active');
 
   const staffTitle = $('staffWelcomeTitle');
   if(staffTitle){
-    staffTitle.textContent = role === 'super_admin'
-      ? 'Super Admin Dashboard'
-      : role.charAt(0).toUpperCase() + role.slice(1) + ' Dashboard';
+    const staffTitles = {
+  super_admin: 'Super Admin Dashboard',
+  support_staff: 'Support Staff Dashboard',
+  operations_staff: 'Operations Staff Dashboard'
+};
+
+staffTitle.textContent = staffTitles[role] || 'Staff Dashboard';
   }
 
   return;
