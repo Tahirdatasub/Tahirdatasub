@@ -1217,7 +1217,7 @@ function closeStaffUsers(){
   if(panel) panel.hidden = true;
 }
 
-async function openStaffTransactions(){
+async function openStaffTransactions(pendingOnly = false){
   const role = await getCurrentUserRole();
 
   if(role !== 'super_admin'){
