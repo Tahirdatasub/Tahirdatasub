@@ -1244,11 +1244,17 @@ async function openStaffTransactions(pendingOnly = false){
   }
 
   try{
-    const {data,error} = await supabaseClient
-      .from('transactions')
-      .select('id,user_id,type,amount,status,reference,description,created_at')
-      .order('created_at',{ascending:false})
-      .limit(100);
+    let query = supabaseClient
+  .from('transactions')
+  .select('id,user_id,type,amount,status,reference,description,created_at');
+
+if (pendingOnly) {
+  query = query.eq('status', 'pending');
+}
+
+const {data,error} = await query
+  .order('created_at',{ascending:false})
+  .limit(100);
 
     if(error) throw error;
 
