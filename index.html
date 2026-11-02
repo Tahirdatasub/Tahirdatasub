@@ -1358,7 +1358,10 @@ $('staffPendingTasksCard')?.addEventListener(
 $('closeStaffTransactions')?.addEventListener(
   'click',closeStaffTransactions
 );
-
+$('staffTransactionsCard')?.addEventListener(
+  'click',
+  openStaffTransactions
+);
 $('staffTransactionsCard')?.addEventListener('keydown',event=>{
   if(event.key === 'Enter' || event.key === ' '){
     event.preventDefault();
