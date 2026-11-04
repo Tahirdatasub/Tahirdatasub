@@ -1701,7 +1701,9 @@ $('adminMfaManage')?.addEventListener('click',async()=>{try{showAdminMfaGate();a
 $('adminSettingsCard')?.addEventListener('click',async()=>{['staffUsersPanel','staffTransactionsPanel','staffWalletPanel'].forEach(id=>{if($(id))$(id).hidden=true;});$('adminSettingsPanel').hidden=false;try{const {data}=await supabaseClient.auth.mfa.listFactors();const ok=(data?.totp||[]).some(f=>f.status==='verified');$('adminMfaStatus').textContent=ok?'Google Authenticator is enrolled.':'Google Authenticator setup is required.';}catch(e){$('adminMfaStatus').textContent=e.message;}});
 $('closeAdminSettings')?.addEventListener('click',()=>{$('adminSettingsPanel').hidden=true;});
 $('staffChatButton')?.addEventListener('click',()=>showToast('Staff Chat backend is not connected yet. We will add private staff messaging after the security setup.'));
-$('adminEditProfile')?.addEventListener('click',()=>showToast('Profile editing will be connected in the next update.'));
+$('adminEditProfile')?.addEventListener('click',()=>{
+  openModal('profile');
+});
 
 async function loadDashboard(skipMfaCheck=false){
   const publicWelcome = $('publicWelcome');
