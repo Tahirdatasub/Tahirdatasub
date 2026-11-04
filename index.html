@@ -876,6 +876,22 @@ body.staff-mode #staffDashboard:not([hidden]){display:block;}
 .td-admin-setting-card{margin:12px 0;padding:16px}.td-admin-setting-card h3{margin:0 0 8px}.td-admin-setting-card p{color:#aaa}
 .td-mfa-gate{position:fixed;inset:0;z-index:99999;background:#080808;color:#fff;display:grid;place-items:center;padding:20px;overflow:auto}
 .td-mfa-gate[hidden]{display:none!important}.td-mfa-card{width:min(100%,430px);padding:24px;border:1px solid #b9953b;border-radius:22px;background:#151515;text-align:center;box-shadow:0 20px 70px #000}.td-mfa-card h1{font-size:25px}.td-mfa-card p{color:#bbb;line-height:1.5}.td-mfa-card label{display:block;text-align:left;margin:18px 0 7px}.td-mfa-card input{width:100%;padding:15px;border-radius:12px;border:1px solid #80682e;background:#090909;color:#fff;font-size:22px;letter-spacing:8px;text-align:center;box-sizing:border-box}.td-mfa-card button{width:100%;margin-top:12px}.td-mfa-qr{width:190px;height:190px;max-width:100%;background:#fff;padding:8px;border-radius:12px}.td-mfa-secret{display:block;overflow-wrap:anywhere;color:#f2d16a;margin:12px 0}.td-admin-detail[hidden]{display:none!important}
+#adminProfileHeaderBtn {
+  display: none !important;
+}
+
+body.staff-mode #adminProfileHeaderBtn {
+  display: inline-flex !important;
+}
+  /* Hide Super Admin profile button from customers */
+body:not(.staff-mode) #adminProfileHeaderBtn {
+    display: none !important;
+}
+
+/* Show it only for staff dashboard */
+body.staff-mode #adminProfileHeaderBtn {
+    display: inline-flex !important;
+}
 </style>
 </head>
 <body>
